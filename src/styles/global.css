@@ -139,17 +139,32 @@ h1, h2, h3, h4, h5, h6 {
 /* Skip link para accesibilidad */
 .skip-link {
   position: absolute;
-  top: -40px;
-  left: 0;
-  background: var(--color-primary);
-  color: var(--color-secondary);
-  padding: 8px 16px;
-  z-index: 100;
-  font-weight: 600;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }
 
 .skip-link:focus {
-  top: 0;
+  position: fixed;
+  top: 1rem;
+  left: 1rem;
+  width: auto;
+  height: auto;
+  padding: 0.75rem 1.5rem;
+  margin: 0;
+  overflow: visible;
+  clip: auto;
+  white-space: normal;
+  background: var(--color-primary);
+  color: var(--color-secondary);
+  font-weight: 600;
+  z-index: 9999;
+  text-decoration: none;
 }
 
 /* Animación de acordeón FAQ */

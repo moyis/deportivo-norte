@@ -1,4 +1,6 @@
 ---
+import logoSrc from '../assets/logo.svg';
+
 const navLinks = [
   { href: '#asociate', label: 'Asociate' },
   { href: '#historia', label: 'El Club' },
@@ -12,12 +14,7 @@ const navLinks = [
     <div class="flex items-center justify-between h-20">
       <!-- Logo -->
       <a href="/" class="flex items-center gap-3" aria-label="Club Deportivo Norte - Inicio">
-        <div class="w-12 h-12 bg-[#FFCC00] rounded flex items-center justify-center">
-          <span class="font-heading text-black font-bold text-xl">DN</span>
-        </div>
-        <span class="font-heading text-[#FFCC00] text-xl font-bold uppercase hidden sm:block">
-          Deportivo Norte
-        </span>
+        <img src={logoSrc.src} alt="Escudo Club Deportivo Norte" class="h-12 w-auto" />
       </a>
 
       <!-- Navegación desktop -->

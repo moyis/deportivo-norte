@@ -1,0 +1,111 @@
+---
+const navLinks = [
+  { href: '#asociate', label: 'Asociate' },
+  { href: '#historia', label: 'El Club' },
+  { href: '#faq', label: 'Preguntas Frecuentes' },
+  { href: '#sponsors', label: 'Sponsors' },
+];
+---
+
+<header class="fixed top-0 left-0 right-0 z-50 bg-black">
+  <nav class="container" aria-label="Navegación principal">
+    <div class="flex items-center justify-between h-20">
+      <!-- Logo -->
+      <a href="/" class="flex items-center gap-3" aria-label="Club Deportivo Norte - Inicio">
+        <div class="w-12 h-12 bg-[#FFCC00] rounded flex items-center justify-center">
+          <span class="font-heading text-black font-bold text-xl">DN</span>
+        </div>
+        <span class="font-heading text-[#FFCC00] text-xl font-bold uppercase hidden sm:block">
+          Deportivo Norte
+        </span>
+      </a>
+
+      <!-- Navegación desktop -->
+      <ul class="hidden lg:flex items-center gap-8" role="list">
+        {navLinks.map((link) => (
+          <li>
+            <a 
+              href={link.href} 
+              class="text-white font-medium hover:text-[#FFCC00] transition-colors duration-200 text-sm uppercase tracking-wide"
+            >
+              {link.label}
+            </a>
+          </li>
+        ))}
+      </ul>
+
+      <!-- CTA Desktop -->
+      <a 
+        href="#asociate" 
+        class="hidden lg:inline-flex btn-primary !py-3 !px-6 !text-base"
+      >
+        ¡Asociate!
+      </a>
+
+      <!-- Botón menú móvil -->
+      <button 
+        type="button"
+        class="lg:hidden p-2 text-white hover:text-[#FFCC00] transition-colors"
+        aria-label="Abrir menú de navegación"
+        aria-expanded="false"
+        aria-controls="mobile-menu"
+        id="mobile-menu-button"
+      >
+        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Menú móvil -->
+  <div 
+    id="mobile-menu" 
+    class="mobile-menu fixed inset-0 top-20 bg-black lg:hidden"
+    aria-hidden="true"
+  >
+    <nav class="container py-8" aria-label="Menú móvil">
+      <ul class="flex flex-col gap-6" role="list">
+        {navLinks.map((link) => (
+          <li>
+            <a 
+              href={link.href} 
+              class="text-white font-heading text-2xl uppercase hover:text-[#FFCC00] transition-colors block py-2"
+            >
+              {link.label}
+            </a>
+          </li>
+        ))}
+        <li class="pt-4">
+          <a href="#asociate" class="btn-primary w-full text-center">
+            ¡Asociate Ahora!
+          </a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<script>
+  const menuButton = document.getElementById('mobile-menu-button');
+  const mobileMenu = document.getElementById('mobile-menu');
+  
+  menuButton?.addEventListener('click', () => {
+    const isOpen = mobileMenu?.classList.toggle('open');
+    menuButton.setAttribute('aria-expanded', String(isOpen));
+    mobileMenu?.setAttribute('aria-hidden', String(!isOpen));
+    
+    // Prevenir scroll cuando el menú está abierto
+    document.body.style.overflow = isOpen ? 'hidden' : '';
+  });
+
+  // Cerrar menú al hacer clic en un enlace
+  mobileMenu?.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => {
+      mobileMenu.classList.remove('open');
+      menuButton?.setAttribute('aria-expanded', 'false');
+      mobileMenu.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+    });
+  });
+</script>

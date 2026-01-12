@@ -2,15 +2,15 @@
 const faqs = [
   {
     pregunta: '¿Cómo puedo asociarme al Club Deportivo Norte?',
-    respuesta: 'Podés asociarte completando el <a href="https://docs.google.com/forms/d/e/1FAIpQLSdjUjWomnygFy_uXQyg9LXq-WRbDDpTOw2sqENAi1cxbYOBsw/viewform" target="_blank" rel="noopener noreferrer" class="text-[#FFCC00] underline hover:no-underline">formulario de inscripción online</a> o acercándote a nuestra sede. Ofrecemos diferentes categorías: socio activo, socio cadete, socio infantil y grupo familiar.',
+    respuesta: 'Podés asociarte completando el <a href="https://docs.google.com/forms/d/e/1FAIpQLSdjUjWomnygFy_uXQyg9LXq-WRbDDpTOw2sqENAi1cxbYOBsw/viewform" target="_blank" rel="noopener noreferrer" class="text-[#FFCC00] underline hover:no-underline">formulario de inscripción online</a> o acercándote a <a href="https://maps.app.goo.gl/AWefm6d3yAD4Rhw28" target="_blank" rel="noopener noreferrer" class="text-[#FFCC00] underline hover:no-underline">nuestra sede</a>. Ofrecemos diferentes categorías: socio activo, socio cadete, socio infantil y grupo familiar.',
   },
   {
     pregunta: '¿Cuánto cuesta la cuota de socio?',
-    respuesta: 'Las cuotas varían según la categoría de socio. Tenemos valores accesibles pensados para que toda la familia pueda ser parte del club. Para conocer los valores actualizados, te recomendamos contactarnos directamente por Instagram (@depnorte) o acercarte a la sede.',
+    respuesta: 'Las cuotas varían según la categoría de socio. Tenemos valores accesibles pensados para que toda la familia pueda ser parte del club. Para conocer los valores actualizados, te recomendamos contactarnos directamente por <a href="https://www.instagram.com/depnorte/" target="_blank" rel="noopener noreferrer" class="text-[#FFCC00] underline hover:no-underline">Instagram (@depnorte)</a> o acercarte a <a href="https://maps.app.goo.gl/AWefm6d3yAD4Rhw28" target="_blank" rel="noopener noreferrer" class="text-[#FFCC00] underline hover:no-underline">la sede</a>.',
   },
   {
     pregunta: '¿Dónde juega de local el Deportivo Norte?',
-    respuesta: 'El Club Deportivo Norte juega sus partidos de local en el Estadio Carlos H. Miori, ubicado en el predio de la zona norte sobre la ruta 2 de Mar del Plata. Es un estadio con capacidad para recibir a toda nuestra hinchada.',
+    respuesta: 'El Club Deportivo Norte juega sus partidos de local en el <a href="https://maps.app.goo.gl/AWefm6d3yAD4Rhw28" target="_blank" rel="noopener noreferrer" class="text-[#FFCC00] underline hover:no-underline">Estadio Carlos H. Miori</a>, ubicado en el predio de la zona norte sobre la ruta 2 de Mar del Plata. Es un estadio con capacidad para recibir a toda nuestra hinchada.',
   },
   {
     pregunta: '¿Qué deportes se practican en el club?',
@@ -22,7 +22,7 @@ const faqs = [
   },
   {
     pregunta: '¿Cómo puedo colaborar o ser sponsor del club?',
-    respuesta: 'Valoramos enormemente el apoyo de empresas y comercios de la comunidad. Si querés ser sponsor del Deportivo Norte o colaborar de alguna manera, escribinos por Instagram o acercate a la sede. Juntos hacemos crecer al club.',
+    respuesta: 'Valoramos enormemente el apoyo de empresas y comercios de la comunidad. Si querés ser sponsor del Deportivo Norte o colaborar de alguna manera, escribinos por <a href="https://www.instagram.com/depnorte/" target="_blank" rel="noopener noreferrer" class="text-[#FFCC00] underline hover:no-underline">Instagram</a> o acercate a <a href="https://maps.app.goo.gl/AWefm6d3yAD4Rhw28" target="_blank" rel="noopener noreferrer" class="text-[#FFCC00] underline hover:no-underline">la sede</a>. Juntos hacemos crecer al club.',
   },
 ];
 ---
@@ -63,7 +63,7 @@ const faqs = [
             </button>
           </h3>
           <div id={`faq-content-${index}`} class="faq-content" aria-hidden="true">
-            <div class="px-6 pb-6">
+            <div class="p-6">
               <p class="text-gray-300 leading-relaxed" set:html={faq.respuesta}></p>
             </div>
           </div>
@@ -73,7 +73,7 @@ const faqs = [
 
     <aside class="text-center mt-16 p-8 border border-white/10 bg-black/50">
       <p class="text-xl text-white mb-4">¿No encontraste lo que buscabas?</p>
-      <p class="text-gray-400 mb-6">
+      <p class="text-gray-400 m-6">
         Contactanos directamente y te ayudamos con cualquier consulta sobre el Club Deportivo Norte.
       </p>
       <a href="https://www.instagram.com/depnorte/" target="_blank" rel="noopener noreferrer" class="btn-primary">

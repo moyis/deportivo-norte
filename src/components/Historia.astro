@@ -12,7 +12,7 @@ import historyImg from '../assets/historia.webp';
             Nuestra Historia
           </span>
           <h2 id="historia-heading" class="text-4xl md:text-5xl font-heading font-bold text-white mb-6">
-            Más de 87 Años de Pasión por el Fútbol
+            Más de 87 Años de Pasión Deportiva
           </h2>
         </header>
 
@@ -30,6 +30,15 @@ import historyImg from '../assets/historia.webp';
             cuando el <strong class="text-white">Deportivo Norte</strong> conquistó el 
             <strong class="text-primary">bicampeonato de la Liga Marplatense de Fútbol 
             en 1987 y 1988</strong>, consolidándose como uno de los clubes más importantes de la ciudad.
+          </p>
+          <p>
+            El patín ha sido una disciplina emblemática para el club. <strong class="text-white">Nora Alicia Vega</strong>, 
+            hija de uno de nuestros socios fundadores, se convirtió en la <strong class="text-[#FFCC00]">mejor patinadora 
+            de la historia argentina</strong>: cinco veces campeona mundial, seis veces campeona panamericana y diez 
+            veces campeona sudamericana. En reconocimiento a su legado, nuestra villa deportiva lleva orgullosamente 
+            su nombre: <strong class="text-[#FFCC00]">"Predio Deportivo Nora Alicia Vega"</strong>. 
+            Nora recibió el Premio Olimpia de Oro en 1995 y fue portadora de la antorcha olímpica 
+            en Atlanta 1996 y Pekín 2008.
           </p>
           <p>
             Hoy, nuestro equipo juega de local en el <strong class="text-white">Estadio Carlos H. Miori</strong>, 
@@ -50,8 +59,9 @@ import historyImg from '../assets/historia.webp';
             <p class="text-gray-400 text-sm uppercase tracking-wide">Bicampeonato</p>
             <div>
           </div>
-            <p class="text-3xl font-heading font-bold text-primary">La Perla</p>
-            <p class="text-gray-400 text-sm uppercase tracking-wide">Barrio Histórico</p>
+          <div>
+            <p class="text-3xl font-heading font-bold text-[#FFCC00]">5</p>
+            <p class="text-gray-400 text-sm uppercase tracking-wide">Mundiales de Patín</p>
           </div>
           <div>
             <p class="text-3xl font-heading font-bold text-primary">"La 90"</p>
@@ -104,7 +114,18 @@ import historyImg from '../assets/historia.webp';
         </button>
 
         <div class="quotes-track flex transition-transform duration-700 ease-in-out">
-          <!-- Cita 1 - Gustavo Moya -->
+          <!-- Cita 1 - Nora Vega -->
+          <blockquote class="quote-slide w-full shrink-0 text-center px-4">
+            <p class="text-2xl md:text-3xl font-heading font-bold text-white italic max-w-4xl mx-auto">
+              "Es el club de mi infancia, de mi familia, de las épocas lindas. 
+              Deportivo Norte es el club del comienzo de mi carrera deportiva. Mi agradecimiento infinito."
+            </p>
+            <footer class="mt-6">
+              <cite class="text-primary font-heading uppercase not-italic">— Nora Alicia Vega, 5 veces campeona mundial de patín</cite>
+            </footer>
+          </blockquote>
+
+          <!-- Cita 2 - Gustavo Moya -->
           <blockquote class="quote-slide w-full shrink-0 text-center px-4">
             <p class="text-2xl md:text-3xl font-heading font-bold text-white italic max-w-4xl mx-auto">
               "Deportivo Norte no es solo un club, es una familia. Es el lugar donde crecí, 
@@ -115,7 +136,7 @@ import historyImg from '../assets/historia.webp';
             </footer>
           </blockquote>
 
-          <!-- Cita 2 - Celia Luminari -->
+          <!-- Cita 3 - Celia Luminari -->
           <blockquote class="quote-slide w-full shrink-0 text-center px-4">
             <p class="text-2xl md:text-3xl font-heading font-bold text-white italic max-w-4xl mx-auto">
               "Mi abuelo me llevó por primera vez a la cancha cuando tenía 6 años. 
@@ -126,7 +147,7 @@ import historyImg from '../assets/historia.webp';
             </footer>
           </blockquote>
 
-          <!-- Cita 3 - Lautaro Loo -->
+          <!-- Cita 4 - Lautaro Loo -->
           <blockquote class="quote-slide w-full shrink-0 text-center px-4">
             <p class="text-2xl md:text-3xl font-heading font-bold text-white italic max-w-4xl mx-auto">
               "No importa si ganamos o perdemos, cada domingo estamos ahí. 
@@ -143,6 +164,7 @@ import historyImg from '../assets/historia.webp';
           <button class="quote-dot w-3 h-3 rounded-full bg-white/30 transition-all duration-300 hover:bg-white/50" data-index="0" aria-label="Ver cita 1"></button>
           <button class="quote-dot w-3 h-3 rounded-full bg-white/30 transition-all duration-300 hover:bg-white/50" data-index="1" aria-label="Ver cita 2"></button>
           <button class="quote-dot w-3 h-3 rounded-full bg-white/30 transition-all duration-300 hover:bg-white/50" data-index="2" aria-label="Ver cita 3"></button>
+          <button class="quote-dot w-3 h-3 rounded-full bg-white/30 transition-all duration-300 hover:bg-white/50" data-index="3" aria-label="Ver cita 4"></button>
         </div>
       </div>
     </div>
@@ -156,7 +178,7 @@ import historyImg from '../assets/historia.webp';
     const dots = document.querySelectorAll('.quote-dot');
     const prevBtn = document.querySelector('.quote-prev');
     const nextBtn = document.querySelector('.quote-next');
-    const totalSlides = 3;
+    const totalSlides = 4;
     let currentSlide = 0;
     let autoplayInterval: ReturnType<typeof setInterval>;
     let isPaused = false;

@@ -2,7 +2,7 @@
 const faqs = [
   {
     pregunta: '¿Cómo puedo asociarme al Club Deportivo Norte?',
-    respuesta: 'Podés asociarte acercándote a nuestra sede ubicada en Mar del Plata o contactándonos a través de nuestras redes sociales. Necesitás presentar tu DNI y completar una ficha de inscripción. Ofrecemos diferentes categorías: socio activo, socio cadete, socio infantil y grupo familiar.',
+    respuesta: 'Podés asociarte completando el <a href="https://docs.google.com/forms/d/e/1FAIpQLSdjUjWomnygFy_uXQyg9LXq-WRbDDpTOw2sqENAi1cxbYOBsw/viewform" target="_blank" rel="noopener noreferrer" class="text-[#FFCC00] underline hover:no-underline">formulario de inscripción online</a> o acercándote a nuestra sede. Ofrecemos diferentes categorías: socio activo, socio cadete, socio infantil y grupo familiar.',
   },
   {
     pregunta: '¿Cuánto cuesta la cuota de socio?',
@@ -64,7 +64,7 @@ const faqs = [
           </h3>
           <div id={`faq-content-${index}`} class="faq-content" aria-hidden="true">
             <div class="px-6 pb-6">
-              <p class="text-gray-300 leading-relaxed">{faq.respuesta}</p>
+              <p class="text-gray-300 leading-relaxed" set:html={faq.respuesta}></p>
             </div>
           </div>
         </article>

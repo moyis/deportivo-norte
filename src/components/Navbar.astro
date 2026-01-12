@@ -1,6 +1,5 @@
 ---
-import logo from '../assets/logo.svg';
-import { Image } from 'astro:assets';
+import logoSrc from '../assets/logo.svg';
 
 const navLinks = [
   { href: '#asociate', label: 'Asociate' },
@@ -15,9 +14,9 @@ const navLinks = [
     <div class="flex items-center h-20">
       <!-- Logo -->
       <a href="#" class="flex items-center gap-3 flex-1" aria-label="Club Deportivo Norte - Inicio">
-        <Image src={logo} alt="Logo Club Deportivo Norte" class="w-auto h-14" />
+        <img src={logoSrc.src} alt="Escudo Club Deportivo Norte" class="h-12 w-auto" />
         <div>
-          <span class="font-heading text-[#FFCC00] text-2xl font-bold uppercase block">Deportivo Norte</span>
+          <span class="font-heading text-[var(--color-primary)] text-2xl font-bold uppercase block">Deportivo Norte</span>
           <span class="text-gray-400 text-sm">Desde 1937</span>
         </div>
       </a>
@@ -28,7 +27,7 @@ const navLinks = [
           <li>
             <a 
               href={link.href} 
-              class="text-white font-medium hover:text-[#FFCC00] transition-colors duration-200 text-sm uppercase tracking-wide"
+              class="text-white font-medium hover:text-[var(--color-primary)] transition-colors duration-200 text-sm uppercase tracking-wide"
             >
               {link.label}
             </a>
@@ -49,7 +48,7 @@ const navLinks = [
       <!-- Botón menú móvil -->
       <button 
         type="button"
-        class="lg:hidden p-2 text-white hover:text-[#FFCC00] transition-colors"
+        class="lg:hidden p-2 text-white hover:text-[var(--color-primary)] transition-colors"
         aria-label="Abrir menú de navegación"
         aria-expanded="false"
         aria-controls="mobile-menu"
@@ -74,7 +73,7 @@ const navLinks = [
           <li>
             <a 
               href={link.href} 
-              class="text-white font-heading text-2xl uppercase hover:text-[#FFCC00] transition-colors block py-2"
+              class="text-white font-heading text-2xl uppercase hover:text-[var(--color-primary)] transition-colors block py-2"
             >
               {link.label}
             </a>

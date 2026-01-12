@@ -2,15 +2,15 @@
 const faqs = [
   {
     question: '¿Cómo puedo asociarme al Club Deportivo Norte?',
-    answer: 'Podés asociarte completando el <a href="https://docs.google.com/forms/d/e/1FAIpQLSdjUjWomnygFy_uXQyg9LXq-WRbDDpTOw2sqENAi1cxbYOBsw/viewform" target="_blank" rel="noopener noreferrer" class="text-[#FFCC00] underline hover:no-underline">formulario de inscripción online</a> o acercándote a <a href="https://maps.app.goo.gl/AWefm6d3yAD4Rhw28" target="_blank" rel="noopener noreferrer" class="text-[#FFCC00] underline hover:no-underline">nuestra sede</a>. Ofrecemos diferentes categorías: socio activo, socio cadete, socio infantil y grupo familiar.',
+    answer: 'Podés asociarte completando el <a href="https://docs.google.com/forms/d/e/1FAIpQLSdjUjWomnygFy_uXQyg9LXq-WRbDDpTOw2sqENAi1cxbYOBsw/viewform" target="_blank" rel="noopener noreferrer" class="text-[var(--color-primary)] underline hover:no-underline">formulario de inscripción online</a> o acercándote a <a href="https://maps.app.goo.gl/AWefm6d3yAD4Rhw28" target="_blank" rel="noopener noreferrer" class="text-[var(--color-primary)] underline hover:no-underline">nuestra sede</a>. Ofrecemos diferentes categorías: socio activo, socio cadete, socio infantil y grupo familiar.',
   },
   {
     question: '¿Cuánto cuesta la cuota de socio?',
-    answer: 'Las cuotas varían según la categoría de socio. Tenemos valores accesibles pensados para que toda la familia pueda ser parte del club. Para conocer los valores actualizados, te recomendamos contactarnos directamente por <a href="https://www.instagram.com/depnorte/" target="_blank" rel="noopener noreferrer" class="text-[#FFCC00] underline hover:no-underline">Instagram (@depnorte)</a> o acercarte a <a href="https://maps.app.goo.gl/AWefm6d3yAD4Rhw28" target="_blank" rel="noopener noreferrer" class="text-[#FFCC00] underline hover:no-underline">la sede</a>.',
+    answer: 'Las cuotas varían según la categoría de socio. Tenemos valores accesibles pensados para que toda la familia pueda ser parte del club. Para conocer los valores actualizados, te recomendamos contactarnos directamente por <a href="https://www.instagram.com/depnorte/" target="_blank" rel="noopener noreferrer" class="text-[var(--color-primary)] underline hover:no-underline">Instagram (@depnorte)</a> o acercarte a <a href="https://maps.app.goo.gl/AWefm6d3yAD4Rhw28" target="_blank" rel="noopener noreferrer" class="text-[var(--color-primary)] underline hover:no-underline">la sede</a>.',
   },
   {
     question: '¿Dónde juega de local el Deportivo Norte?',
-    answer: 'El Club Deportivo Norte juega sus partidos de local en el <a href="https://maps.app.goo.gl/AWefm6d3yAD4Rhw28" target="_blank" rel="noopener noreferrer" class="text-[#FFCC00] underline hover:no-underline">Estadio Carlos H. Miori</a>, ubicado en el predio de la zona norte sobre la ruta 2 de Mar del Plata. Es un estadio con capacidad para recibir a toda nuestra hinchada.',
+    answer: 'El Club Deportivo Norte juega sus partidos de local en el <a href="https://maps.app.goo.gl/AWefm6d3yAD4Rhw28" target="_blank" rel="noopener noreferrer" class="text-[var(--color-primary)] underline hover:no-underline">Estadio Carlos H. Miori</a>, ubicado en el predio de la zona norte sobre la ruta 2 de Mar del Plata. Es un estadio con capacidad para recibir a toda nuestra hinchada.',
   },
   {
     question: '¿Qué deportes se practican en el club?',
@@ -22,15 +22,15 @@ const faqs = [
   },
   {
     question: '¿Cómo puedo colaborar o ser sponsor del club?',
-    answer: 'Valoramos enormemente el apoyo de empresas y comercios de la comunidad. Si querés ser sponsor del Deportivo Norte o colaborar de alguna manera, escribinos por <a href="https://www.instagram.com/depnorte/" target="_blank" rel="noopener noreferrer" class="text-[#FFCC00] underline hover:no-underline">Instagram</a> o acercate a <a href="https://maps.app.goo.gl/AWefm6d3yAD4Rhw28" target="_blank" rel="noopener noreferrer" class="text-[#FFCC00] underline hover:no-underline">la sede</a>. Juntos hacemos crecer al club.',
+    answer: 'Valoramos enormemente el apoyo de empresas y comercios de la comunidad. Si querés ser sponsor del Deportivo Norte o colaborar de alguna manera, escribinos por <a href="https://www.instagram.com/depnorte/" target="_blank" rel="noopener noreferrer" class="text-[var(--color-primary)] underline hover:no-underline">Instagram</a> o acercate a <a href="https://maps.app.goo.gl/AWefm6d3yAD4Rhw28" target="_blank" rel="noopener noreferrer" class="text-[var(--color-primary)] underline hover:no-underline">la sede</a>. Juntos hacemos crecer al club.',
   },
 ];
 ---
 
-<section id="faq" class="section bg-[#1A1A1A]" aria-labelledby="faq-heading">
+<section id="faq" class="section bg-gray-dark" aria-labelledby="faq-heading">
   <div class="container">
     <header class="text-center mb-16">
-      <span class="inline-block text-[#FFCC00] font-heading font-bold text-sm uppercase tracking-widest mb-4">
+      <span class="inline-block text-primary font-heading font-bold text-sm uppercase tracking-widest mb-4">
         Resolvé tus dudas
       </span>
       <h2 id="faq-heading" class="text-4xl md:text-5xl font-heading font-bold text-white mb-6">
@@ -48,14 +48,14 @@ const faqs = [
           <h3>
             <button 
               type="button"
-              class="faq-button w-full flex items-center justify-between p-6 text-left hover:bg-white/5 transition-colors focus:outline-none focus:ring-2 focus:ring-[#FFCC00] focus:ring-inset"
+              class="faq-button w-full flex items-center justify-between p-6 text-left hover:bg-white/5 transition-colors focus:outline-none focus:ring-2 focus:ring-primary focus:ring-inset"
               aria-expanded="false"
               aria-controls={`faq-content-${index}`}
             >
-              <span class="text-lg md:text-xl font-heading font-bold text-[#FFCC00] uppercase pr-4">
+              <span class="text-lg md:text-xl font-heading font-bold text-primary uppercase pr-4">
                 {faq.question}
               </span>
-              <span class="faq-icon flex-shrink-0 w-8 h-8 flex items-center justify-center border border-[#FFCC00] text-[#FFCC00] transition-transform duration-300" aria-hidden="true">
+              <span class="faq-icon shrink-0 w-8 h-8 flex items-center justify-center border border-primary text-primary transition-transform duration-300" aria-hidden="true">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v12M6 12h12" />
                 </svg>

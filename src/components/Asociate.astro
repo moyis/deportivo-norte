@@ -1,0 +1,96 @@
+---
+const beneficios = [
+  {
+    icon: '🎟️',
+    titulo: 'Entrada Libre',
+    descripcion: 'Acceso gratuito a todos los partidos de local del Club Deportivo Norte en el estadio Carlos H. Miori.',
+  },
+  {
+    icon: '🏟️',
+    titulo: 'Uso de Instalaciones',
+    descripcion: 'Disfrutá de nuestras canchas, gimnasio y espacios deportivos como socio pleno del club.',
+  },
+  {
+    icon: '👨‍👩‍👧‍👦',
+    titulo: 'Grupo Familiar',
+    descripcion: 'Cuotas especiales para grupos familiares. Traé a toda la familia a vivir la pasión del fútbol.',
+  },
+  {
+    icon: '🎉',
+    titulo: 'Eventos Exclusivos',
+    descripcion: 'Participá de eventos, asados, peñas y actividades sociales para la comunidad del Deportivo Norte.',
+  },
+  {
+    icon: '🛍️',
+    titulo: 'Descuentos',
+    descripcion: 'Beneficios y descuentos exclusivos en merchandising oficial y comercios amigos del club.',
+  },
+  {
+    icon: '🗳️',
+    titulo: 'Voz y Voto',
+    descripcion: 'Como socio tenés derecho a participar en las asambleas y decisiones importantes del club.',
+  },
+];
+---
+
+<section id="asociate" class="section bg-gradient-to-br from-[#FFCC00] to-[#E6B800] scroll-mt-20" aria-labelledby="asociate-heading">
+  <div class="container">
+    <!-- CTA Principal -->
+    <div class="text-center mb-12">
+      <h2 id="asociate-heading" class="text-3xl md:text-4xl lg:text-5xl font-heading font-bold text-black mb-4">
+        Sumate a la familia norteña.
+      </h2>
+      <p class="text-lg md:text-xl text-black/80 max-w-2xl mx-auto mb-8">
+        Formá parte de una comunidad con más de 87 años de historia y pasión por el fútbol. 
+        ¡Te esperamos con los brazos abiertos!
+      </p>
+      <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
+        <a 
+          href="https://docs.google.com/forms/d/e/1FAIpQLSdjUjWomnygFy_uXQyg9LXq-WRbDDpTOw2sqENAi1cxbYOBsw/viewform" 
+          target="_blank" 
+          rel="noopener noreferrer"
+          class="bg-black text-[#FFCC00] font-heading font-bold text-lg uppercase px-8 py-4 hover:bg-black/90 transition-colors duration-300"
+        >
+          ¡Asociate Ahora!
+        </a>
+        <a 
+          href="#contacto" 
+          class="inline-flex items-center gap-2 bg-transparent text-black font-heading font-bold text-lg uppercase px-8 py-4 border-2 border-black hover:bg-black hover:text-[#FFCC00] transition-colors"
+        >
+          Ver información de contacto
+        </a>
+      </div>
+          <!-- Nota final -->
+    <p class="text-center text-sm text-black/60 mt-10">
+      Completá el formulario online o acercate a <a href="https://maps.app.goo.gl/AWefm6d3yAD4Rhw28" target="_blank" rel="noopener noreferrer" class="underline hover:no-underline">nuestra sede</a> para asociarte.
+    </p>
+    </div>
+
+    <!-- Separador -->
+    <div class="border-t border-black/20 my-12"></div>
+
+    <!-- Encabezado de beneficios -->
+    <header class="text-center mb-10">
+      <span class="inline-block text-black font-heading font-bold text-sm uppercase tracking-widest mb-2">
+        Beneficios de ser socio
+      </span>
+      <p class="text-black/70 max-w-2xl mx-auto">
+        Ser socio del Deportivo Norte es mucho más que pagar una cuota. Disfrutá de todos estos beneficios:
+      </p>
+    </header>
+
+    <!-- Grid de beneficios -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {beneficios.map((beneficio) => (
+        <article class="bg-black/10 backdrop-blur-sm p-6 border-l-4 border-black hover:bg-black/20 transition-colors duration-300">
+          <h3 class="text-lg font-heading font-bold text-black uppercase mb-2">
+            {beneficio.titulo}
+          </h3>
+          <p class="text-black/70 text-sm leading-relaxed">
+            {beneficio.descripcion}
+          </p>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>

@@ -1,0 +1,118 @@
+---
+const faqs = [
+  {
+    pregunta: '¿Cómo puedo asociarme al Club Deportivo Norte?',
+    respuesta: 'Podés asociarte completando el <a href="https://docs.google.com/forms/d/e/1FAIpQLSdjUjWomnygFy_uXQyg9LXq-WRbDDpTOw2sqENAi1cxbYOBsw/viewform" target="_blank" rel="noopener noreferrer" class="text-[#FFCC00] underline hover:no-underline">formulario de inscripción online</a> o acercándote a <a href="https://maps.app.goo.gl/AWefm6d3yAD4Rhw28" target="_blank" rel="noopener noreferrer" class="text-[#FFCC00] underline hover:no-underline">nuestra sede</a>. Ofrecemos diferentes categorías: socio activo, socio cadete, socio infantil y grupo familiar.',
+  },
+  {
+    pregunta: '¿Cuánto cuesta la cuota de socio?',
+    respuesta: 'Las cuotas varían según la categoría de socio. Tenemos valores accesibles pensados para que toda la familia pueda ser parte del club. Para conocer los valores actualizados, te recomendamos contactarnos directamente por <a href="https://www.instagram.com/depnorte/" target="_blank" rel="noopener noreferrer" class="text-[#FFCC00] underline hover:no-underline">Instagram (@depnorte)</a> o acercarte a <a href="https://maps.app.goo.gl/AWefm6d3yAD4Rhw28" target="_blank" rel="noopener noreferrer" class="text-[#FFCC00] underline hover:no-underline">la sede</a>.',
+  },
+  {
+    pregunta: '¿Dónde juega de local el Deportivo Norte?',
+    respuesta: 'El Club Deportivo Norte juega sus partidos de local en el <a href="https://maps.app.goo.gl/AWefm6d3yAD4Rhw28" target="_blank" rel="noopener noreferrer" class="text-[#FFCC00] underline hover:no-underline">Estadio Carlos H. Miori</a>, ubicado en el predio de la zona norte sobre la ruta 2 de Mar del Plata. Es un estadio con capacidad para recibir a toda nuestra hinchada.',
+  },
+  {
+    pregunta: '¿Qué deportes se practican en el club?',
+    respuesta: 'Si bien el fútbol es nuestra actividad principal y la que nos dio identidad, el Club Deportivo Norte ofrece diversas actividades deportivas y sociales para socios de todas las edades. Históricamente hemos tenido actividades como bowling, bochas y eventos comunitarios.',
+  },
+  {
+    pregunta: '¿Puedo inscribir a mi hijo en las inferiores del club?',
+    respuesta: 'Sí, el Club Deportivo Norte cuenta con divisiones inferiores donde formamos a los jugadores del futuro. Aceptamos chicos de diferentes edades. Para más información sobre inscripciones, horarios de entrenamiento y requisitos, contactanos por nuestras redes sociales.',
+  },
+  {
+    pregunta: '¿Cómo puedo colaborar o ser sponsor del club?',
+    respuesta: 'Valoramos enormemente el apoyo de empresas y comercios de la comunidad. Si querés ser sponsor del Deportivo Norte o colaborar de alguna manera, escribinos por <a href="https://www.instagram.com/depnorte/" target="_blank" rel="noopener noreferrer" class="text-[#FFCC00] underline hover:no-underline">Instagram</a> o acercate a <a href="https://maps.app.goo.gl/AWefm6d3yAD4Rhw28" target="_blank" rel="noopener noreferrer" class="text-[#FFCC00] underline hover:no-underline">la sede</a>. Juntos hacemos crecer al club.',
+  },
+];
+---
+
+<section id="faq" class="section bg-[#1A1A1A]" aria-labelledby="faq-heading">
+  <div class="container">
+    <header class="text-center mb-16">
+      <span class="inline-block text-[#FFCC00] font-heading font-bold text-sm uppercase tracking-widest mb-4">
+        Resolvé tus dudas
+      </span>
+      <h2 id="faq-heading" class="text-4xl md:text-5xl font-heading font-bold text-white mb-6">
+        Preguntas Frecuentes
+      </h2>
+      <p class="text-lg text-gray-300 max-w-2xl mx-auto">
+        Encontrá respuestas a las consultas más comunes sobre el Club Deportivo Norte, 
+        cómo asociarte y todo lo que necesitás saber para ser parte de nuestra familia.
+      </p>
+    </header>
+
+    <div class="max-w-4xl mx-auto space-y-4">
+      {faqs.map((faq, index) => (
+        <article class="bg-black border border-white/10">
+          <h3>
+            <button 
+              type="button"
+              class="faq-button w-full flex items-center justify-between p-6 text-left hover:bg-white/5 transition-colors focus:outline-none focus:ring-2 focus:ring-[#FFCC00] focus:ring-inset"
+              aria-expanded="false"
+              aria-controls={`faq-content-${index}`}
+            >
+              <span class="text-lg md:text-xl font-heading font-bold text-[#FFCC00] uppercase pr-4">
+                {faq.pregunta}
+              </span>
+              <span class="faq-icon flex-shrink-0 w-8 h-8 flex items-center justify-center border border-[#FFCC00] text-[#FFCC00] transition-transform duration-300" aria-hidden="true">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v12M6 12h12" />
+                </svg>
+              </span>
+            </button>
+          </h3>
+          <div id={`faq-content-${index}`} class="faq-content" aria-hidden="true">
+            <div class="p-6">
+              <p class="text-gray-300 leading-relaxed" set:html={faq.respuesta}></p>
+            </div>
+          </div>
+        </article>
+      ))}
+    </div>
+
+    <aside class="text-center mt-16 p-8 border border-white/10 bg-black/50">
+      <p class="text-xl text-white mb-4">¿No encontraste lo que buscabas?</p>
+      <p class="text-gray-400 m-6">
+        Contactanos directamente y te ayudamos con cualquier consulta sobre el Club Deportivo Norte.
+      </p>
+      <a href="mailto:depnorte@gmail.com" class="btn-primary">
+        Contactanos
+      </a>
+    </aside>
+  </div>
+</section>
+
+<script>
+  const faqButtons = document.querySelectorAll('.faq-button');
+  
+  faqButtons.forEach(button => {
+    button.addEventListener('click', () => {
+      const expanded = button.getAttribute('aria-expanded') === 'true';
+      const content = button.parentElement?.nextElementSibling as HTMLElement;
+      const icon = button.querySelector('.faq-icon');
+      
+      faqButtons.forEach(otherButton => {
+        if (otherButton !== button) {
+          otherButton.setAttribute('aria-expanded', 'false');
+          const otherContent = otherButton.parentElement?.nextElementSibling as HTMLElement;
+          const otherIcon = otherButton.querySelector('.faq-icon');
+          otherContent?.classList.remove('open');
+          otherContent?.setAttribute('aria-hidden', 'true');
+          otherIcon?.classList.remove('rotate-45');
+        }
+      });
+      
+      button.setAttribute('aria-expanded', String(!expanded));
+      content?.classList.toggle('open');
+      content?.setAttribute('aria-hidden', String(expanded));
+      icon?.classList.toggle('rotate-45');
+    });
+  });
+</script>
+
+<style>
+  .faq-icon.rotate-45 {
+    transform: rotate(45deg);
+  }
+</style>

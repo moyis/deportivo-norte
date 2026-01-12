@@ -1,0 +1,72 @@
+---
+import hinchada from '../assets/hinchada.webp';
+---
+
+<section class="relative min-h-screen flex items-center justify-center pt-20" aria-labelledby="hero-heading">
+  <!-- Imagen de fondo con overlay -->
+  <div class="absolute inset-0 z-0">
+    <div 
+      class="absolute inset-0 bg-cover bg-center bg-no-repeat"
+      style={`background-image: url('${hinchada.src}');`}
+      role="img"
+      aria-label="Hinchada de fútbol celebrando en un estadio"
+    ></div>
+    <!-- Overlay oscuro para legibilidad -->
+    <div class="absolute inset-0 bg-black/75"></div>
+  </div>
+
+  <!-- Contenido del Hero -->
+  <div class="container relative z-10 text-center py-20">
+    <div class="max-w-4xl mx-auto">
+      <!-- Badge -->
+      <p class="inline-block bg-[#FFCC00] text-black font-heading font-bold text-sm uppercase tracking-wider px-4 py-2 mb-6">
+        Desde 1937 · Mar del Plata, Argentina
+      </p>
+
+      <!-- H1 Principal - Optimizado para SEO -->
+      <h1 id="hero-heading" class="text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-heading font-bold text-white mb-6 leading-none">
+        Club Deportivo Norte
+      </h1>
+
+      <!-- Subtítulo descriptivo para SEO -->
+      <p class="text-xl md:text-2xl text-gray-200 mb-8 max-w-3xl mx-auto leading-relaxed">
+        Somos más que un club de fútbol. Somos pasión, historia y comunidad en el corazón de 
+        <strong class="text-[#FFCC00]">Mar del Plata</strong>. 
+        Sumate a la familia del <strong class="text-[#FFCC00]">Deportivo Norte</strong> y viví la emoción de ser parte de nuestra hinchada.
+      </p>
+
+      <!-- Call to Actions -->
+      <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
+        <a href="https://docs.google.com/forms/d/e/1FAIpQLSdjUjWomnygFy_uXQyg9LXq-WRbDDpTOw2sqENAi1cxbYOBsw/viewform" target="_blank" rel="noopener noreferrer" class="btn-primary text-lg px-8 py-4 w-full sm:w-auto">
+          ¡Quiero Asociarme!
+        </a>
+        <a href="#historia" class="btn-secondary text-lg px-8 py-4 w-full sm:w-auto">
+          Conocé Nuestra Historia
+        </a>
+      </div>
+
+      <!-- Stats rápidas -->
+      <div class="grid grid-cols-3 gap-8 mt-16 pt-8 border-t border-white/20 max-w-2xl mx-auto">
+        <div class="text-center">
+          <p class="text-4xl md:text-5xl font-heading font-bold text-[#FFCC00]">87+</p>
+          <p class="text-sm md:text-base text-gray-300 uppercase tracking-wide mt-1">Años de Historia</p>
+        </div>
+        <div class="text-center">
+          <p class="text-4xl md:text-5xl font-heading font-bold text-[#FFCC00]">2</p>
+          <p class="text-sm md:text-base text-gray-300 uppercase tracking-wide mt-1">Títulos</p>
+        </div>
+        <div class="text-center">
+          <p class="text-4xl md:text-5xl font-heading font-bold text-[#FFCC00]">∞</p>
+          <p class="text-sm md:text-base text-gray-300 uppercase tracking-wide mt-1">Pasión</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Indicador de scroll -->
+  <div class="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce" aria-hidden="true">
+    <svg class="w-8 h-8 text-[#FFCC00]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+    </svg>
+  </div>
+</section>

@@ -14,13 +14,13 @@ const sponsors = [
 <section id="sponsors" class="section bg-white" aria-labelledby="sponsors-heading">
   <div class="container">
     <header class="text-center mb-16">
-      <span class="inline-block text-[#4D4D4D] font-heading font-bold text-sm uppercase tracking-widest mb-4">
+      <span class="inline-block text-gray-medium font-heading font-bold text-sm uppercase tracking-widest mb-4">
         Nos acompañan
       </span>
       <h2 id="sponsors-heading" class="text-4xl md:text-5xl font-heading font-bold text-black mb-6">
         Nuestros Sponsors
       </h2>
-      <p class="text-lg text-[#4D4D4D] max-w-2xl mx-auto">
+      <p class="text-lg text-gray-medium max-w-2xl mx-auto">
         Gracias a las empresas y comercios que apoyan al Club Deportivo Norte. 
         Juntos seguimos haciendo grande a nuestro club.
       </p>
@@ -28,15 +28,15 @@ const sponsors = [
 
     <div class="grid grid-cols-2 md:grid-cols-4 gap-6 mb-12">
       {sponsors.map((sponsor) => (
-        <article class="aspect-[3/2] bg-[#F5F5F5] border border-[#E5E5E5] flex items-center justify-center p-6 hover:border-[#FFCC00] hover:bg-[#FFFDF0] transition-colors duration-300">
+        <article class="aspect-3/2 bg-gray-light border border-gray-border flex items-center justify-center p-6 hover:border-primary hover:bg-[#FFFDF0] transition-colors duration-300">
           <div class="text-center">
-            <div class="w-20 h-20 mx-auto mb-3 bg-[#E5E5E5] rounded flex items-center justify-center">
-              <span class="text-[#4D4D4D] font-heading font-bold text-2xl">
+            <div class="w-20 h-20 mx-auto mb-3 bg-gray-border rounded flex items-center justify-center">
+              <span class="text-gray-medium font-heading font-bold text-2xl">
                 {sponsor.name.charAt(sponsor.name.length - 1)}
               </span>
             </div>
-            <p class="text-sm text-[#4D4D4D] font-medium">{sponsor.name}</p>
-            <span class="text-xs text-[#999] uppercase tracking-wide">{sponsor.type}</span>
+            <p class="text-sm text-gray-medium font-medium">{sponsor.name}</p>
+            <span class="text-xs text-gray-muted uppercase tracking-wide">{sponsor.type}</span>
           </div>
         </article>
       ))}

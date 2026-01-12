@@ -1,5 +1,7 @@
 ---
 import historyImg from '../assets/historia.webp';
+import ChevronLeft from '../assets/chevron-left.svg';
+import ChevronRight from '../assets/chevron-right.svg';
 ---
 
 <section id="historia" class="section bg-black" aria-labelledby="historia-heading">
@@ -16,35 +18,28 @@ import historyImg from '../assets/historia.webp';
           </h2>
         </header>
 
-        <div class="space-y-6 text-gray-300 text-lg leading-relaxed">
+        <div class="space-y-5 text-gray-300 text-lg leading-relaxed">
           <p>
             El <strong class="text-white">Club Deportivo Norte</strong> fue fundado el 
-            <strong class="text-primary">1 de abril de 1937</strong> en Mar del Plata, 
-            provincia de Buenos Aires. Desde sus inicios en Ituzaingó al 3900, el club se convirtió 
-            rápidamente en el corazón del barrio La Perla, un punto de encuentro para vecinos 
-            y familias que compartían la pasión por el deporte.
+            <strong class="text-primary">1 de abril de 1937</strong> en Mar del Plata. 
+            Desde sus inicios, el club se convirtió en el corazón del barrio La Perla, 
+            un punto de encuentro para vecinos y familias que compartían la pasión por el deporte.
           </p>
           <p>
-            Durante la década del '60, el club vivió una época dorada con actividades sociales 
-            que unían a toda la comunidad. Pero el momento de mayor gloria llegó en los años '80, 
-            cuando el <strong class="text-white">Deportivo Norte</strong> conquistó el 
-            <strong class="text-primary">bicampeonato de la Liga Marplatense de Fútbol 
-            en 1987 y 1988</strong>, consolidándose como uno de los clubes más importantes de la ciudad.
+            El momento de mayor gloria llegó en los años '80, cuando el Deportivo Norte conquistó el 
+            <strong class="text-primary">bicampeonato de la Liga Marplatense de Fútbol en 1987 y 1988</strong>, 
+            consolidándose como uno de los clubes más importantes de la ciudad.
           </p>
           <p>
-            El patín ha sido una disciplina emblemática para el club. <strong class="text-white">Nora Alicia Vega</strong>, 
-            hija de uno de nuestros socios fundadores, se convirtió en la <strong class="text-[#FFCC00]">mejor patinadora 
-            de la historia argentina</strong>: cinco veces campeona mundial, seis veces campeona panamericana y diez 
-            veces campeona sudamericana. En reconocimiento a su legado, nuestra villa deportiva lleva orgullosamente 
-            su nombre: <strong class="text-[#FFCC00]">"Predio Deportivo Nora Alicia Vega"</strong>. 
-            Nora recibió el Premio Olimpia de Oro en 1995 y fue portadora de la antorcha olímpica 
-            en Atlanta 1996 y Pekín 2008.
+            De nuestras filas surgió <strong class="text-white">Nora Alicia Vega</strong>, 
+            quien se convirtió en la <strong class="text-primary">mejor patinadora de la historia argentina</strong>: 
+            cinco veces campeona mundial y ganadora del Premio Olimpia de Oro en 1995. 
+            Nuestro predio deportivo lleva orgullosamente su nombre.
           </p>
           <p>
-            Hoy, nuestro equipo juega de local en el <strong class="text-white">Estadio Carlos H. Miori</strong>, 
-            ubicado en la zona norte de Mar del Plata. La hinchada, conocida popularmente como 
-            <strong class="text-primary">"La 90"</strong>, es reconocida por su fidelidad 
-            y pasión en cada partido, acompañando al equipo en las buenas y en las malas.
+            Hoy, nuestro equipo juega de local en el <strong class="text-white">Estadio Carlos H. Miori</strong>. 
+            La hinchada, conocida como <strong class="text-primary">"La 90"</strong>, 
+            acompaña al equipo con fidelidad y pasión en cada partido.
           </p>
         </div>
 
@@ -57,10 +52,9 @@ import historyImg from '../assets/historia.webp';
           <div>
             <p class="text-3xl font-heading font-bold text-primary">1987-88</p>
             <p class="text-gray-400 text-sm uppercase tracking-wide">Bicampeonato</p>
-            <div>
           </div>
           <div>
-            <p class="text-3xl font-heading font-bold text-[#FFCC00]">5</p>
+            <p class="text-3xl font-heading font-bold text-primary">5</p>
             <p class="text-gray-400 text-sm uppercase tracking-wide">Mundiales de Patín</p>
           </div>
           <div>
@@ -98,9 +92,7 @@ import historyImg from '../assets/historia.webp';
           class="quote-arrow quote-prev absolute left-0 top-1/2 -translate-y-1/2 z-10 w-12 h-12 flex items-center justify-center text-white/50 hover:text-primary transition-colors duration-300"
           aria-label="Cita anterior"
         >
-          <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
-          </svg>
+          <ChevronLeft class="w-8 h-8" aria-hidden="true" />
         </button>
 
         <!-- Flecha derecha -->
@@ -108,9 +100,7 @@ import historyImg from '../assets/historia.webp';
           class="quote-arrow quote-next absolute right-0 top-1/2 -translate-y-1/2 z-10 w-12 h-12 flex items-center justify-center text-white/50 hover:text-primary transition-colors duration-300"
           aria-label="Cita siguiente"
         >
-          <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
-          </svg>
+          <ChevronRight class="w-8 h-8" aria-hidden="true" />
         </button>
 
         <div class="quotes-track flex transition-transform duration-700 ease-in-out">

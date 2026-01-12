@@ -2,12 +2,14 @@
 import { defineConfig, fontProviders } from 'astro/config';
 import vercel from '@astrojs/vercel';
 import preact from '@astrojs/preact';
+import sitemap from '@astrojs/sitemap';
 
 import tailwindcss from '@tailwindcss/vite';
 
 // https://astro.build/config
 export default defineConfig({
-  integrations: [preact()],
+  site: 'https://deportivonorte.com.ar',
+  integrations: [preact(), sitemap()],
   output: 'static',
   adapter: vercel(),
   vite: {

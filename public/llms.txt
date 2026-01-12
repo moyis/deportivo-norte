@@ -1,0 +1,25 @@
+# Club Deportivo Norte
+
+> Club Deportivo Norte es una institución de fútbol fundada en 1937 en Mar del Plata, Argentina. Bicampeón de la Liga Marplatense de Fútbol en 1987-88.
+
+## Información del Club
+
+- Nombre: Club Deportivo Norte
+- Fundación: 1937
+- Ubicación: Mar del Plata, Argentina
+- Logros: Bicampeón Liga Marplatense 1987-88
+
+## Sitio Web
+
+Este sitio web permite a los visitantes conocer la historia del club y asociarse como socios.
+
+## Secciones
+
+- Inicio: Página principal con información general
+- Asociate: Información para asociarse al club
+- Historia: Historia y trayectoria del club
+- FAQ: Preguntas frecuentes
+
+## Contacto
+
+Visita el sitio web para más información sobre cómo contactar al club o asociarte.

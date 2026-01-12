@@ -2,6 +2,7 @@
 import historyImg from '../assets/historia.webp';
 import ChevronLeft from '../assets/chevron-left.svg';
 import ChevronRight from '../assets/chevron-right.svg';
+import ClubAge from './ClubAge';
 ---
 
 <section id="historia" class="section bg-black" aria-labelledby="historia-heading">
@@ -14,7 +15,7 @@ import ChevronRight from '../assets/chevron-right.svg';
             Nuestra Historia
           </span>
           <h2 id="historia-heading" class="text-4xl md:text-5xl font-heading font-bold text-white mb-6">
-            Más de 87 Años de Pasión Deportiva
+            Más de <ClubAge client:load /> Años de Pasión Deportiva
           </h2>
         </header>
 
@@ -77,7 +78,7 @@ import ChevronRight from '../assets/chevron-right.svg';
           </div>
           <!-- Badge decorativo -->
           <div class="absolute -bottom-6 -left-6 bg-primary p-6 md:p-8">
-            <p class="font-heading font-bold text-black text-4xl md:text-5xl">87+</p>
+            <p class="font-heading font-bold text-black text-4xl md:text-5xl"><ClubAge client:load suffix="+" /></p>
             <p class="font-heading font-bold text-black/70 text-sm uppercase">Años de Historia</p>
           </div>
         </figure>

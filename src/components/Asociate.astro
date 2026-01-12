@@ -1,34 +1,34 @@
 ---
-const beneficios = [
+const benefits = [
   {
     icon: '🎟️',
-    titulo: 'Entrada Libre',
-    descripcion: 'Acceso gratuito a todos los partidos de local del Club Deportivo Norte en el estadio Carlos H. Miori.',
+    title: 'Entrada Libre',
+    description: 'Acceso gratuito a todos los partidos de local del Club Deportivo Norte en el estadio Carlos H. Miori.',
   },
   {
     icon: '🏟️',
-    titulo: 'Uso de Instalaciones',
-    descripcion: 'Disfrutá de nuestras canchas, gimnasio y espacios deportivos como socio pleno del club.',
+    title: 'Uso de Instalaciones',
+    description: 'Disfrutá de nuestras canchas, gimnasio y espacios deportivos como socio pleno del club.',
   },
   {
     icon: '👨‍👩‍👧‍👦',
-    titulo: 'Grupo Familiar',
-    descripcion: 'Cuotas especiales para grupos familiares. Traé a toda la familia a vivir la pasión del fútbol.',
+    title: 'Grupo Familiar',
+    description: 'Cuotas especiales para grupos familiares. Traé a toda la familia a vivir la pasión del fútbol.',
   },
   {
     icon: '🎉',
-    titulo: 'Eventos Exclusivos',
-    descripcion: 'Participá de eventos, asados, peñas y actividades sociales para la comunidad del Deportivo Norte.',
+    title: 'Eventos Exclusivos',
+    description: 'Participá de eventos, asados, peñas y actividades sociales para la comunidad del Deportivo Norte.',
   },
   {
     icon: '🛍️',
-    titulo: 'Descuentos',
-    descripcion: 'Beneficios y descuentos exclusivos en merchandising oficial y comercios amigos del club.',
+    title: 'Descuentos',
+    description: 'Beneficios y descuentos exclusivos en merchandising oficial y comercios amigos del club.',
   },
   {
     icon: '🗳️',
-    titulo: 'Voz y Voto',
-    descripcion: 'Como socio tenés derecho a participar en las asambleas y decisiones importantes del club.',
+    title: 'Voz y Voto',
+    description: 'Como socio tenés derecho a participar en las asambleas y decisiones importantes del club.',
   },
 ];
 ---
@@ -81,13 +81,13 @@ const beneficios = [
 
     <!-- Grid de beneficios -->
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-      {beneficios.map((beneficio) => (
+      {benefits.map((benefit) => (
         <article class="bg-black/10 backdrop-blur-sm p-6 border-l-4 border-black hover:bg-black/20 transition-colors duration-300">
           <h3 class="text-lg font-heading font-bold text-black uppercase mb-2">
-            {beneficio.titulo}
+            {benefit.title}
           </h3>
           <p class="text-black/70 text-sm leading-relaxed">
-            {beneficio.descripcion}
+            {benefit.description}
           </p>
         </article>
       ))}

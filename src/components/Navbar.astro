@@ -11,9 +11,9 @@ const navLinks = [
 
 <header class="fixed top-0 left-0 right-0 z-50 bg-black">
   <nav class="container" aria-label="Navegación principal">
-    <div class="flex items-center justify-between h-20">
+    <div class="flex items-center h-20">
       <!-- Logo -->
-      <a href="/" class="flex items-center gap-3" aria-label="Club Deportivo Norte - Inicio">
+      <a href="#" class="flex items-center gap-3 flex-1" aria-label="Club Deportivo Norte - Inicio">
         <img src={logoSrc.src} alt="Escudo Club Deportivo Norte" class="h-12 w-auto" />
         <div>
           <span class="font-heading text-[#FFCC00] text-2xl font-bold uppercase block">Deportivo Norte</span>
@@ -22,7 +22,7 @@ const navLinks = [
       </a>
 
       <!-- Navegación desktop -->
-      <ul class="hidden lg:flex items-center gap-8" role="list">
+      <ul class="hidden lg:flex items-center justify-center gap-8" role="list">
         {navLinks.map((link) => (
           <li>
             <a 
@@ -36,12 +36,14 @@ const navLinks = [
       </ul>
 
       <!-- CTA Desktop -->
-      <a 
-        href="#asociate" 
-        class="hidden lg:inline-flex btn-primary !py-3 !px-6 !text-base"
-      >
-        ¡Asociate!
-      </a>
+      <div class="hidden lg:flex flex-1 justify-end">
+        <a 
+          href="#asociate" 
+          class="btn-primary !py-3 !px-6 !text-base"
+        >
+          ¡Asociate!
+        </a>
+      </div>
 
       <!-- Botón menú móvil -->
       <button 

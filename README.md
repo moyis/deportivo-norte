@@ -1,43 +1,88 @@
-# Astro Starter Kit: Minimal
+# Club Deportivo Norte
 
-```sh
-bun create astro@latest -- --template minimal
+Sitio web oficial del Club Deportivo Norte, institución de fútbol fundada en 1937 en Mar del Plata, Argentina.
+
+🌐 **[Ver sitio en producción](https://deportivo-norte.vercel.app/)**
+
+## 📋 Descripción
+
+Landing page moderna y responsive para el Club Deportivo Norte. El sitio incluye:
+
+- **Hero** - Presentación del club con estadísticas clave
+- **Asociate** - Información y formulario para nuevos socios
+- **Historia** - Timeline con los momentos más importantes del club
+- **FAQ** - Preguntas frecuentes
+- **Footer** - Contacto y redes sociales
+
+## 🛠️ Stack Tecnológico
+
+- [Astro](https://astro.build/) v5 - Framework web
+- [Tailwind CSS](https://tailwindcss.com/) v4 - Estilos
+- [Preact](https://preactjs.com/) - Componentes interactivos
+- [Vercel](https://vercel.com/) - Hosting y deploy
+
+## 🚀 Desarrollo Local
+
+### Requisitos
+
+- [Bun](https://bun.sh/) (recomendado) o Node.js 18+
+
+### Instalación
+
+```bash
+# Clonar el repositorio
+git clone https://github.com/tu-usuario/deportivo-norte.git
+cd deportivo-norte
+
+# Instalar dependencias
+bun install
 ```
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+### Comandos
 
-## 🚀 Project Structure
+| Comando          | Descripción                                    |
+| :--------------- | :--------------------------------------------- |
+| `bun dev`        | Inicia servidor de desarrollo en `localhost:4321` |
+| `bun build`      | Genera build de producción en `./dist/`        |
+| `bun preview`    | Preview del build local                        |
 
-Inside of your Astro project, you'll see the following folders and files:
+## 📁 Estructura del Proyecto
 
-```text
+```
 /
 ├── public/
+│   └── favicon.svg
 ├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
+│   ├── assets/          # Imágenes y SVGs
+│   ├── components/      # Componentes Astro y Preact
+│   │   ├── ClubAge.tsx  # Calculador de años del club
+│   │   ├── FAQ.astro
+│   │   ├── Footer.astro
+│   │   ├── Hero.astro
+│   │   ├── Historia.astro
+│   │   └── Navbar.astro
+│   ├── layouts/
+│   │   └── Layout.astro
+│   ├── pages/
+│   │   └── index.astro
+│   └── styles/
+│       └── global.css
+├── astro.config.mjs
+├── package.json
+└── vercel.json
 ```
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+## 🎨 Colores del Club
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+El sitio utiliza los colores oficiales del club definidos en Tailwind:
 
-Any static assets, like images, can be placed in the `public/` directory.
+- **Primary** (Amarillo): Color principal del club
+- **Secondary** (Negro): Color secundario
 
-## 🧞 Commands
+## 📝 Licencia
 
-All commands are run from the root of the project, from a terminal:
+Este proyecto es privado y pertenece al Club Deportivo Norte.
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `bun install`             | Installs dependencies                            |
-| `bun dev`             | Starts local dev server at `localhost:4321`      |
-| `bun build`           | Build your production site to `./dist/`          |
-| `bun preview`         | Preview your build locally, before deploying     |
-| `bun astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `bun astro -- --help` | Get help using the Astro CLI                     |
+---
 
-## 👀 Want to learn more?
-
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+⚽ *"Más que un club, somos pasión, historia y comunidad"* - Club Deportivo Norte, desde 1937

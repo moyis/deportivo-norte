@@ -57,7 +57,7 @@ h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-body);
 }
 
-/* Botón primario */
+/* Botón primario - para fondos oscuros (amarillo con texto negro) */
 .btn-primary {
   display: inline-flex;
   align-items: center;
@@ -71,14 +71,12 @@ h1, h2, h3, h4, h5, h6 {
   text-transform: uppercase;
   text-decoration: none;
   border: none;
-  border-radius: 4px;
   cursor: pointer;
-  transition: background-color 0.2s ease, transform 0.2s ease;
+  transition: background-color 0.3s ease;
 }
 
 .btn-primary:hover {
   background-color: var(--color-primary-hover);
-  transform: translateY(-2px);
 }
 
 .btn-primary:focus {
@@ -86,7 +84,34 @@ h1, h2, h3, h4, h5, h6 {
   outline-offset: 2px;
 }
 
-/* Botón secundario (outline) */
+/* Botón primario invertido - para fondos claros/amarillos (negro con texto amarillo) */
+.btn-primary-dark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem 2rem;
+  background-color: var(--color-secondary);
+  color: var(--color-primary);
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 1.125rem;
+  text-transform: uppercase;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btn-primary-dark:hover {
+  background-color: rgba(0, 0, 0, 0.85);
+}
+
+.btn-primary-dark:focus {
+  outline: 3px solid var(--color-secondary);
+  outline-offset: 2px;
+}
+
+/* Botón secundario (outline) - para fondos oscuros */
 .btn-secondary {
   display: inline-flex;
   align-items: center;
@@ -100,9 +125,8 @@ h1, h2, h3, h4, h5, h6 {
   text-transform: uppercase;
   text-decoration: none;
   border: 2px solid var(--color-primary);
-  border-radius: 4px;
   cursor: pointer;
-  transition: background-color 0.2s ease, color 0.2s ease;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .btn-secondary:hover {
@@ -112,6 +136,35 @@ h1, h2, h3, h4, h5, h6 {
 
 .btn-secondary:focus {
   outline: 3px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+/* Botón secundario - para fondos claros/amarillos */
+.btn-secondary-dark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 1rem 2rem;
+  background-color: transparent;
+  color: var(--color-secondary);
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 1.125rem;
+  text-transform: uppercase;
+  text-decoration: none;
+  border: 2px solid var(--color-secondary);
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.btn-secondary-dark:hover {
+  background-color: var(--color-secondary);
+  color: var(--color-primary);
+}
+
+.btn-secondary-dark:focus {
+  outline: 3px solid var(--color-secondary);
   outline-offset: 2px;
 }
 

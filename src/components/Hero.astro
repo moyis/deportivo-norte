@@ -1,5 +1,7 @@
 ---
 import crowdImg from '../assets/hinchada.webp';
+import ArrowDown from '../assets/arrow-down.svg';
+import ClubAge from './ClubAge';
 ---
 
 <section class="relative min-h-screen flex items-center justify-center pt-20" aria-labelledby="hero-heading">
@@ -46,14 +48,18 @@ import crowdImg from '../assets/hinchada.webp';
       </div>
 
       <!-- Stats rápidas -->
-      <div class="grid grid-cols-3 gap-8 mt-16 pt-8 border-t border-white/20 max-w-2xl mx-auto">
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8 mt-16 pt-8 border-t border-white/20 max-w-3xl mx-auto">
         <div class="text-center">
-          <p class="text-4xl md:text-5xl font-heading font-bold text-primary">87+</p>
+          <p class="text-4xl md:text-5xl font-heading font-bold text-primary"><ClubAge client:load suffix="+" /></p>
           <p class="text-sm md:text-base text-gray-300 uppercase tracking-wide mt-1">Años de Historia</p>
         </div>
         <div class="text-center">
           <p class="text-4xl md:text-5xl font-heading font-bold text-primary">2</p>
           <p class="text-sm md:text-base text-gray-300 uppercase tracking-wide mt-1">Títulos</p>
+        </div>
+        <div class="text-center">
+          <p class="text-4xl md:text-5xl font-heading font-bold text-primary">1</p>
+          <p class="text-sm md:text-base text-gray-300 uppercase tracking-wide mt-1">Campeona Olimpia</p>
         </div>
         <div class="text-center">
           <p class="text-4xl md:text-5xl font-heading font-bold text-primary">∞</p>
@@ -64,9 +70,11 @@ import crowdImg from '../assets/hinchada.webp';
   </div>
 
   <!-- Indicador de scroll -->
-  <div class="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce" aria-hidden="true">
-    <svg class="w-8 h-8 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
-    </svg>
-  </div>
+  <a 
+    href="#asociate" 
+    class="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce cursor-pointer hover:scale-110 transition-transform text-primary"
+    aria-label="Scroll hacia la siguiente sección"
+  >
+  <ArrowDown class="w-8 h-8" aria-hidden="true" />
+  </a>
 </section>

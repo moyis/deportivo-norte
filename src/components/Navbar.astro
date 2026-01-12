@@ -1,5 +1,5 @@
 ---
-import logoSrc from '../assets/logo.svg';
+import Logo from '../assets/logo.svg';
 
 const navLinks = [
   { href: '#asociate', label: 'Asociate' },
@@ -14,7 +14,7 @@ const navLinks = [
     <div class="flex items-center h-20">
       <!-- Logo -->
       <a href="#" class="flex items-center gap-3 flex-1" aria-label="Club Deportivo Norte - Inicio">
-        <img src={logoSrc.src} alt="Escudo Club Deportivo Norte" class="h-12 w-auto" />
+        <Logo class="h-12 w-auto" />
         <div>
           <span class="font-heading text-[#FFCC00] text-2xl font-bold uppercase block">Deportivo Norte</span>
           <span class="text-gray-400 text-sm">Desde 1937</span>
@@ -39,7 +39,7 @@ const navLinks = [
       <div class="hidden lg:flex flex-1 justify-end">
         <a 
           href="#asociate" 
-          class="btn-primary !py-3 !px-6 !text-base"
+          class="btn-primary py-3! px-6! text-base!"
         >
           ¡Asociate!
         </a>

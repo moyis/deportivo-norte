@@ -325,7 +325,8 @@ test.describe("CSS/Tailwind theme", () => {
         .trim()
     );
 
-    expect(primaryColor).toBe("#FFCC00");
+    // In production builds, colors may be minified to shorthand
+    expect(primaryColor.toLowerCase()).toMatch(/^#(ffcc00|fc0)$/);
   });
 
   test("responsive layout works on mobile", async ({ page }) => {

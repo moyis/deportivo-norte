@@ -13,6 +13,7 @@ Landing page moderna y responsive para el Club Deportivo Norte. El sitio incluye
 - **Historia** - Timeline con los momentos más importantes del club
 - **FAQ** - Preguntas frecuentes
 - **Footer** - Contacto y redes sociales
+- **404** - Página de error con temática futbolística
 
 ## 🛠️ Stack Tecnológico
 
@@ -45,6 +46,7 @@ bun install
 | `bun dev`        | Inicia servidor de desarrollo en `localhost:4321` |
 | `bun build`      | Genera build de producción en `./dist/`        |
 | `bun preview`    | Preview del build local                        |
+| `bun test:e2e`   | Ejecuta tests e2e con Playwright               |
 
 ## 📁 Estructura del Proyecto
 
@@ -64,9 +66,13 @@ bun install
 │   ├── layouts/
 │   │   └── Layout.astro
 │   ├── pages/
+│   │   ├── 404.astro    # Página de error 404
 │   │   └── index.astro
 │   └── styles/
 │       └── global.css
+├── e2e/                  # Tests end-to-end
+│   ├── 404.spec.ts
+│   └── sanity.spec.ts
 ├── astro.config.mjs
 ├── package.json
 └── vercel.json

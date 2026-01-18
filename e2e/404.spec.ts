@@ -21,12 +21,14 @@ test.describe("404 Page", () => {
   test("displays 404 content correctly", async ({ page }) => {
     await page.goto("/random-invalid-url");
 
-    // Check 404 heading is visible
-    const heading = page.getByRole("heading", { level: 1 });
-    await expect(heading).toContainText("404");
+    // Check 404 badge is visible
+    await expect(page.getByText("Error 404")).toBeVisible();
 
-    // Check football-themed error message is visible
-    await expect(page.getByText("¡Al travesaño!")).toBeVisible();
+    // Check football-themed heading is visible
+    const heading = page.getByRole("heading", { level: 1 });
+    await expect(heading).toContainText("¡Al travesaño!");
+
+    // Check subtitle message is visible
     await expect(
       page.getByText(/casi, pero no entró/i)
     ).toBeVisible();

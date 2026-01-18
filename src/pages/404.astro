@@ -1,5 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import Navbar from '../components/Navbar.astro';
 import notFoundImg from '../assets/not-found.webp';
 import '../styles/global.css';
 
@@ -8,7 +9,8 @@ const seoDescription = "La página que buscas no existe. Volvé al inicio de Clu
 ---
 
 <Layout title={seoTitle} description={seoDescription}>
-  <main class="min-h-screen flex items-center justify-center px-6 py-12 relative overflow-hidden">
+  <Navbar />
+  <main class="min-h-screen flex items-center justify-center px-6 py-12 pt-20 relative overflow-hidden">
     <div class="absolute inset-0 z-0">
       <div
         class="absolute inset-0 bg-cover bg-center bg-no-repeat"

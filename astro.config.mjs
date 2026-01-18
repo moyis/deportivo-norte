@@ -30,8 +30,6 @@ export default defineConfig({
   },
   experimental: {
     svgo: true,
-    // Content Security Policy for XSS protection (5.9+)
-    csp: true,
     fonts: [
       {
         provider: fontProviders.google(),

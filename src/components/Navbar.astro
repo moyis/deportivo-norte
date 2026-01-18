@@ -3,10 +3,10 @@ import logoSrc from '../assets/logo.svg';
 import HamburgerMenu from '../assets/hamburger-menu.svg';
 
 const navLinks = [
-  { href: '#asociate', label: 'Asociate' },
-  { href: '#historia', label: 'El Club' },
-  { href: '#faq', label: 'Preguntas Frecuentes' },
-  // { href: '#sponsors', label: 'Sponsors' },
+  { href: '/#asociate', label: 'Asociate' },
+  { href: '/#historia', label: 'El Club' },
+  { href: '/#faq', label: 'Preguntas Frecuentes' },
+  // { href: '/#sponsors', label: 'Sponsors' },
 ];
 ---
 
@@ -14,7 +14,7 @@ const navLinks = [
   <nav class="container" aria-label="Navegación principal">
     <div class="flex items-center h-20">
       <!-- Logo -->
-      <a href="#" class="flex items-center gap-3 flex-1" aria-label="Club Deportivo Norte - Inicio">
+      <a href="/#" class="flex items-center gap-3 flex-1" aria-label="Club Deportivo Norte - Inicio">
         <img src={logoSrc.src} alt="Escudo Club Deportivo Norte" class="h-12 w-auto" />
         <div>
           <span class="font-heading text-primary text-2xl font-bold uppercase block">Deportivo Norte</span>
@@ -38,8 +38,8 @@ const navLinks = [
 
       <!-- CTA Desktop -->
       <div class="hidden lg:flex flex-1 justify-end">
-        <a 
-          href="#asociate" 
+        <a
+          href="/#asociate"
           class="btn-primary py-3! px-6! text-base!"
         >
           ¡Asociate!
@@ -79,7 +79,7 @@ const navLinks = [
           </li>
         ))}
         <li class="pt-4">
-          <a href="#asociate" class="btn-primary w-full text-center">
+          <a href="/#asociate" class="btn-primary w-full text-center">
             ¡Asociate Ahora!
           </a>
         </li>

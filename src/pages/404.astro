@@ -1,0 +1,38 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Navbar from '../components/Navbar.astro';
+import notFoundImg from '../assets/not-found.webp';
+import '../styles/global.css';
+
+const seoTitle = "Página no encontrada | Club Deportivo Norte";
+const seoDescription = "La página que buscas no existe. Volvé al inicio de Club Deportivo Norte.";
+---
+
+<Layout title={seoTitle} description={seoDescription}>
+  <Navbar />
+  <main class="min-h-screen flex items-center justify-center px-6 py-12 pt-20 relative overflow-hidden">
+    <div class="absolute inset-0 z-0">
+      <div
+        class="absolute inset-0 bg-cover bg-center bg-no-repeat"
+        style={`background-image: url('${notFoundImg.src}');`}
+        role="img"
+        aria-label="Imagen de error 404"
+      ></div>
+      <div class="absolute inset-0 bg-black/75"></div>
+    </div>
+    <div class="relative z-10 text-center max-w-4xl mx-auto">
+      <p class="inline-block bg-primary text-black font-heading font-bold text-sm uppercase tracking-wider px-4 py-2 mb-6">
+        Error 404
+      </p>
+      <h1 class="text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-heading font-bold text-white mb-6 leading-none">
+        ¡Al travesaño!
+      </h1>
+      <p class="text-xl md:text-2xl text-gray-200 mb-8 max-w-3xl mx-auto leading-relaxed">
+        Casi, pero no entró. La página que buscás no existe. Intentá de nuevo desde el inicio.
+      </p>
+      <a href="/" class="btn-primary text-lg px-8 py-4">
+        Volver al inicio
+      </a>
+    </div>
+  </main>
+</Layout>

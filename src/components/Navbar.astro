@@ -14,7 +14,7 @@ const navLinks = [
   <nav class="container" aria-label="Navegación principal">
     <div class="flex items-center h-20">
       <!-- Logo -->
-      <a href="/" id="logo-link" class="flex items-center gap-3 flex-1" aria-label="Club Deportivo Norte - Inicio">
+      <a href="/#" class="flex items-center gap-3 flex-1" aria-label="Club Deportivo Norte - Inicio">
         <img src={logoSrc.src} alt="Escudo Club Deportivo Norte" class="h-12 w-auto" />
         <div>
           <span class="font-heading text-primary text-2xl font-bold uppercase block">Deportivo Norte</span>
@@ -109,14 +109,5 @@ const navLinks = [
       mobileMenu.setAttribute('aria-hidden', 'true');
       document.body.style.overflow = '';
     });
-  });
-
-  // Logo: scroll to top si estamos en homepage, navegar si no
-  const logoLink = document.getElementById('logo-link');
-  logoLink?.addEventListener('click', (e) => {
-    if (window.location.pathname === '/') {
-      e.preventDefault();
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
   });
 </script>

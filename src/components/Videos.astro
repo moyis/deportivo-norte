@@ -3,8 +3,12 @@ import { YouTube } from 'astro-embed';
 import { CONTACT } from '../lib/contact';
 import { fetchLatestVideos } from '../lib/youtube';
 
-// Fetch videos directly (this runs at build time for static pages)
-// The API endpoint at /api/youtube-videos.json provides the same data with 24h cache for dynamic requests
+// This component is a Server Island - it renders on the server with caching
+// while the rest of the page remains static
+export const server = 'defer';
+
+// Fetch videos from YouTube RSS feed
+// This runs server-side and is cached by Vercel for 24 hours
 const videos = await fetchLatestVideos();
 ---
 

@@ -20,8 +20,10 @@ export default defineConfig({
       }
     })
   ],
-  output: 'hybrid',
-  adapter: vercel(),
+  output: 'static',
+  adapter: vercel({
+    webAnalytics: { enabled: true }
+  }),
   vite: {
     plugins: [tailwindcss()]
   },
@@ -29,6 +31,7 @@ export default defineConfig({
     // Responsive images config - stable since Astro 5.10
   },
   experimental: {
+    serverIslands: true,
     svgo: true,
     fonts: [
       {

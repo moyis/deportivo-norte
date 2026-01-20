@@ -1,4 +1,6 @@
 ---
+import { CONTACT } from '../lib/contact';
+
 const sponsors = [
   { name: 'Sponsor 1', type: 'principal' },
   { name: 'Sponsor 2', type: 'principal' },
@@ -50,7 +52,7 @@ const sponsors = [
         Sumate a las empresas que apoyan al club y llegá a toda nuestra comunidad de hinchas y socios. 
         Tenemos diferentes opciones de sponsoreo para tu negocio.
       </p>
-      <a href="mailto:depnorte@gmail.com" class="btn-primary">
+      <a href={`mailto:${CONTACT.email}`} class="btn-primary">
         Contactanos
       </a>
     </aside>

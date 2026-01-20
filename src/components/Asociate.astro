@@ -1,5 +1,6 @@
 ---
 import ClubAge from './ClubAge';
+import { CONTACT } from '../lib/contact';
 
 // Benefits section hidden for now
 // const benefits = [
@@ -42,16 +43,16 @@ import ClubAge from './ClubAge';
         ¡Te esperamos con los brazos abiertos!
       </p>
       <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
-        <a 
-          href="https://docs.google.com/forms/d/e/1FAIpQLSdjUjWomnygFy_uXQyg9LXq-WRbDDpTOw2sqENAi1cxbYOBsw/viewform" 
-          target="_blank" 
+        <a
+          href={CONTACT.forms.membership}
+          target="_blank"
           rel="noopener noreferrer"
           class="btn-primary-dark text-lg px-8 py-4"
         >
           ¡Asociate Ahora!
         </a>
-        <a 
-          href="#contacto" 
+        <a
+          href="#contacto"
           class="btn-secondary-dark text-lg px-8 py-4"
         >
           Ver información de contacto
@@ -59,7 +60,7 @@ import ClubAge from './ClubAge';
       </div>
           <!-- Nota final -->
     <p class="text-center text-sm text-black/60 mt-10">
-      Completá el formulario online o acercate a <a href="https://maps.app.goo.gl/AWefm6d3yAD4Rhw28" target="_blank" rel="noopener noreferrer" class="underline hover:no-underline">nuestro predio</a> para asociarte.
+      Completá el formulario online o acercate a <a href={CONTACT.location.mapsUrl} target="_blank" rel="noopener noreferrer" class="underline hover:no-underline">nuestro predio</a> para asociarte.
     </p>
     </div>
 

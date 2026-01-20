@@ -1,18 +1,19 @@
 ---
 import Plus from '../assets/plus.svg';
+import { CONTACT } from '../lib/contact';
 
 const faqs = [
   {
     question: '¿Cómo puedo asociarme al Club Deportivo Norte?',
-    answer: 'Podés asociarte completando el <a href="https://docs.google.com/forms/d/e/1FAIpQLSdjUjWomnygFy_uXQyg9LXq-WRbDDpTOw2sqENAi1cxbYOBsw/viewform" target="_blank" rel="noopener noreferrer" class="text-primary underline hover:no-underline">formulario de inscripción online</a> o acercándote a <a href="https://maps.app.goo.gl/AWefm6d3yAD4Rhw28" target="_blank" rel="noopener noreferrer" class="text-primary underline hover:no-underline">nuestro predio</a>. Ofrecemos diferentes categorías: socio activo, socio cadete, socio infantil y grupo familiar.',
+    answer: `Podés asociarte completando el <a href="${CONTACT.forms.membership}" target="_blank" rel="noopener noreferrer" class="text-primary underline hover:no-underline">formulario de inscripción online</a> o acercándote a <a href="${CONTACT.location.mapsUrl}" target="_blank" rel="noopener noreferrer" class="text-primary underline hover:no-underline">nuestro predio</a>. Ofrecemos diferentes categorías: socio activo, socio cadete, socio infantil y grupo familiar.`,
   },
   {
     question: '¿Cuánto cuesta la cuota de socio?',
-    answer: 'Las cuotas varían según la categoría de socio. Contamos con valores por categoría de socio (menor, adulto, cuota familiar) pensados para que toda la familia pueda ser parte del club. Para conocer los valores actualizados, te recomendamos contactarnos directamente por <a href="https://www.instagram.com/depnorte/" target="_blank" rel="noopener noreferrer" class="text-primary underline hover:no-underline">Instagram (@depnorte)</a> o al número de administración: <a href="tel:+5492235850294" class="text-primary underline hover:no-underline">+54 9 223 585-0294</a>.',
+    answer: `Las cuotas varían según la categoría de socio. Contamos con valores por categoría de socio (menor, adulto, cuota familiar) pensados para que toda la familia pueda ser parte del club. Para conocer los valores actualizados, te recomendamos contactarnos directamente por <a href="${CONTACT.social.instagram}" target="_blank" rel="noopener noreferrer" class="text-primary underline hover:no-underline">Instagram (@depnorte)</a> o al número de administración: <a href="tel:${CONTACT.phone.link}" class="text-primary underline hover:no-underline">${CONTACT.phone.display}</a>.`,
   },
   {
     question: '¿Dónde juega de local el Deportivo Norte?',
-    answer: 'El Club Deportivo Norte juega sus partidos de local en el <a href="https://maps.app.goo.gl/AWefm6d3yAD4Rhw28" target="_blank" rel="noopener noreferrer" class="text-primary underline hover:no-underline">Estadio Carlos H. Miori</a>, ubicado en el predio de la zona norte sobre la ruta 2 de Mar del Plata. Es un estadio con capacidad para recibir a toda nuestra hinchada.',
+    answer: `El Club Deportivo Norte juega sus partidos de local en el <a href="${CONTACT.location.mapsUrl}" target="_blank" rel="noopener noreferrer" class="text-primary underline hover:no-underline">Estadio Carlos H. Miori</a>, ubicado en el predio de la zona norte sobre la ruta 2 de Mar del Plata. Es un estadio con capacidad para recibir a toda nuestra hinchada.`,
   },
   {
     question: '¿Qué deportes se practican en el club?',
@@ -20,11 +21,11 @@ const faqs = [
   },
   {
     question: '¿Puedo inscribir a mi hijo/a en las inferiores del club?',
-    answer: 'Sí, el Club Deportivo Norte cuenta con divisiones inferiores donde formamos a los y las jugadores/as del futuro. Aceptamos chicos y chicas de diferentes edades, no solo en nuestro predio deportivo sino también en sedes en la ciudad. Para más información sobre inscripciones, horarios de entrenamiento y requisitos, contactanos por nuestras redes sociales o al <a href="tel:+5492235850294" class="text-primary underline hover:no-underline">+54 9 223 585-0294</a>.',
+    answer: `Sí, el Club Deportivo Norte cuenta con divisiones inferiores donde formamos a los y las jugadores/as del futuro. Aceptamos chicos y chicas de diferentes edades, no solo en nuestro predio deportivo sino también en sedes en la ciudad. Para más información sobre inscripciones, horarios de entrenamiento y requisitos, contactanos por nuestras redes sociales o al <a href="tel:${CONTACT.phone.link}" class="text-primary underline hover:no-underline">${CONTACT.phone.display}</a>.`,
   },
   {
     question: '¿Cómo puedo colaborar o ser sponsor del club?',
-    answer: 'Valoramos enormemente el apoyo de empresas y comercios de la comunidad. Si querés ser sponsor del Deportivo Norte o colaborar de alguna manera, escribinos por <a href="https://www.instagram.com/depnorte/" target="_blank" rel="noopener noreferrer" class="text-primary underline hover:no-underline">Instagram</a> o al <a href="tel:+5492235850294" class="text-primary underline hover:no-underline">+54 9 223 585-0294</a>. Juntos hacemos crecer al club.',
+    answer: `Valoramos enormemente el apoyo de empresas y comercios de la comunidad. Si querés ser sponsor del Deportivo Norte o colaborar de alguna manera, escribinos por <a href="${CONTACT.social.instagram}" target="_blank" rel="noopener noreferrer" class="text-primary underline hover:no-underline">Instagram</a> o al <a href="tel:${CONTACT.phone.link}" class="text-primary underline hover:no-underline">${CONTACT.phone.display}</a>. Juntos hacemos crecer al club.`,
   },
 ];
 ---
@@ -77,11 +78,11 @@ const faqs = [
         Contactanos directamente y te ayudamos con cualquier consulta sobre el Club Deportivo Norte.
       </p>
       <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
-        <a href="mailto:depnorte@gmail.com" class="btn-primary">
+        <a href={`mailto:${CONTACT.email}`} class="btn-primary">
           Enviar Email
         </a>
-        <a href="tel:+5492235850294" class="btn-secondary">
-          Llamar al +54 9 223 585-0294
+        <a href={`tel:${CONTACT.phone.link}`} class="btn-secondary">
+          Llamar al {CONTACT.phone.display}
         </a>
       </div>
     </aside>

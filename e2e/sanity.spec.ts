@@ -384,8 +384,8 @@ test.describe("External links", () => {
     );
 
     // Email
-    const emailLink = footer.getByRole("link", { name: /depnorte@gmail.com/i });
-    await expect(emailLink).toHaveAttribute("href", "mailto:depnorte@gmail.com");
+    const emailLink = footer.getByRole("link", { name: /admdeportivonorte@gmail.com/i });
+    await expect(emailLink).toHaveAttribute("href", "mailto:admdeportivonorte@gmail.com");
   });
 
   test("external links have security attributes", async ({ page }) => {

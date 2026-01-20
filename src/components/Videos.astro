@@ -1,23 +1,11 @@
 ---
 import { YouTube } from 'astro-embed';
 import { CONTACT } from '../lib/contact';
+import { fetchLatestVideos } from '../lib/youtube';
 
-// TODO: Replace these with actual YouTube video IDs from the channel
-// You can get the video ID from the YouTube URL: youtube.com/watch?v=VIDEO_ID
-const videos = [
-  {
-    id: 'VIDEO_ID_1', // Replace with actual YouTube video ID
-    title: 'Video destacado 1',
-  },
-  {
-    id: 'VIDEO_ID_2', // Replace with actual YouTube video ID
-    title: 'Video destacado 2',
-  },
-  {
-    id: 'VIDEO_ID_3', // Replace with actual YouTube video ID
-    title: 'Video destacado 3',
-  },
-];
+// Fetch videos directly (this runs at build time for static pages)
+// The API endpoint at /api/youtube-videos.json provides the same data with 24h cache for dynamic requests
+const videos = await fetchLatestVideos();
 ---
 
 <section id="videos" class="section bg-gray-dark" aria-labelledby="videos-heading">
@@ -34,16 +22,24 @@ const videos = [
       </p>
     </header>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
-      {videos.map((video) => (
-        <article class="bg-black border border-white/10 overflow-hidden hover:border-primary/50 transition-colors duration-300">
-          <YouTube id={video.id} />
-          <div class="p-6">
-            <h3 class="text-lg font-heading font-bold text-white">{video.title}</h3>
-          </div>
-        </article>
-      ))}
-    </div>
+    {videos.length > 0 ? (
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
+        {videos.map((video) => (
+          <article class="bg-black border border-white/10 overflow-hidden hover:border-primary/50 transition-colors duration-300">
+            <YouTube id={video.id} />
+            <div class="p-6">
+              <h3 class="text-lg font-heading font-bold text-white">{video.title}</h3>
+            </div>
+          </article>
+        ))}
+      </div>
+    ) : (
+      <div class="text-center py-12">
+        <p class="text-gray-400 text-lg">
+          Visitá nuestro canal de YouTube para ver todos nuestros videos.
+        </p>
+      </div>
+    )}
 
     <div class="text-center mt-12">
       <a

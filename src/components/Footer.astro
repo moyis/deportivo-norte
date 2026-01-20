@@ -6,6 +6,7 @@ import YouTube from '../assets/youtube.svg';
 import Email from '../assets/email.svg';
 import Phone from '../assets/phone.svg';
 import GPS from '../assets/gps.svg';
+import { CONTACT } from '../lib/contact';
 
 const sections = [
   { label: 'Asociate', href: '#asociate' },
@@ -15,11 +16,11 @@ const sections = [
 ];
 
 const socialLinks = [
-  { label: 'Instagram', href: 'https://www.instagram.com/depnorte/', icon: 'instagram' },
-  { label: 'Facebook', href: 'https://www.facebook.com/depnorteoficial', icon: 'facebook' },
-  { label: 'YouTube', href: 'https://www.youtube.com/@DeportivoNorte', icon: 'youtube' },
-  { label: 'depnorte@gmail.com', href: 'mailto:depnorte@gmail.com', icon: 'email' },
-  { label: '+54 9 223 585-0294', href: 'tel:+5492235850294', icon: 'phone' },
+  { label: 'Instagram', href: CONTACT.social.instagram, icon: 'instagram' },
+  { label: 'Facebook', href: CONTACT.social.facebook, icon: 'facebook' },
+  { label: 'YouTube', href: CONTACT.social.youtube, icon: 'youtube' },
+  { label: CONTACT.email, href: `mailto:${CONTACT.email}`, icon: 'email' },
+  { label: CONTACT.phone.display, href: `tel:${CONTACT.phone.link}`, icon: 'phone' },
 ];
 ---
 
@@ -41,7 +42,7 @@ const socialLinks = [
         <address class="not-italic text-gray-400 space-y-2">
           <p class="flex items-start gap-3">
             <GPS class="w-5 h-5 text-primary shrink-0 mt-0.5" aria-hidden="true" />
-            <span>Estadio Carlos H. Miori<br />RP2 km 393, Mar del Plata, Provincia de Buenos Aires</span>
+            <span>{CONTACT.location.name}<br />{CONTACT.location.address}</span>
           </p>
         </address>
       </div>
@@ -75,7 +76,7 @@ const socialLinks = [
             </li>
           ))}
         </ul>
-        <a href="https://docs.google.com/forms/d/e/1FAIpQLSdjUjWomnygFy_uXQyg9LXq-WRbDDpTOw2sqENAi1cxbYOBsw/viewform" target="_blank" rel="noopener noreferrer" class="btn-primary mt-8 w-full text-center">¡Asociate Ahora!</a>
+        <a href={CONTACT.forms.membership} target="_blank" rel="noopener noreferrer" class="btn-primary mt-8 w-full text-center">¡Asociate Ahora!</a>
       </div>
     </div>
   </div>

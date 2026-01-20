@@ -7,6 +7,7 @@ import Email from '../assets/email.svg';
 import Phone from '../assets/phone.svg';
 import GPS from '../assets/gps.svg';
 import { CONTACT } from '../lib/contact';
+import { Image } from 'astro:assets';
 
 const sections = [
   { label: 'Asociate', href: '#asociate' },
@@ -29,7 +30,7 @@ const socialLinks = [
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
       <div class="lg:col-span-2">
         <a href="#" class="flex items-center gap-3 mb-6" aria-label="Volver al inicio">
-          <img src={logo.src} alt="Logo Deportivo Norte" class="w-14 h-14" />
+          <Image src={logo} alt="Escudo Club Deportivo Norte" class="h-12 w-auto" />
           <div>
             <span class="font-heading text-primary text-2xl font-bold uppercase block">Deportivo Norte</span>
             <span class="text-gray-400 text-sm">Desde 1937</span>

@@ -4,7 +4,7 @@ import Instagram from '../assets/instagram.svg';
 import Facebook from '../assets/facebook.svg';
 import YouTube from '../assets/youtube.svg';
 import Email from '../assets/email.svg';
-import Phone from '../assets/phone.svg';
+import WhatsApp from '../assets/whatsapp.svg';
 import GPS from '../assets/gps.svg';
 import { CONTACT } from '../lib/contact';
 import { Image } from 'astro:assets';
@@ -21,7 +21,7 @@ const socialLinks = [
   { label: 'Facebook', href: CONTACT.social.facebook, icon: 'facebook' },
   { label: 'YouTube', href: CONTACT.social.youtube, icon: 'youtube' },
   { label: CONTACT.email, href: `mailto:${CONTACT.email}`, icon: 'email' },
-  { label: CONTACT.phone.display, href: `tel:${CONTACT.phone.link}`, icon: 'phone' },
+  { label: CONTACT.phone.display, href: CONTACT.phone.whatsapp, icon: 'whatsapp' },
 ];
 ---
 
@@ -71,7 +71,7 @@ const socialLinks = [
                 {social.icon === 'facebook' && <Facebook class="w-5 h-5" aria-hidden="true" />}
                 {social.icon === 'youtube' && <YouTube class="w-5 h-5" aria-hidden="true" />}
                 {social.icon === 'email' && <Email class="w-5 h-5" aria-hidden="true" />}
-                {social.icon === 'phone' && <Phone class="w-5 h-5" aria-hidden="true" />}
+                {social.icon === 'whatsapp' && <WhatsApp class="w-5 h-5" aria-hidden="true" />}
                 {social.label}
               </a>
             </li>

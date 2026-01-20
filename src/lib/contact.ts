@@ -8,6 +8,7 @@ export const CONTACT = {
   phone: {
     display: '+54 9 223 585-0294',
     link: '+5492235850294',
+    whatsapp: 'https://wa.me/5492235850294',
   },
   social: {
     instagram: 'https://www.instagram.com/depnorte/',

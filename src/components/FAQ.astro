@@ -9,7 +9,7 @@ const faqs = [
   },
   {
     question: '¿Cuánto cuesta la cuota de socio?',
-    answer: `Las cuotas varían según la categoría de socio. Contamos con valores por categoría de socio (menor, adulto, cuota familiar) pensados para que toda la familia pueda ser parte del club. Para conocer los valores actualizados, te recomendamos contactarnos directamente por <a href="${CONTACT.social.instagram}" target="_blank" rel="noopener noreferrer" class="text-primary underline hover:no-underline">Instagram (@depnorte)</a> o al número de administración: <a href="tel:${CONTACT.phone.link}" class="text-primary underline hover:no-underline">${CONTACT.phone.display}</a>.`,
+    answer: `Las cuotas varían según la categoría de socio. Contamos con valores por categoría de socio (menor, adulto, cuota familiar) pensados para que toda la familia pueda ser parte del club. Para conocer los valores actualizados, te recomendamos contactarnos directamente por <a href="${CONTACT.social.instagram}" target="_blank" rel="noopener noreferrer" class="text-primary underline hover:no-underline">Instagram (@depnorte)</a> o al número de administración: <a href="${CONTACT.phone.whatsapp}" class="text-primary underline hover:no-underline">${CONTACT.phone.display}</a>.`,
   },
   {
     question: '¿Dónde juega de local el Deportivo Norte?',
@@ -21,11 +21,11 @@ const faqs = [
   },
   {
     question: '¿Puedo inscribir a mi hijo/a en las inferiores del club?',
-    answer: `Sí, el Club Deportivo Norte cuenta con divisiones inferiores donde formamos a los y las jugadores/as del futuro. Aceptamos chicos y chicas de diferentes edades, no solo en nuestro predio deportivo sino también en sedes en la ciudad. Para más información sobre inscripciones, horarios de entrenamiento y requisitos, contactanos por nuestras redes sociales o al <a href="tel:${CONTACT.phone.link}" class="text-primary underline hover:no-underline">${CONTACT.phone.display}</a>.`,
+    answer: `Sí, el Club Deportivo Norte cuenta con divisiones inferiores donde formamos a los y las jugadores/as del futuro. Aceptamos chicos y chicas de diferentes edades, no solo en nuestro predio deportivo sino también en sedes en la ciudad. Para más información sobre inscripciones, horarios de entrenamiento y requisitos, contactanos por nuestras redes sociales o al <a href="${CONTACT.phone.whatsapp}" class="text-primary underline hover:no-underline">${CONTACT.phone.display}</a>.`,
   },
   {
     question: '¿Cómo puedo colaborar o ser sponsor del club?',
-    answer: `Valoramos enormemente el apoyo de empresas y comercios de la comunidad. Si querés ser sponsor del Deportivo Norte o colaborar de alguna manera, escribinos por <a href="${CONTACT.social.instagram}" target="_blank" rel="noopener noreferrer" class="text-primary underline hover:no-underline">Instagram</a> o al <a href="tel:${CONTACT.phone.link}" class="text-primary underline hover:no-underline">${CONTACT.phone.display}</a>. Juntos hacemos crecer al club.`,
+    answer: `Valoramos enormemente el apoyo de empresas y comercios de la comunidad. Si querés ser sponsor del Deportivo Norte o colaborar de alguna manera, escribinos por <a href="${CONTACT.social.instagram}" target="_blank" rel="noopener noreferrer" class="text-primary underline hover:no-underline">Instagram</a> o al <a href="${CONTACT.phone.whatsapp}" class="text-primary underline hover:no-underline">${CONTACT.phone.display}</a>. Juntos hacemos crecer al club.`,
   },
 ];
 ---
@@ -81,8 +81,8 @@ const faqs = [
         <a href={`mailto:${CONTACT.email}`} class="btn-primary">
           Enviar Email
         </a>
-        <a href={`tel:${CONTACT.phone.link}`} class="btn-secondary">
-          Llamar al {CONTACT.phone.display}
+        <a href={CONTACT.phone.whatsapp} target="_blank" rel="noopener noreferrer" class="btn-secondary">
+          Escribir por WhatsApp
         </a>
       </div>
     </aside>

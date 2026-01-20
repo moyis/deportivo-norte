@@ -3,11 +3,50 @@
  * Fetches latest videos from the club's YouTube channel
  */
 
-const CHANNEL_ID = 'UCkQX1tChV7lrewriPhf58rw'; // @DeportivoNorte channel ID
+// YouTube channel handle
+const CHANNEL_HANDLE = 'DeportivoNorte';
 
 export interface Video {
   id: string;
   title: string;
+}
+
+/**
+ * Fetches the channel ID from the YouTube channel handle
+ */
+async function getChannelIdFromHandle(handle: string): Promise<string | null> {
+  try {
+    // Try to fetch the channel page and extract the channel ID
+    const channelUrl = `https://www.youtube.com/@${handle}`;
+    const response = await fetch(channelUrl);
+
+    if (!response.ok) {
+      return null;
+    }
+
+    const html = await response.text();
+
+    // Look for the channel ID in the HTML
+    // It appears in various places, try multiple patterns
+    const patterns = [
+      /"channelId":"(UC[^"]+)"/,
+      /"externalId":"(UC[^"]+)"/,
+      /channel\/(UC[^"\/]+)/,
+    ];
+
+    for (const pattern of patterns) {
+      const match = html.match(pattern);
+      if (match) {
+        console.log('Found channel ID:', match[1]);
+        return match[1];
+      }
+    }
+
+    return null;
+  } catch (error) {
+    console.error('Error fetching channel ID:', error);
+    return null;
+  }
 }
 
 /**
@@ -16,8 +55,16 @@ export interface Video {
  */
 export async function fetchLatestVideos(): Promise<Video[]> {
   try {
+    // First, get the channel ID from the handle
+    const channelId = await getChannelIdFromHandle(CHANNEL_HANDLE);
+
+    if (!channelId) {
+      console.error('Could not resolve channel ID from handle:', CHANNEL_HANDLE);
+      return [];
+    }
+
     // Use YouTube RSS feed (no API key required)
-    const rssUrl = `https://www.youtube.com/feeds/videos.xml?channel_id=${CHANNEL_ID}`;
+    const rssUrl = `https://www.youtube.com/feeds/videos.xml?channel_id=${channelId}`;
     console.log('Fetching YouTube RSS from:', rssUrl);
 
     const response = await fetch(rssUrl);

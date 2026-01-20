@@ -20,7 +20,7 @@ export default defineConfig({
       }
     })
   ],
-  output: 'static',
+  output: 'hybrid',
   adapter: vercel({
     webAnalytics: { enabled: true }
   }),
@@ -31,7 +31,6 @@ export default defineConfig({
     // Responsive images config - stable since Astro 5.10
   },
   experimental: {
-    serverIslands: true,
     svgo: true,
     fonts: [
       {

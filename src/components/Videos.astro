@@ -3,25 +3,25 @@ import { YouTube } from 'astro-embed';
 import { CONTACT } from '../lib/contact';
 import { fetchLatestVideos } from '../lib/youtube';
 
-// This component is a Server Island - it renders on the server with caching
-// while the rest of the page remains static
+// Server Island: renders server-side with caching
+// Rest of the page remains static for optimal performance
 export const server = 'defer';
 
 // Fetch videos from YouTube RSS feed
-// This runs server-side and is cached by Vercel for 24 hours
+// Cached by Vercel for 24 hours
 const videos = await fetchLatestVideos();
 ---
 
-<section id="videos" class="section bg-gray-dark" aria-labelledby="videos-heading">
+<section id="videos" class="section bg-linear-to-br from-primary to-primary-dark" aria-labelledby="videos-heading">
   <div class="container">
     <header class="text-center mb-16">
-      <span class="inline-block text-primary font-heading font-bold text-sm uppercase tracking-widest mb-4">
+      <span class="inline-block text-black font-heading font-bold text-sm uppercase tracking-widest mb-4">
         Mirá nuestros videos
       </span>
-      <h2 id="videos-heading" class="text-4xl md:text-5xl font-heading font-bold text-white mb-6">
+      <h2 id="videos-heading" class="text-4xl md:text-5xl font-heading font-bold text-black mb-6">
         Últimos Videos
       </h2>
-      <p class="text-lg text-gray-300 max-w-2xl mx-auto">
+      <p class="text-lg text-black/80 max-w-2xl mx-auto">
         Seguí todas las novedades del Club Deportivo Norte. Partidos, entrenamientos y momentos únicos de nuestra familia norteña.
       </p>
     </header>

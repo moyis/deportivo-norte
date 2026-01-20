@@ -1,0 +1,59 @@
+---
+import { YouTube } from 'astro-embed';
+import { CONTACT } from '../lib/contact';
+
+// TODO: Replace these with actual YouTube video IDs from the channel
+// You can get the video ID from the YouTube URL: youtube.com/watch?v=VIDEO_ID
+const videos = [
+  {
+    id: 'VIDEO_ID_1', // Replace with actual YouTube video ID
+    title: 'Video destacado 1',
+  },
+  {
+    id: 'VIDEO_ID_2', // Replace with actual YouTube video ID
+    title: 'Video destacado 2',
+  },
+  {
+    id: 'VIDEO_ID_3', // Replace with actual YouTube video ID
+    title: 'Video destacado 3',
+  },
+];
+---
+
+<section id="videos" class="section bg-gray-dark" aria-labelledby="videos-heading">
+  <div class="container">
+    <header class="text-center mb-16">
+      <span class="inline-block text-primary font-heading font-bold text-sm uppercase tracking-widest mb-4">
+        Mirá nuestros videos
+      </span>
+      <h2 id="videos-heading" class="text-4xl md:text-5xl font-heading font-bold text-white mb-6">
+        Últimos Videos
+      </h2>
+      <p class="text-lg text-gray-300 max-w-2xl mx-auto">
+        Seguí todas las novedades del Club Deportivo Norte. Partidos, entrenamientos y momentos únicos de nuestra familia norteña.
+      </p>
+    </header>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
+      {videos.map((video) => (
+        <article class="bg-black border border-white/10 overflow-hidden hover:border-primary/50 transition-colors duration-300">
+          <YouTube id={video.id} />
+          <div class="p-6">
+            <h3 class="text-lg font-heading font-bold text-white">{video.title}</h3>
+          </div>
+        </article>
+      ))}
+    </div>
+
+    <div class="text-center mt-12">
+      <a
+        href={CONTACT.social.youtube}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="btn-primary"
+      >
+        Ver Todos los Videos
+      </a>
+    </div>
+  </div>
+</section>

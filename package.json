@@ -17,6 +17,7 @@
     "@astrojs/vercel": "9.0.4",
     "@tailwindcss/vite": "4.1.18",
     "astro": "5.16.11",
+    "astro-embed": "^0.12.0",
     "tailwindcss": "4.1.18"
   },
   "devDependencies": {

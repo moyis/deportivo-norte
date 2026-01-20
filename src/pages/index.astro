@@ -4,6 +4,7 @@ import Navbar from '../components/Navbar.astro';
 import Hero from '../components/Hero.astro';
 import Asociate from '../components/Asociate.astro';
 import Historia from '../components/Historia.astro';
+import Videos from '../components/Videos.astro';
 import FAQ from '../components/FAQ.astro';
 // import Sponsors from '../components/Sponsors.astro';
 import Footer from '../components/Footer.astro';
@@ -21,6 +22,7 @@ const seoDescription = "Club Deportivo Norte, institución de fútbol fundada en
     <Hero />
     <Asociate />
     <Historia />
+    <Videos server:defer />
     <FAQ />
     <!-- <Sponsors /> -->
   </main>

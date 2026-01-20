@@ -3,15 +3,10 @@ import { YouTube } from 'astro-embed';
 import { CONTACT } from '../lib/contact';
 import { fetchLatestVideos } from '../lib/youtube';
 
-// Server Island: renders server-side with caching
-// Rest of the page remains static for optimal performance
-export const server = 'defer';
-
 // Fetch videos from YouTube RSS feed
-// Cached by Vercel for 24 hours
 const videos = await fetchLatestVideos();
 ---
-
+{videos.length > 0 ? (
 <section id="videos" class="section bg-linear-to-br from-primary to-primary-dark" aria-labelledby="videos-heading">
   <div class="container">
     <header class="text-center mb-16">
@@ -26,10 +21,10 @@ const videos = await fetchLatestVideos();
       </p>
     </header>
 
-    {videos.length > 0 ? (
+    
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
         {videos.map((video) => (
-          <article class="bg-black border border-white/10 overflow-hidden hover:border-primary/50 transition-colors duration-300">
+          <article class="bg-black">
             <YouTube id={video.id} />
             <div class="p-6">
               <h3 class="text-lg font-heading font-bold text-white">{video.title}</h3>
@@ -37,13 +32,6 @@ const videos = await fetchLatestVideos();
           </article>
         ))}
       </div>
-    ) : (
-      <div class="text-center py-12">
-        <p class="text-gray-400 text-lg">
-          Visitá nuestro canal de YouTube para ver todos nuestros videos.
-        </p>
-      </div>
-    )}
 
     <div class="text-center mt-12">
       <a
@@ -57,3 +45,7 @@ const videos = await fetchLatestVideos();
     </div>
   </div>
 </section>
+) : (
+  <>
+  </>
+)}

@@ -1,6 +1,7 @@
 ---
 import logoSrc from '../assets/logo.svg';
 import HamburgerMenu from '../assets/hamburger-menu.svg';
+import { Image } from 'astro:assets';
 
 const navLinks = [
   { href: '/#asociate', label: 'Asociate' },
@@ -16,7 +17,7 @@ const navLinks = [
     <div class="flex items-center h-20">
       <!-- Logo -->
       <a href="/#" class="flex items-center gap-3 flex-1" aria-label="Club Deportivo Norte - Inicio">
-        <img src={logoSrc.src} alt="Escudo Club Deportivo Norte" class="h-12 w-auto" />
+        <Image src={logoSrc} alt="Escudo Club Deportivo Norte" class="h-12 w-auto" />
         <div>
           <span class="font-heading text-primary text-2xl font-bold uppercase block">Deportivo Norte</span>
           <span class="text-gray-400 text-sm">Desde 1937</span>

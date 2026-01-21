@@ -2,4 +2,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://deportivo-norte.vercel.app/sitemap-index.xml
+Sitemap: https://www.deportivonorte.com.ar/sitemap-index.xml

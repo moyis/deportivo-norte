@@ -2,7 +2,7 @@
 
 Sitio web oficial del Club Deportivo Norte, institución de fútbol fundada en 1937 en Mar del Plata, Argentina.
 
-🌐 **[Ver sitio en producción](https://deportivo-norte.vercel.app/)**
+🌐 **[Ver sitio en producción](https://www.deportivonorte.com.ar)**
 
 ## 📋 Descripción
 

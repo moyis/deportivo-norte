@@ -8,7 +8,7 @@ import tailwindcss from '@tailwindcss/vite';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://deportivo-norte.vercel.app',
+  site: 'https://www.deportivonorte.com.ar',
   integrations: [
     preact(),
     sitemap({

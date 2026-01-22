@@ -1,12 +1,16 @@
 ---
 import { Font } from 'astro:assets';
+import StructuredData from '../components/StructuredData.astro';
 
 interface Props {
   title: string;
   description: string;
+  includeFAQ?: boolean;
+  includeVideos?: boolean;
+  videos?: Array<{ id: string; title: string; publishedAt: string }>;
 }
 
-const { title, description } = Astro.props;
+const { title, description, includeFAQ = false, includeVideos = false, videos = [] } = Astro.props;
 ---
 
 <!doctype html>
@@ -42,6 +46,13 @@ const { title, description } = Astro.props;
     
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
+
+    <!-- Structured Data / Schema.org -->
+    <StructuredData
+      includeFAQ={includeFAQ}
+      includeVideos={includeVideos}
+      videos={videos}
+    />
   </head>
   <body>
     <a href="#main-content" class="skip-link">Saltar al contenido principal</a>

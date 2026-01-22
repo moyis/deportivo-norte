@@ -8,7 +8,6 @@ import WhatsApp from '../assets/whatsapp.svg';
 import GPS from '../assets/gps.svg';
 import { CONTACT } from '../lib/contact';
 import { Image } from 'astro:assets';
-import MapEmbed from './MapEmbed';
 
 const sections = [
   { label: 'Asociate', href: '#asociate' },
@@ -64,14 +63,6 @@ const socialLinks = [
             </span>
           </p>
         </address>
-
-        <!-- Google Maps Embed - Optimized with lazy loading -->
-        <MapEmbed
-          client:visible
-          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3143.234!2d-57.598454!3d-37.890280!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMzfCsDUzJzI1LjAiUyA1N8KwMzUnNTQuNCJX!5e0!3m2!1ses!2sar!4v1234567890"
-          title="Ubicación del Estadio Carlos H. Miori - RP2 km 393, Mar del Plata"
-          height="200"
-        />
       </div>
 
       <nav aria-label="Enlaces del pie de página">

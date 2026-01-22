@@ -223,15 +223,19 @@ test.describe("Preact component", () => {
 test.describe("Image loading", () => {
   test("hero background image loads", async ({ page }) => {
     await page.goto("/");
-    await page.waitForLoadState("networkidle");
+    await page.waitForLoadState("load");
 
-    // Check that the hero background div has background-image set
-    const heroBg = page.locator(
-      '[role="img"][aria-label="Hinchada de fútbol celebrando en un estadio"]'
+    // Check that the hero Picture component has loaded
+    const heroImg = page.locator(
+      'img[alt="Hinchada de fútbol celebrando en un estadio"]'
     );
-    const style = await heroBg.getAttribute("style");
-    expect(style).toContain("hinchada");
-    expect(style).toContain(".webp");
+    await expect(heroImg).toBeVisible();
+
+    // Verify image has loaded
+    const isLoaded = await heroImg.evaluate((img: HTMLImageElement) => {
+      return img.complete && img.naturalWidth > 0;
+    });
+    expect(isLoaded).toBe(true);
   });
 
   test("historia image loads completely", async ({ page }) => {
@@ -241,8 +245,11 @@ test.describe("Image loading", () => {
       '#historia img[alt="Dos camisetas del Club Deportivo Norte: pasado y presente"]'
     );
 
+    // Scroll to historia section to trigger lazy loading
+    await page.locator('#historia').scrollIntoViewIfNeeded();
+
     // Wait for image to be visible
-    await expect(historiaImg).toBeVisible();
+    await expect(historiaImg).toBeVisible({ timeout: 10000 });
 
     // Check image has loaded (naturalWidth > 0 means loaded)
     const isLoaded = await historiaImg.evaluate((img: HTMLImageElement) => {
@@ -283,7 +290,7 @@ test.describe("Image loading", () => {
 test.describe("Font loading", () => {
   test("custom fonts are applied", async ({ page }) => {
     await page.goto("/");
-    await page.waitForLoadState("networkidle");
+    await page.waitForLoadState("domcontentloaded");
 
     // Check heading font (Oswald) - applied via --font-heading CSS variable
     const heading = page.locator("h1").first();

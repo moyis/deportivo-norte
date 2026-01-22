@@ -37,13 +37,30 @@ const socialLinks = [
           </div>
         </a>
         <p class="text-gray-400 leading-relaxed mb-6 max-w-md">
-          El Club Deportivo Norte es una institución social y deportiva de Mar del Plata, 
-          Argentina.
+          El Club Deportivo Norte es una institución social y deportiva de fútbol fundada en 1937 en Mar del Plata,
+          Argentina. Bicampeón de la Liga Marplatense de Fútbol 1987-88.
         </p>
-        <address class="not-italic text-gray-400 space-y-2">
+        <address class="not-italic text-gray-400 space-y-3">
           <p class="flex items-start gap-3">
             <GPS class="w-5 h-5 text-primary shrink-0 mt-0.5" aria-hidden="true" />
-            <span>{CONTACT.location.name}<br />{CONTACT.location.address}</span>
+            <span>
+              <strong class="text-white">{CONTACT.location.name}</strong><br />
+              {CONTACT.location.address}<br />
+              <a href={CONTACT.location.mapsUrl} target="_blank" rel="noopener noreferrer" class="text-primary hover:underline text-sm">
+                Ver en Google Maps →
+              </a>
+            </span>
+          </p>
+          <p class="flex items-start gap-3">
+            <WhatsApp class="w-5 h-5 text-primary shrink-0 mt-0.5" aria-hidden="true" />
+            <span>
+              <a href={CONTACT.phone.whatsapp} class="text-gray-400 hover:text-primary transition-colors">
+                {CONTACT.phone.display}
+              </a><br />
+              <a href={CONTACT.phone.whatsapp} class="text-primary hover:underline text-sm">
+                Escribir por WhatsApp →
+              </a>
+            </span>
           </p>
         </address>
       </div>

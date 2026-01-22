@@ -1,0 +1,220 @@
+---
+import { CONTACT } from '../lib/contact.ts';
+
+interface Video {
+  id: string;
+  title: string;
+  publishedAt: string;
+}
+
+interface Props {
+  includeFAQ?: boolean;
+  includeVideos?: boolean;
+  videos?: Array<Video>;
+}
+
+const { includeFAQ = false, includeVideos = false, videos = [] } = Astro.props;
+
+// SportsTeam Schema
+const sportsTeamSchema = {
+  "@context": "https://schema.org",
+  "@type": "SportsTeam",
+  "@id": "https://www.deportivonorte.com.ar/#sportsteam",
+  "name": "Club Deportivo Norte",
+  "alternateName": "Deportivo Norte",
+  "url": "https://www.deportivonorte.com.ar",
+  "logo": "https://www.deportivonorte.com.ar/favicon.svg",
+  "image": "https://www.deportivonorte.com.ar/og.jpg",
+  "description": "Club Deportivo Norte, institución de fútbol fundada en 1937 en Mar del Plata, Argentina. Bicampeón de la Liga Marplatense 1987-88.",
+  "foundingDate": "1937-04-01",
+  "sport": "Fútbol",
+  "memberOf": {
+    "@type": "SportsOrganization",
+    "name": "Liga Marplatense de Fútbol"
+  },
+  "location": {
+    "@type": "Place",
+    "@id": "https://www.deportivonorte.com.ar/#stadium",
+    "name": CONTACT.location.name,
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "RP2 km 393",
+      "addressLocality": "Mar del Plata",
+      "addressRegion": "Buenos Aires",
+      "addressCountry": "AR"
+    },
+    "geo": {
+      "@type": "GeoCoordinates",
+      "latitude": "-38.0408",
+      "longitude": "-57.5485"
+    },
+    "hasMap": CONTACT.location.mapsUrl
+  },
+  "contactPoint": {
+    "@type": "ContactPoint",
+    "telephone": CONTACT.phone.link,
+    "contactType": "Administración",
+    "availableLanguage": "es"
+  },
+  "sameAs": [
+    CONTACT.social.instagram,
+    CONTACT.social.facebook,
+    CONTACT.social.youtube
+  ]
+};
+
+// Organization/LocalBusiness Schema
+const organizationSchema = {
+  "@context": "https://schema.org",
+  "@type": "SportsOrganization",
+  "@id": "https://www.deportivonorte.com.ar/#organization",
+  "name": "Club Deportivo Norte",
+  "alternateName": "Deportivo Norte",
+  "url": "https://www.deportivonorte.com.ar",
+  "logo": {
+    "@type": "ImageObject",
+    "url": "https://www.deportivonorte.com.ar/favicon.svg",
+    "contentUrl": "https://www.deportivonorte.com.ar/favicon.svg"
+  },
+  "image": "https://www.deportivonorte.com.ar/og.jpg",
+  "description": "Club Deportivo Norte es una institución social y deportiva de Mar del Plata, Argentina, fundada en 1937. Bicampeón de la Liga Marplatense 1987-88.",
+  "foundingDate": "1937-04-01",
+  "email": CONTACT.email,
+  "telephone": CONTACT.phone.link,
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "RP2 km 393",
+    "addressLocality": "Mar del Plata",
+    "addressRegion": "Buenos Aires",
+    "postalCode": "7600",
+    "addressCountry": "AR"
+  },
+  "geo": {
+    "@type": "GeoCoordinates",
+    "latitude": "-37.890280",
+    "longitude": "-57.598454"
+  },
+  "areaServed": {
+    "@type": "City",
+    "name": "Mar del Plata",
+    "containedIn": {
+      "@type": "State",
+      "name": "Buenos Aires"
+    }
+  },
+  "sameAs": [
+    CONTACT.social.instagram,
+    CONTACT.social.facebook,
+    CONTACT.social.youtube
+  ]
+};
+
+// FAQ Schema
+const faqSchema = includeFAQ ? {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "¿Cómo puedo asociarme al Club Deportivo Norte?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Podés asociarte completando el formulario de inscripción online o acercándote a nuestro predio. Ofrecemos diferentes categorías: socio/a activo/a, socio/a cadete, socio/a infantil y grupo familiar."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "¿Cuánto cuesta la cuota de socio?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Las cuotas varían según la categoría de socio. Contamos con valores por categoría de socio (menor, adulto, cuota familiar) pensados para que toda la familia pueda ser parte del club. Para conocer los valores actualizados, te recomendamos contactarnos directamente por Instagram (@depnorte) o al número de administración."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "¿Dónde juega de local el Deportivo Norte?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "El Club Deportivo Norte juega sus partidos de local en el Estadio Carlos H. Miori, ubicado en el predio de la zona norte sobre la ruta 2 de Mar del Plata. Es un estadio con capacidad para recibir a toda nuestra hinchada."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "¿Qué deportes se practican en el club?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Si bien el fútbol es nuestra actividad principal y la que nos dio identidad, históricamente hemos tenido diversas actividades como patín, bowling y diversos eventos comunitarios. Actualmente, el Club Deportivo Norte ofrece la práctica de fútbol para socios y socias de todas las edades."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "¿Puedo inscribir a mi hijo/a en las inferiores del club?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Sí, el Club Deportivo Norte cuenta con divisiones inferiores donde formamos a los y las jugadores/as del futuro. Aceptamos chicos y chicas de diferentes edades, no solo en nuestro predio deportivo sino también en sedes en la ciudad."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "¿Cómo puedo colaborar o ser sponsor del club?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Valoramos enormemente el apoyo de empresas y comercios de la comunidad. Si querés ser sponsor de Deportivo Norte o colaborar de alguna manera, escribinos por Instagram o por WhatsApp. Juntos hacemos crecer al club."
+      }
+    }
+  ]
+} : null;
+
+// VideoObject Schema for Videos
+const videoSchema = includeVideos && videos.length > 0 ? videos.map((video: Video) => ({
+  "@context": "https://schema.org",
+  "@type": "VideoObject",
+  "name": video.title,
+  "description": `Video del Club Deportivo Norte: ${video.title}`,
+  "thumbnailUrl": `https://i.ytimg.com/vi/${video.id}/maxresdefault.jpg`,
+  "uploadDate": video.publishedAt,
+  "contentUrl": `https://www.youtube.com/watch?v=${video.id}`,
+  "embedUrl": `https://www.youtube.com/embed/${video.id}`,
+  "publisher": {
+    "@type": "Organization",
+    "name": "Club Deportivo Norte",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://www.deportivonorte.com.ar/favicon.svg"
+    }
+  }
+})) : null;
+
+// WebSite Schema for search functionality
+const websiteSchema = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "@id": "https://www.deportivonorte.com.ar/#website",
+  "url": "https://www.deportivonorte.com.ar",
+  "name": "Club Deportivo Norte",
+  "description": "Sitio oficial del Club Deportivo Norte de Mar del Plata",
+  "publisher": {
+    "@id": "https://www.deportivonorte.com.ar/#organization"
+  },
+  "inLanguage": "es-AR"
+};
+---
+
+<!-- Sports Team Schema -->
+<script type="application/ld+json" is:inline set:html={JSON.stringify(sportsTeamSchema)} />
+
+<!-- Organization Schema -->
+<script type="application/ld+json" is:inline set:html={JSON.stringify(organizationSchema)} />
+
+<!-- Website Schema -->
+<script type="application/ld+json" is:inline set:html={JSON.stringify(websiteSchema)} />
+
+<!-- FAQ Schema (if included) -->
+{faqSchema && (
+  <script type="application/ld+json" is:inline set:html={JSON.stringify(faqSchema)} />
+)}
+
+<!-- Video Schemas (if included) -->
+{videoSchema && (videoSchema as any[]).map((schema: any) => (
+  <script type="application/ld+json" is:inline set:html={JSON.stringify(schema)} />
+))}

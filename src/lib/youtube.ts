@@ -9,6 +9,7 @@ const CHANNEL_ID = 'UCSutPa2h-pV-tEq8vblrk6A';
 export interface Video {
   id: string;
   title: string;
+  publishedAt: string;
 }
 
 /**
@@ -45,11 +46,13 @@ export async function fetchLatestVideos(): Promise<Video[]> {
 
       const videoIdMatch = entryContent.match(/<yt:videoId>(.*?)<\/yt:videoId>/);
       const titleMatch = entryContent.match(/<title>(.*?)<\/title>/);
+      const publishedMatch = entryContent.match(/<published>(.*?)<\/published>/);
 
       if (videoIdMatch && titleMatch) {
         videos.push({
           id: videoIdMatch[1],
-          title: titleMatch[1]
+          title: titleMatch[1],
+          publishedAt: publishedMatch ? publishedMatch[1] : new Date().toISOString()
         });
       }
     }

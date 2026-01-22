@@ -1,12 +1,16 @@
 ---
 import { Font } from 'astro:assets';
+import StructuredData from '../components/StructuredData.astro';
 
 interface Props {
   title: string;
   description: string;
+  includeFAQ?: boolean;
+  includeVideos?: boolean;
+  videos?: Array<{ id: string; title: string; publishedAt: string }>;
 }
 
-const { title, description } = Astro.props;
+const { title, description, includeFAQ = false, includeVideos = false, videos = [] } = Astro.props;
 ---
 
 <!doctype html>
@@ -15,7 +19,10 @@ const { title, description } = Astro.props;
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content={description} />
+    <meta name="keywords" content="Club Deportivo Norte, Deportivo Norte, fútbol Mar del Plata, club de fútbol argentino, Liga Marplatense, Estadio Carlos H. Miori, asociarse deportivo norte, fútbol argentino" />
+    <meta name="author" content="Club Deportivo Norte" />
     <meta name="robots" content="index, follow" />
+    <meta name="theme-color" content="#FFCC00" />
     
     <!-- Fonts with granular preload filtering (5.15) -->
     <Font cssVariable="--font-heading" preload={[{ weight: '700' }]} />
@@ -23,16 +30,26 @@ const { title, description } = Astro.props;
     
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
+    <meta property="og:url" content={Astro.url.href} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:locale" content="es_AR" />
     <meta property="og:image" content="https://www.deportivonorte.com.ar/og.jpg" />
-    
+    <meta property="og:site_name" content="Club Deportivo Norte" />
+
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@depnorte" />
+    <meta name="twitter:creator" content="@depnorte" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content="https://www.deportivonorte.com.ar/og.jpg" />
+
+    <!-- Geo Location Meta Tags -->
+    <meta name="geo.region" content="AR-B" />
+    <meta name="geo.placename" content="Mar del Plata" />
+    <meta name="geo.position" content="-37.890280;-57.598454" />
+    <meta name="ICBM" content="-37.890280, -57.598454" />
     
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
@@ -42,6 +59,13 @@ const { title, description } = Astro.props;
     
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
+
+    <!-- Structured Data / Schema.org -->
+    <StructuredData
+      includeFAQ={includeFAQ}
+      includeVideos={includeVideos}
+      videos={videos}
+    />
   </head>
   <body>
     <a href="#main-content" class="skip-link">Saltar al contenido principal</a>

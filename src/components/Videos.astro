@@ -22,10 +22,10 @@ Astro.response.headers.set(
         Mirá nuestros videos
       </span>
       <h2 id="videos-heading" class="text-4xl md:text-5xl font-heading font-bold text-black mb-6">
-        Últimos Videos
+        Últimos Videos de Deportivo Norte
       </h2>
       <p class="text-lg text-black/80 max-w-2xl mx-auto">
-        Seguí todas las novedades del Club Deportivo Norte. Partidos, entrenamientos y momentos únicos de nuestra familia norteña.
+        Seguí todas las novedades del Club Deportivo Norte de Mar del Plata. Partidos de fútbol, entrenamientos y momentos únicos de nuestra familia norteña.
       </p>
     </header>
 
@@ -34,9 +34,9 @@ Astro.response.headers.set(
         {videos.map((video) => (
           <article class="bg-black">
             <YouTube id={video.id} />
-            <div class="p-6">
+            <header class="p-6">
               <h3 class="text-lg font-heading font-bold text-white">{video.title}</h3>
-            </div>
+            </header>
           </article>
         ))}
       </div>
@@ -50,6 +50,10 @@ Astro.response.headers.set(
       >
         Ver Todos los Videos
       </a>
+      <p class="text-black/70 mt-6">
+        Conocé más sobre <a href="#historia" class="text-black underline hover:no-underline font-bold">nuestra historia</a> o
+        <a href="#asociate" class="text-black underline hover:no-underline font-bold">asociate al club</a>.
+      </p>
     </div>
   </div>
 </section>

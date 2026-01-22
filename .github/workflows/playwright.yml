@@ -48,7 +48,7 @@ jobs:
           version: playwright-${{ steps.playwright-version.outputs.version }}
 
       - name: Wait for Vercel deployment
-        uses: patrickedqvist/wait-for-vercel-preview@v1.3.2
+        uses: patrickedqvist/wait-for-vercel-preview@v1.3.3
         id: vercel-deployment
         with:
           token: ${{ secrets.GITHUB_TOKEN }}

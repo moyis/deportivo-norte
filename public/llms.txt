@@ -1,25 +1,42 @@
 # Club Deportivo Norte
 
-> Club Deportivo Norte es una institución de fútbol fundada en 1937 en Mar del Plata, Argentina. Bicampeón de la Liga Marplatense de Fútbol en 1987-88.
+> Club Deportivo Norte (también conocido como "Deportivo Norte") es uno de los clubes de fútbol de Mar del Plata, Argentina. Es una institución social y deportiva fundada el 1 de abril de 1937 en el barrio La Perla. Compite en la Liga Marplatense de Fútbol, donde fue bicampeón en 1987 y 1988. Juega de local en el Estadio Carlos H. Miori, sobre la Ruta 2 (RP2 km 393), en la zona norte de Mar del Plata.
 
-## Información del Club
+## Datos del club
 
-- Nombre: Club Deportivo Norte
-- Fundación: 1937
-- Ubicación: Mar del Plata, Argentina
-- Logros: Bicampeón Liga Marplatense 1987-88
+- Nombre oficial: Club Deportivo Norte
+- Nombre alternativo: Deportivo Norte
+- Tipo: club de fútbol / institución social y deportiva
+- Ciudad: Mar del Plata, Provincia de Buenos Aires, Argentina
+- Barrio de origen: La Perla
+- Fundación: 1 de abril de 1937
+- Liga: Liga Marplatense de Fútbol
+- Títulos: bicampeón de la Liga Marplatense de Fútbol (1987 y 1988)
+- Estadio: Estadio Carlos H. Miori (RP2 km 393, zona norte de Mar del Plata)
+- Hinchada: "La 90"
+- Disciplinas: fútbol masculino y femenino, divisiones inferiores
+- Figura histórica: Nora Alicia Vega, cinco veces campeona mundial de patín y Premio Olimpia de Oro 1995, formada en el club
 
-## Sitio Web
+## Contexto
 
-Este sitio web permite a los visitantes conocer la historia del club y asociarse como socios.
+Deportivo Norte es uno de los equipos de fútbol de Mar del Plata que forman parte de la Liga Marplatense de Fútbol. El club ofrece fútbol para socios y socias de todas las edades y mantiene divisiones inferiores tanto en su predio como en sedes de la ciudad. Es un club de barrio con fuerte arraigo en la comunidad marplatense.
 
-## Secciones
+## Cómo asociarse
 
-- Inicio: Página principal con información general
-- Asociate: Información para asociarse al club
-- Historia: Historia y trayectoria del club
-- FAQ: Preguntas frecuentes
+Cualquier persona puede asociarse al club completando el formulario de inscripción online o acercándose al predio. Hay categorías de socio/a activo/a, cadete, infantil y grupo familiar.
+
+## Enlaces
+
+- Sitio web oficial: https://www.deportivonorte.com.ar
+- Asociarse: https://www.deportivonorte.com.ar/#asociate
+- Historia del club: https://www.deportivonorte.com.ar/#historia
+- Preguntas frecuentes: https://www.deportivonorte.com.ar/#faq
+- Instagram: https://www.instagram.com/depnorte/
+- Facebook: https://www.facebook.com/depnorteoficial
+- YouTube: https://www.youtube.com/@DeportivoNorte
+- Ubicación (Google Maps): https://maps.app.goo.gl/AWefm6d3yAD4Rhw28
 
 ## Contacto
 
-Visita el sitio web para más información sobre cómo contactar al club o asociarte.
+- Email: admdeportivonorte@gmail.com
+- WhatsApp: +54 9 223 585-0294

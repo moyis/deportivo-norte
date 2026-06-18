@@ -27,6 +27,10 @@ const sportsTeamSchema = {
   "image": "https://www.deportivonorte.com.ar/og.jpg",
   "description": "Club Deportivo Norte, institución de fútbol fundada en 1937 en Mar del Plata, Argentina. Bicampeón de la Liga Marplatense 1987-88.",
   "foundingDate": "1937-04-01",
+  "foundingLocation": {
+    "@type": "Place",
+    "name": "La Perla, Mar del Plata, Buenos Aires, Argentina"
+  },
   "sport": "Fútbol",
   "memberOf": {
     "@type": "SportsOrganization",
@@ -41,12 +45,13 @@ const sportsTeamSchema = {
       "streetAddress": "RP2 km 393",
       "addressLocality": "Mar del Plata",
       "addressRegion": "Buenos Aires",
+      "postalCode": "7600",
       "addressCountry": "AR"
     },
     "geo": {
       "@type": "GeoCoordinates",
-      "latitude": "-38.0408",
-      "longitude": "-57.5485"
+      "latitude": "-37.890280",
+      "longitude": "-57.598454"
     },
     "hasMap": CONTACT.location.mapsUrl
   },
@@ -77,8 +82,14 @@ const organizationSchema = {
     "contentUrl": "https://www.deportivonorte.com.ar/favicon.svg"
   },
   "image": "https://www.deportivonorte.com.ar/og.jpg",
-  "description": "Club Deportivo Norte es una institución social y deportiva de Mar del Plata, Argentina, fundada en 1937. Bicampeón de la Liga Marplatense 1987-88.",
+  "description": "Club Deportivo Norte es uno de los clubes de fútbol de Mar del Plata, Argentina: una institución social y deportiva fundada en 1937, bicampeona de la Liga Marplatense de Fútbol en 1987-88.",
   "foundingDate": "1937-04-01",
+  "foundingLocation": {
+    "@type": "Place",
+    "name": "La Perla, Mar del Plata, Buenos Aires, Argentina"
+  },
+  "sport": "Fútbol",
+  "keywords": "club de fútbol de Mar del Plata, equipo de fútbol de Mar del Plata, Liga Marplatense de Fútbol, fútbol marplatense, Deportivo Norte",
   "email": CONTACT.email,
   "telephone": CONTACT.phone.link,
   "address": {

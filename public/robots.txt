@@ -2,4 +2,29 @@
 User-agent: *
 Allow: /
 
+# Rastreadores de IA — permitidos explícitamente para visibilidad en buscadores con IA
+User-agent: GPTBot
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Claude-Web
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
 Sitemap: https://www.deportivonorte.com.ar/sitemap-index.xml

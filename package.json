@@ -12,7 +12,7 @@
     "test:e2e:ui": "playwright test --ui"
   },
   "dependencies": {
-    "@astrojs/preact": "5.1.5",
+    "@astrojs/preact": "6.0.0",
     "@astrojs/sitemap": "3.7.3",
     "@astrojs/vercel": "10.0.8",
     "@tailwindcss/vite": "4.3.1",

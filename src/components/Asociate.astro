@@ -1,94 +1,84 @@
 ---
-import ClubAge from './ClubAge';
+import ClubAge from './ClubAge.astro';
 import { CONTACT } from '../lib/contact';
 
-// Benefits section hidden for now
-// const benefits = [
-//   {
-//     title: 'Entrada Libre',
-//     description: 'Acceso gratuito a todos los partidos de local del Club Deportivo Norte en el estadio Carlos H. Miori.',
-//   },
-//   {
-//     title: 'Uso de Instalaciones',
-//     description: 'Disfrutá de nuestras canchas, gimnasio y espacios deportivos como socio pleno del club.',
-//   },
-//   {
-//     title: 'Grupo Familiar',
-//     description: 'Cuotas especiales para grupos familiares. Traé a toda la familia a vivir la pasión del fútbol.',
-//   },
-//   {
-//     title: 'Eventos Exclusivos',
-//     description: 'Participá de eventos, asados, peñas y actividades sociales para la comunidad de Deportivo Norte.',
-//   },
-//   {
-//     title: 'Descuentos',
-//     description: 'Beneficios y descuentos exclusivos en merchandising oficial y comercios amigos del club.',
-//   },
-//   {
-//     title: 'Voz y Voto',
-//     description: 'Como socio tenés derecho a participar en las asambleas y decisiones importantes del club.',
-//   },
-// ];
+// Real socio categories, per the club's own FAQ copy. No invented prices or benefits.
+const categorias = [
+  { name: 'Activo', detail: 'Mayores, socio pleno' },
+  { name: 'Cadete', detail: 'Adolescentes y jóvenes' },
+  { name: 'Infantil', detail: 'Los más chicos de la casa' },
+  { name: 'Grupo familiar', detail: 'Toda la familia, cuota especial' },
+];
 ---
 
 <section id="asociate" class="section bg-linear-to-br from-primary to-primary-dark scroll-mt-20" aria-labelledby="asociate-heading">
   <div class="container">
-    <!-- CTA Principal -->
-    <div class="text-center mb-12">
-      <h2 id="asociate-heading" class="text-3xl md:text-4xl lg:text-5xl font-heading font-bold text-black mb-4">
-        Sumate a la familia norteña del fútbol marplatense
-      </h2>
-      <p class="text-lg md:text-xl text-black/80 max-w-2xl mx-auto mb-8">
-        Formá parte del Club Deportivo Norte, una comunidad con más de <ClubAge client:load /> años de historia, pasión por el fútbol y tradición en Mar del Plata.
-        ¡Te esperamos con los brazos abiertos en nuestro predio!
-      </p>
-      <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
-        <a
-          href={CONTACT.forms.membership}
-          target="_blank"
-          rel="noopener noreferrer"
-          class="btn-primary-dark text-lg px-8 py-4"
+    <div class="grid lg:grid-cols-12 gap-10 lg:gap-16 items-center">
+
+      <!-- La propuesta: columna izquierda, asimétrica, alineada a la izquierda -->
+      <div class="lg:col-span-7">
+        <h2
+          id="asociate-heading"
+          class="text-4xl md:text-5xl lg:text-6xl font-heading font-bold text-black leading-[0.95] mb-6 text-balance"
         >
-          ¡Asociate Ahora!
-        </a>
-        <a
-          href="#contacto"
-          class="btn-secondary-dark text-lg px-8 py-4"
-        >
-          Ver información de contacto
-        </a>
+          Sumate a la familia norteña del fútbol marplatense
+        </h2>
+        <p class="text-lg md:text-xl text-black/80 max-w-xl mb-8 leading-relaxed">
+          Más de <ClubAge /> años de pasión, historia y barrio. Hacerte socio es bancar al club cada domingo y ser parte de la hinchada. Te esperamos con los brazos abiertos en el predio.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-4">
+          <a
+            href={CONTACT.forms.membership}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="btn-primary-dark text-lg px-8 py-4"
+          >
+            ¡Asociate Ahora!
+          </a>
+          <a href="#contacto" class="btn-secondary-dark text-lg px-8 py-4">
+            Ver contacto
+          </a>
+        </div>
+        <p class="text-sm text-black/70 mt-6 max-w-xl leading-relaxed">
+          Completá el <a href={CONTACT.forms.membership} target="_blank" rel="noopener noreferrer" class="underline hover:no-underline font-bold">formulario online</a> o acercate a <a href={CONTACT.location.mapsUrl} target="_blank" rel="noopener noreferrer" class="underline hover:no-underline">nuestro predio</a>. ¿Tenés dudas? Mirá las <a href="#faq" class="underline hover:no-underline font-bold">preguntas frecuentes</a>.
+        </p>
       </div>
-          <!-- Nota final -->
-    <p class="text-center text-sm text-black/60 mt-10">
-      Completá el formulario online o acercate a <a href={CONTACT.location.mapsUrl} target="_blank" rel="noopener noreferrer" class="underline hover:no-underline">nuestro predio</a> para asociarte.
-      ¿Tenés dudas? Revisá nuestras <a href="#faq" class="underline hover:no-underline font-bold">preguntas frecuentes</a>.
-    </p>
-    </div>
 
-    <!-- Benefits section hidden for now
-    <div class="border-t border-black/20 my-12"></div>
-
-    <header class="text-center mb-10">
-      <span class="inline-block text-black font-heading font-bold text-sm uppercase tracking-widest mb-2">
-        Beneficios de ser socio
-      </span>
-      <p class="text-black/70 max-w-2xl mx-auto">
-        Ser socio de Deportivo Norte es mucho más que pagar una cuota. Disfrutá de todos estos beneficios:
-      </p>
-    </header>
-
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-      {benefits.map((benefit) => (
-        <article class="bg-black/10 backdrop-blur-sm p-6 border-l-4 border-black hover:bg-black/20 transition-colors duration-300">
-          <h3 class="text-lg font-heading font-bold text-black uppercase mb-2">
-            {benefit.title}
+      <!-- Lo práctico: columna derecha, panel negro que choca con el amarillo -->
+      <div class="lg:col-span-5">
+        <div class="bg-black p-8 md:p-10">
+          <h3 class="font-heading font-bold text-primary text-2xl mb-5">
+            Categorías de socio
           </h3>
-          <p class="text-black/70 text-sm leading-relaxed">
-            {benefit.description}
+          <ul class="divide-y divide-white/10 mb-9" role="list">
+            {categorias.map((c) => (
+              <li class="flex items-baseline justify-between gap-4 py-3">
+                <span class="font-heading font-bold text-white uppercase tracking-wide">{c.name}</span>
+                <span class="text-gray-400 text-sm text-right">{c.detail}</span>
+              </li>
+            ))}
+          </ul>
+
+          <h3 class="font-heading font-bold text-primary text-2xl mb-5">
+            Cómo asociarte
+          </h3>
+          <ol class="space-y-4 text-gray-300 leading-relaxed" role="list">
+            <li class="flex gap-4">
+              <span class="font-heading font-bold text-primary text-xl shrink-0" aria-hidden="true">1</span>
+              <span>Elegí tu categoría y completá el formulario de inscripción online.</span>
+            </li>
+            <li class="flex gap-4">
+              <span class="font-heading font-bold text-primary text-xl shrink-0" aria-hidden="true">2</span>
+              <span>O acercate al predio Nora Vega y asociate ahí mismo, en persona.</span>
+            </li>
+          </ol>
+
+          <p class="mt-8 pt-6 border-t border-white/10 text-sm text-gray-400">
+            ¿Cuánto sale la cuota? <a href={CONTACT.phone.whatsapp} target="_blank" rel="noopener noreferrer" class="text-primary font-bold underline hover:no-underline">Consultá los valores por WhatsApp</a>.
           </p>
-        </article>
-      ))}
+        </div>
+      </div>
+
     </div>
-    -->
   </div>
 </section>

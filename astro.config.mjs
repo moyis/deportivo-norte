@@ -1,16 +1,38 @@
 // @ts-check
 import { defineConfig, fontProviders, svgoOptimizer } from 'astro/config';
 import vercel from '@astrojs/vercel';
-import preact from '@astrojs/preact';
 import sitemap from '@astrojs/sitemap';
 
 import tailwindcss from '@tailwindcss/vite';
+import { readdirSync, readFileSync, writeFileSync } from 'node:fs';
+import { join } from 'node:path';
+import { fileURLToPath } from 'node:url';
+
+function allowInlineStyleAttr() {
+  const META = 'http-equiv="content-security-policy" content="';
+  return {
+    name: 'csp-style-attr',
+    hooks: {
+      'astro:build:done': ({ dir }) => {
+        const root = fileURLToPath(dir);
+        for (const entry of readdirSync(root, { recursive: true })) {
+          const name = entry.toString();
+          if (!name.endsWith('.html')) continue;
+          const path = join(root, name);
+          const html = readFileSync(path, 'utf8');
+          if (!html.includes(META) || html.includes('style-src-attr')) continue;
+          writeFileSync(path, html.replace(META, `${META}style-src-attr 'unsafe-inline';`));
+        }
+      },
+    },
+  };
+}
 
 // https://astro.build/config
 export default defineConfig({
   site: 'https://www.deportivonorte.com.ar',
   integrations: [
-    preact(),
+    allowInlineStyleAttr(),
     sitemap({
       // Remove unused XML namespaces to reduce sitemap size (5.14)
       namespaces: {
@@ -25,8 +47,6 @@ export default defineConfig({
     webAnalytics: { enabled: true }
   }),
   security: {
-    // CSP stable since Astro 6.0. Emitted as a per-page <meta> tag for static output.
-    // Astro auto-manages script-src/style-src with generated hashes; the rest below.
     csp: {
       directives: [
         "default-src 'self'",
@@ -42,10 +62,6 @@ export default defineConfig({
   vite: {
     plugins: [tailwindcss()]
   },
-  image: {
-    // Responsive images config - stable since Astro 5.10
-  },
-  // Fonts stable since Astro 6.0 (moved out of experimental)
   fonts: [
     {
       provider: fontProviders.google(),
@@ -65,7 +81,6 @@ export default defineConfig({
     }
   ],
   experimental: {
-    // svgo flag renamed to svgOptimizer in Astro 6.0
     svgOptimizer: svgoOptimizer()
   }
 });

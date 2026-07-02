@@ -2,22 +2,19 @@
 import { Picture } from 'astro:assets';
 import crowdImg from '../assets/hinchada.webp';
 import ArrowDown from '../assets/arrow-down.svg';
-import InfinityIcon from '../assets/infinity.svg';
-import ClubAge from './ClubAge';
+import ClubAge from './ClubAge.astro';
 import { CONTACT } from '../lib/contact';
 ---
 
-<!-- Preload crítico de la imagen hero -->
-<link rel="preload" as="image" href={crowdImg.src} fetchpriority="high" />
-
 <section class="relative min-h-screen flex items-center justify-center pt-20" aria-labelledby="hero-heading">
   <!-- Imagen de fondo optimizada con Picture -->
-  <div class="absolute inset-0 z-0 bg-[#2a2a1a]">
+  <div class="hero-media absolute inset-0 z-0">
     <Picture
       src={crowdImg}
       alt="Hinchada de fútbol celebrando en un estadio"
       formats={['avif', 'webp']}
-      widths={[640, 768, 1024, 1280, 1536, 1920]}
+      fallbackFormat="webp"
+      widths={[640, 768, 1024, 1280, 1440]}
       sizes="100vw"
       loading="eager"
       fetchpriority="high"
@@ -26,8 +23,8 @@ import { CONTACT } from '../lib/contact';
         class: "absolute inset-0"
       }}
     />
-    <!-- Overlay oscuro para legibilidad -->
-    <div class="absolute inset-0 bg-black/75 z-10"></div>
+    <!-- Degradado: deja ver a la hinchada arriba, ~80% en toda la zona de texto -->
+    <div class="hero-overlay absolute inset-0 z-10"></div>
   </div>
 
   <!-- Contenido del Hero -->
@@ -44,10 +41,9 @@ import { CONTACT } from '../lib/contact';
       </h1>
 
       <!-- Subtítulo descriptivo para SEO -->
-      <p class="text-xl md:text-2xl text-gray-200 mb-8 max-w-3xl mx-auto leading-relaxed">
-        Somos más que un club de fútbol de <strong class="text-primary">Mar del Plata</strong>.
-        Somos pasión, historia y comunidad en el corazón de la ciudad.
-        Sumate a la familia del <strong class="text-primary">Deportivo Norte</strong> y viví la emoción de ser parte de nuestra hinchada.
+      <p class="text-xl md:text-2xl text-gray-200 mb-8 max-w-3xl mx-auto leading-relaxed text-pretty">
+        Club de fútbol del barrio La Perla, <strong class="text-primary">Mar del Plata</strong>, desde 1937.
+        Bicampeón de la Liga Marplatense y casa de <strong class="text-primary">"La 90"</strong>, nuestra hinchada.
       </p>
 
       <!-- Call to Actions -->
@@ -60,23 +56,15 @@ import { CONTACT } from '../lib/contact';
         </a>
       </div>
 
-      <!-- Stats rápidas -->
-      <div class="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8 mt-16 pt-8 border-t border-white/20 max-w-3xl mx-auto">
+      <!-- Stats: solo lo verificable, con peso -->
+      <div class="grid grid-cols-2 gap-8 mt-16 pt-8 border-t border-white/20 max-w-md mx-auto">
         <div class="text-center">
-          <p class="text-4xl md:text-5xl font-heading font-bold text-primary"><ClubAge client:load suffix="+" /></p>
-          <p class="text-sm md:text-base text-gray-300 uppercase tracking-wide mt-1">Años de Historia</p>
+          <p class="text-5xl md:text-6xl font-heading font-bold text-primary"><ClubAge suffix="+" /></p>
+          <p class="text-sm md:text-base text-gray-300 uppercase tracking-wide mt-1">Años de historia</p>
         </div>
         <div class="text-center">
-          <p class="text-4xl md:text-5xl font-heading font-bold text-primary">2</p>
-          <p class="text-sm md:text-base text-gray-300 uppercase tracking-wide mt-1">Títulos</p>
-        </div>
-        <div class="text-center">
-          <p class="text-4xl md:text-5xl font-heading font-bold text-primary">1</p>
-          <p class="text-sm md:text-base text-gray-300 uppercase tracking-wide mt-1">Campeona Olimpia</p>
-        </div>
-        <div class="text-center">
-          <p class="text-4xl md:text-5xl font-heading font-bold text-primary leading-none"><InfinityIcon class="w-10 h-10 md:w-12 md:h-12 inline-block" aria-hidden="true" /></p>
-          <p class="text-sm md:text-base text-gray-300 uppercase tracking-wide mt-1">Pasión</p>
+          <p class="text-5xl md:text-6xl font-heading font-bold text-primary">2</p>
+          <p class="text-sm md:text-base text-gray-300 uppercase tracking-wide mt-1">Títulos de Liga</p>
         </div>
       </div>
     </div>
@@ -85,9 +73,43 @@ import { CONTACT } from '../lib/contact';
   <!-- Indicador de scroll -->
   <a
     href="#asociate"
-    class="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce cursor-pointer hover:scale-110 transition-transform text-primary z-20"
+    class="scroll-cue absolute bottom-8 left-1/2 cursor-pointer text-primary z-20"
     aria-label="Scroll hacia la siguiente sección"
   >
   <ArrowDown class="w-8 h-8" aria-hidden="true" />
   </a>
 </section>
+
+<style>
+  /* Placeholder cálido detrás de la imagen del hero mientras carga */
+  .hero-media {
+    background-color: #2a2a1a;
+  }
+
+  /* Degradado: deja ver a la hinchada arriba, ~80% en la zona de texto */
+  .hero-overlay {
+    background: linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0.5) 0%,
+      rgba(0, 0, 0, 0.8) 32%,
+      rgba(0, 0, 0, 0.86) 100%
+    );
+  }
+
+  /* Indicador de scroll: flotación suave (ease-in-out, sin rebote) */
+  .scroll-cue {
+    transform: translateX(-50%);
+    animation: scroll-cue 2.4s ease-in-out infinite;
+  }
+
+  @keyframes scroll-cue {
+    0%, 100% { transform: translate(-50%, 0); }
+    50% { transform: translate(-50%, 0.4rem); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .scroll-cue {
+      animation: none;
+    }
+  }
+</style>

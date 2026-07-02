@@ -19,7 +19,6 @@ Landing page moderna y responsive para el Club Deportivo Norte. El sitio incluye
 
 - [Astro](https://astro.build/) v5 - Framework web
 - [Tailwind CSS](https://tailwindcss.com/) v4 - Estilos
-- [Preact](https://preactjs.com/) - Componentes interactivos
 - [Vercel](https://vercel.com/) - Hosting y deploy
 
 ## 🚀 Desarrollo Local
@@ -56,8 +55,8 @@ bun install
 │   └── favicon.svg
 ├── src/
 │   ├── assets/          # Imágenes y SVGs
-│   ├── components/      # Componentes Astro y Preact
-│   │   ├── ClubAge.tsx  # Calculador de años del club
+│   ├── components/      # Componentes Astro
+│   │   ├── ClubAge.astro # Calculador de años del club
 │   │   ├── FAQ.astro
 │   │   ├── Footer.astro
 │   │   ├── Hero.astro

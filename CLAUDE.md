@@ -14,7 +14,7 @@ bun test:e2e:ui  # Run tests with Playwright UI
 
 ## Architecture
 
-**Stack**: Astro 5 + Tailwind CSS 4 + Preact + Vercel
+**Stack**: Astro 5 + Tailwind CSS 4 + Vercel
 
 This is a single-page landing site for Club Deportivo Norte (football club). The homepage (`src/pages/index.astro`) composes section components in order: Navbar → Hero → Asociate → Historia → FAQ → Footer.
 
@@ -26,7 +26,7 @@ This is a single-page landing site for Club Deportivo Norte (football club). The
 
 **Images**: Import from `src/assets/` and use `.src` property (e.g., `import img from '../assets/image.webp'` then `src={img.src}`).
 
-**Interactive components**: Preact (`.tsx`) for client-side reactivity (e.g., `ClubAge.tsx`). Use `client:load` directive when including in Astro files.
+**Interactive components**: Client-side behavior uses vanilla `<script>` tags inside `.astro` components (e.g. Navbar mobile menu, Historia quote carousel, FAQ accordion). No UI framework. `ClubAge.astro` computes the club's age at build time.
 
 **Navigation**: Navbar uses absolute paths (`/#section`) to work from any page. Logo links to `/#` to scroll to top on homepage or navigate home from other pages.
 

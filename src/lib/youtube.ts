@@ -20,9 +20,9 @@ export async function fetchLatestVideos(): Promise<Video[]> {
   try {
     // Use YouTube RSS feed (no API key required)
     const rssUrl = `https://www.youtube.com/feeds/videos.xml?channel_id=${CHANNEL_ID}`;
-    console.log('Fetching YouTube RSS from:', rssUrl);
 
-    const response = await fetch(rssUrl);
+    // Aborta si el feed tarda más de 5s para no demorar el render diferido
+    const response = await fetch(rssUrl, { signal: AbortSignal.timeout(5000) });
 
     if (!response.ok) {
       console.error('YouTube RSS fetch failed with status:', response.status);
@@ -30,14 +30,11 @@ export async function fetchLatestVideos(): Promise<Video[]> {
     }
 
     const xmlText = await response.text();
-    console.log('YouTube RSS XML length:', xmlText.length);
 
     // Parse XML to extract video entries
     // Each entry looks like: <entry>...<yt:videoId>ID</yt:videoId>...<title>Title</title>...</entry>
     const entryMatches = xmlText.matchAll(/<entry>(.*?)<\/entry>/gs);
     const entries = Array.from(entryMatches);
-
-    console.log('Found entries:', entries.length);
 
     const videos: Video[] = [];
 
@@ -57,7 +54,6 @@ export async function fetchLatestVideos(): Promise<Video[]> {
       }
     }
 
-    console.log('Extracted videos:', videos.length);
     return videos;
   } catch (error) {
     console.error('Error fetching YouTube videos:', error);

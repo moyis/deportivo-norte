@@ -4,20 +4,13 @@
   --color-primary: #FFCC00;
   --color-primary-dark: #E6B800;
   --color-gray-dark: #1A1A1A;
-  --color-gray-medium: #4D4D4D;
-  --color-gray-light: #F5F5F5;
-  --color-gray-border: #E5E5E5;
-  --color-gray-muted: #999999;
 }
 
-/* Variables CSS */
+/* Variables propias para las clases de botón (no generadas por @theme) */
 :root {
-  --color-primary: #FFCC00;
   --color-primary-hover: #D4AA00;
   --color-secondary: #000000;
   --color-white: #FFFFFF;
-  --color-gray-dark: #1A1A1A;
-  --color-gray-medium: #4D4D4D;
 }
 
 /* Reset y estilos base */
@@ -220,19 +213,24 @@ h1, h2, h3, h4, h5, h6 {
   background: var(--color-primary);
   color: var(--color-secondary);
   font-weight: 600;
-  z-index: 9999;
+  z-index: 100;
   text-decoration: none;
 }
 
-/* Animación de acordeón FAQ */
+/* Animación de acordeón FAQ - grid-rows evita el clip de altura fija */
 .faq-content {
-  max-height: 0;
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.3s ease-out;
+}
+
+.faq-content > * {
   overflow: hidden;
-  transition: max-height 0.3s ease-out;
+  min-height: 0;
 }
 
 .faq-content.open {
-  max-height: 500px;
+  grid-template-rows: 1fr;
 }
 
 /* Menú móvil */
@@ -243,4 +241,20 @@ h1, h2, h3, h4, h5, h6 {
 
 .mobile-menu.open {
   transform: translateX(0);
+}
+
+/* Respeta la preferencia de movimiento reducido del sistema */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }

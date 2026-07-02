@@ -1,0 +1,18 @@
+---
+interface Props {
+  suffix?: string;
+  prefix?: string;
+}
+
+const { suffix = '', prefix = '' } = Astro.props;
+
+const FOUNDATION_YEAR = 1937;
+const today = new Date();
+let years = today.getFullYear() - FOUNDATION_YEAR;
+
+// Antes del 1 de abril (mes 0-indexado = 3) no se cumplió el aniversario de este año
+if (today < new Date(today.getFullYear(), 3, 1)) {
+  years--;
+}
+---
+{prefix}{years}{suffix}

@@ -12,12 +12,13 @@ const seoDescription = "La página que buscas no existe. Volvé al inicio de Clu
 <Layout title={seoTitle} description={seoDescription}>
   <Navbar />
   <main class="min-h-screen flex items-center justify-center px-6 py-12 pt-20 relative overflow-hidden">
-    <div class="absolute inset-0 z-0 bg-[#1a1a1a]">
+    <div class="absolute inset-0 z-0 bg-gray-dark">
       <Picture
         src={notFoundImg}
         alt="Imagen de error 404"
         formats={['avif', 'webp']}
-        widths={[640, 768, 1024, 1280, 1536, 1920]}
+        fallbackFormat="webp"
+        widths={[640, 1024, 1440]}
         sizes="100vw"
         loading="eager"
         fetchpriority="high"

@@ -6,7 +6,6 @@ import Asociate from '../components/Asociate.astro';
 import Historia from '../components/Historia.astro';
 import Videos from '../components/Videos.astro';
 import FAQ from '../components/FAQ.astro';
-// import Sponsors from '../components/Sponsors.astro';
 import Footer from '../components/Footer.astro';
 import { fetchLatestVideos } from '../lib/youtube';
 
@@ -34,7 +33,6 @@ const videos = await fetchLatestVideos();
     <Historia />
     <Videos server:defer />
     <FAQ />
-    <!-- <Sponsors /> -->
   </main>
   
   <Footer />

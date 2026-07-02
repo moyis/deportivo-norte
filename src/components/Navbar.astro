@@ -8,7 +8,6 @@ const navLinks = [
   { href: '/#historia', label: 'El Club' },
   { href: '/#faq', label: 'Preguntas Frecuentes' },
   { href: '/#contacto', label: 'Contactanos' },
-  // { href: '/#sponsors', label: 'Sponsors' },
 ];
 ---
 
@@ -93,23 +92,35 @@ const navLinks = [
 <script>
   const menuButton = document.getElementById('mobile-menu-button');
   const mobileMenu = document.getElementById('mobile-menu');
-  
+  // El resto de la página queda inerte mientras el menú está abierto (no tabulable)
+  const inertTargets = ['main-content', 'contacto'].map((id) => document.getElementById(id));
+
+  function setMenu(open: boolean) {
+    mobileMenu?.classList.toggle('open', open);
+    menuButton?.setAttribute('aria-expanded', String(open));
+    mobileMenu?.setAttribute('aria-hidden', String(!open));
+    document.body.style.overflow = open ? 'hidden' : '';
+    inertTargets.forEach((el) => el?.toggleAttribute('inert', open));
+  }
+
   menuButton?.addEventListener('click', () => {
-    const isOpen = mobileMenu?.classList.toggle('open');
-    menuButton.setAttribute('aria-expanded', String(isOpen));
-    mobileMenu?.setAttribute('aria-hidden', String(!isOpen));
-    
-    // Prevenir scroll cuando el menú está abierto
-    document.body.style.overflow = isOpen ? 'hidden' : '';
+    const open = !mobileMenu?.classList.contains('open');
+    setMenu(open);
+    if (open) {
+      (mobileMenu?.querySelector('a') as HTMLElement | null)?.focus();
+    }
   });
 
   // Cerrar menú al hacer clic en un enlace
-  mobileMenu?.querySelectorAll('a').forEach(link => {
-    link.addEventListener('click', () => {
-      mobileMenu.classList.remove('open');
-      menuButton?.setAttribute('aria-expanded', 'false');
-      mobileMenu.setAttribute('aria-hidden', 'true');
-      document.body.style.overflow = '';
-    });
+  mobileMenu?.querySelectorAll('a').forEach((link) => {
+    link.addEventListener('click', () => setMenu(false));
+  });
+
+  // Escape cierra el menú y devuelve el foco al botón
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && mobileMenu?.classList.contains('open')) {
+      setMenu(false);
+      menuButton?.focus();
+    }
   });
 </script>

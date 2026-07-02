@@ -13,7 +13,6 @@ const sections = [
   { label: 'Asociate', href: '#asociate' },
   { label: 'Historia del Club', href: '#historia' },
   { label: 'Preguntas Frecuentes', href: '#faq' },
-  // { label: 'Sponsors', href: '#sponsors' },
 ];
 
 const socialLinks = [
@@ -26,7 +25,7 @@ const socialLinks = [
 ---
 
 <footer id="contacto" class="bg-black border-t border-white/10 py-16" role="contentinfo">
-  <div class="container py-16">
+  <div class="container">
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
       <div class="lg:col-span-2">
         <a href="#" class="flex items-center gap-3 mb-6" aria-label="Volver al inicio">
@@ -83,7 +82,7 @@ const socialLinks = [
         <ul class="space-y-3" role="list">
           {socialLinks.map((social) => (
             <li>
-              <a href={social.href} target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-text-primary transition-colors inline-flex items-center gap-2">
+              <a href={social.href} target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-primary transition-colors inline-flex items-center gap-2">
                 {social.icon === 'instagram' && <Instagram class="w-5 h-5" aria-hidden="true" />}
                 {social.icon === 'facebook' && <Facebook class="w-5 h-5" aria-hidden="true" />}
                 {social.icon === 'youtube' && <YouTube class="w-5 h-5" aria-hidden="true" />}

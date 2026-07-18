@@ -54,8 +54,10 @@ test.describe("404 Page", () => {
     page.on("console", (msg) => {
       if (msg.type() === "error") {
         const text = msg.text();
-        // Filter out expected 404 network error
-        if (!text.includes("status of 404")) {
+        // Ignore expected 404 network error and Vercel's preview-only
+        // toolbar (vercel.live), which is CSP-blocked on preview deploys
+        // but never loads in production.
+        if (!text.includes("status of 404") && !text.includes("vercel.live")) {
           errors.push(text);
         }
       }

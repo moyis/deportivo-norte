@@ -58,7 +58,12 @@ test.describe("Sanity checks", () => {
     const errors: string[] = [];
     page.on("console", (msg) => {
       if (msg.type() === "error") {
-        errors.push(msg.text());
+        const text = msg.text();
+        // Ignore Vercel's preview-only toolbar (vercel.live), which is
+        // CSP-blocked on preview deploys but never loads in production.
+        if (!text.includes("vercel.live")) {
+          errors.push(text);
+        }
       }
     });
 

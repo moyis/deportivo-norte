@@ -59,7 +59,7 @@ jobs:
         env:
           PLAYWRIGHT_TEST_BASE_URL: ${{ steps.vercel-deployment.outputs.url }}
 
-      - uses: actions/upload-artifact@v6
+      - uses: actions/upload-artifact@v7
         if: ${{ !cancelled() }}
         with:
           name: playwright-report

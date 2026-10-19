@@ -1,0 +1,69 @@
+---
+/**
+ * Página de subida de fotos históricas
+ * El link compartido (`/subir?k=<token>`) es la única credencial: la página
+ * decide el estado con `getUploadState` y solo en 'open' muestra el formulario.
+ * Server-rendered por pedido (`prerender = false`), sin script propio todavía:
+ * Task 6 agrega la subida en el cliente sobre este contrato de marcado.
+ */
+
+import Layout from '../layouts/Layout.astro';
+import '../styles/global.css';
+import {
+  ACCEPTED_TYPES,
+  REASON_MESSAGE,
+  STATUS_TEXT,
+  getUploadState,
+} from '../lib/upload-config';
+
+export const prerender = false;
+
+// El token y el plazo son secretos de runtime en Vercel, no del build.
+// La página se renderiza por pedido: acá no hay superficie de timing que cuidar.
+const state = getUploadState({
+  provided: Astro.url.searchParams.get('k'),
+  token: process.env.UPLOAD_TOKEN,
+  until: process.env.UPLOAD_UNTIL,
+});
+
+// La lista de tipos aceptados sale de `ACCEPTED_TYPES`, nunca escrita a mano.
+const accept = Object.keys(ACCEPTED_TYPES).join(',');
+---
+
+<Layout
+  title="Subir fotos históricas | Club Deportivo Norte"
+  description="Compartí tus fotos históricas del Club Deportivo Norte."
+  robots="noindex, nofollow"
+>
+  <main id="main-content" class="min-h-screen bg-black px-4 py-12 sm:px-6 sm:py-16">
+    <div class="mx-auto w-full max-w-xl">
+      <h1 class="font-heading text-3xl text-[#FFCC00] sm:text-4xl">Subir fotos históricas</h1>
+
+      {state === 'open' && (
+        <div>
+          <form class="mt-8" data-endpoint="/api/upload-url">
+            <label class="block cursor-pointer border-2 border-dashed border-[#FFCC00] px-6 py-12 text-center text-white">
+              <span class="font-heading text-lg text-[#FFCC00]">{STATUS_TEXT.dropzone}</span>
+              <input
+                name="fotos"
+                type="file"
+                accept={accept}
+                multiple
+                class="sr-only"
+              />
+            </label>
+            <p class="mt-2 text-sm text-white/70">{STATUS_TEXT.hint}</p>
+          </form>
+
+          <div class="mt-6" role="status" aria-live="polite"></div>
+        </div>
+      )}
+
+      {state !== 'open' && (
+        <p class="mt-4 text-white">
+          {state === 'closed' ? REASON_MESSAGE.closed : REASON_MESSAGE.invalid}
+        </p>
+      )}
+    </div>
+  </main>
+</Layout>

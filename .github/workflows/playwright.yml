@@ -61,6 +61,8 @@ jobs:
         run: bunx playwright test
         env:
           PLAYWRIGHT_TEST_BASE_URL: ${{ steps.vercel-deployment.outputs.url }}
+          UPLOAD_TOKEN: ${{ secrets.UPLOAD_TOKEN }}
+          UPLOAD_UNTIL: ${{ secrets.UPLOAD_UNTIL }}
 
       - uses: actions/upload-artifact@v7
         if: ${{ !cancelled() }}

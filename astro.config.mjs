@@ -28,12 +28,26 @@ function allowInlineStyleAttr() {
   };
 }
 
+// El id de cuenta de Cloudflare R2 todavía es un marcador: lo reemplaza el
+// operador (Task 8) por su id real. No es un secreto — el id de cuenta y el
+// nombre del bucket aparecen en cada URL presignada. Se deja en un solo lugar
+// para que el reemplazo sea una única edición.
+export const R2_ACCOUNT_ID = 'REPLACE_WITH_ACCOUNT_ID';
+
+// Origen del bucket privado. Tiene que coincidir carácter a carácter con el
+// origen de la URL que firma `presignPutObject`, o la CSP bloquearía cada
+// subida real aunque todos los tests mockeados pasen.
+export const R2_HOST = `https://deportivo-norte-photos.${R2_ACCOUNT_ID}.r2.cloudflarestorage.com`;
+
 // https://astro.build/config
 export default defineConfig({
   site: 'https://www.deportivonorte.com.ar',
   integrations: [
     allowInlineStyleAttr(),
     sitemap({
+      // El link de subida es privado: nunca debe entrar al sitemap ni a los
+      // índices de búsqueda (el `robots` de la página lo cubre del otro lado).
+      filter: (page) => !page.includes('/subir'),
       // Remove unused XML namespaces to reduce sitemap size (5.14)
       namespaces: {
         news: false,
@@ -52,10 +66,10 @@ export default defineConfig({
         "default-src 'self'",
         "base-uri 'self'",
         "object-src 'none'",
-        "img-src 'self' data: https://i.ytimg.com",
+        "img-src 'self' data: https://i.ytimg.com blob:",
         "frame-src https://www.youtube-nocookie.com https://www.youtube.com",
         "font-src 'self'",
-        "connect-src 'self'",
+        `connect-src 'self' ${R2_HOST}`,
       ],
     },
   },

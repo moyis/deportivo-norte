@@ -130,9 +130,11 @@ id de cuenta aparece en esa misma pantalla.
 **Settings → Environment Variables**, cargar las siete tanto para Preview como
 para Production. La página de subida se renderiza en el servidor en cada visita
 (no es un archivo estático), y las dos rutas de API también son funciones: las
-tres leen estas variables en el momento del pedido. Después de cargar o cambiar
-una variable en Vercel, hay que **volver a desplegar** (`Redeploy`) para que el
-despliegue la tome.
+tres leen estas variables en el momento del pedido. Pero eso no significa que un
+cambio de variable se aplique solo: Vercel toma los valores **al desplegar** y no
+actualiza un despliegue que ya está corriendo. Después de cargar o cambiar
+cualquier variable hay que **volver a desplegar** (`Redeploy`); hasta entonces el
+sitio sigue usando los valores viejos.
 
 **4. Reemplazar el marcador en `astro.config.mjs`.** El archivo tiene, arriba de
 todo:
@@ -218,15 +220,17 @@ mano. La página no está linkeada desde ningún lado del sitio y está marcada 
 - **El link es la única credencial.** Quien lo tenga puede subir fotos hasta que
   se cierre la ventana. No hay usuario ni contraseña, y nada pregunta quién es.
 - **Rotar el token mata el link al instante.** Si el link se filtró más de lo
-  previsto, se cambia `UPLOAD_TOKEN` en Vercel: el link viejo deja de ser válido
-  y la página pasa a decir "Ese link no es válido" en la siguiente visita. La
-  próxima campaña arranca con su propio token, así el anterior queda muerto.
-- **Cambiar `UPLOAD_UNTIL` cambia la ventana sin editar ni escribir código.**
-  Se cambia la variable en Vercel y se hace `Redeploy` (una variable nueva o
-  cambiada solo llega al despliegue siguiente). No hay ningún valor de la ventana
-  grabado en el sitio compilado: la página y las dos rutas leen la variable en el
-  servidor en cada pedido, así que el cambio se aplica solo con volver a
-  desplegar, sin commit ni modificación de archivos.
+  previsto, se cambia `UPLOAD_TOKEN` en Vercel y se hace `Redeploy`; a partir de
+  ese despliegue el link viejo deja de ser válido y la página pasa a decir "Ese
+  link no es válido". La próxima campaña arranca con su propio token, así el
+  anterior queda muerto.
+- **Cambiar `UPLOAD_UNTIL` cambia la ventana sin editar ni escribir código, pero
+  no es un cambio en caliente.** Se cambia la variable en Vercel y se hace
+  `Redeploy`: son **el valor nuevo más un despliegue**, no una edición que un
+  despliegue ya en marcha tome por su cuenta (Vercel fija los valores al
+  desplegar). No hay ningún valor de la ventana grabado en el sitio: la página y
+  las dos rutas leen la variable en el servidor en cada pedido, así que el cambio
+  se aplica con ese despliegue y sin tocar código ni hacer un commit.
 - **Límites que acotan el daño.** La firma para subir dura 10 minutos; el
   `Content-Type` queda pegado en la firma; una foto de más de 25 MB que igual
   llegue se borra al confirmarse; y el bucket tiene un techo total de 8 GiB y
@@ -274,13 +278,23 @@ pruebas automáticas interceptan la ruta de firma, el `PUT` a R2 y el origen, as
 que un firmador equivocado, un `R2_HOST` mal armado o un CORS mal puesto **pasan
 en verde igual**. Sin este recorrido, el primer error lo encontraría un socio.
 
-- [ ] Reemplazar `REPLACE_WITH_ACCOUNT_ID` en `astro.config.mjs` por el id real y desplegar a producción.
+Primero, el prerrequisito de todo lo demás: **reemplazar
+`REPLACE_WITH_ACCOUNT_ID` en `astro.config.mjs` por el id real de la cuenta y
+desplegar a producción.** Sin eso, el `R2_HOST` que queda escrito en la CSP no
+coincide con el bucket real. Y ojo: `R2_ACCOUNT_ID` se usa en dos lugares que no
+se mueven juntos — el marcador del código (que fija la CSP) y la variable de
+Vercel (que usa la firma); si algún día se re-edita el id en el código, hay que
+volver a desplegar y repetir este recorrido, porque el `connect-src` cambia con
+el despliegue.
+
+El recorrido, entonces:
+
 - [ ] Abrir el link real en un celular, elegir una foto de la galería y confirmar que llega.
 - [ ] Confirmar que el objeto existe en el bucket, bajo el prefijo `R2_PREFIX`.
 - [ ] Abrir la consola del navegador: sin violaciones de CSP.
 - [ ] Mandar la misma foto dos veces y confirmar que quedan dos objetos.
 - [ ] Elegir un archivo de más de 25 MB y confirmar que se rechaza y que **no** está en el bucket.
-- [ ] Poner `UPLOAD_UNTIL` en ayer en un despliegue de preview y confirmar que el link explica que la ventana cerró.
+- [ ] Poner `UPLOAD_UNTIL` en ayer y confirmar que el link explica que la ventana cerró (en un despliegue de preview, con `UPLOAD_UNTIL` cargada también en el alcance *Preview* de Vercel; o en producción, revirtiendo el valor después).
 - [ ] Abrir el link sin el `k` y confirmar que aparece el mensaje de link inválido.
 
 ## 🎨 Colores del Club

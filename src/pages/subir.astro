@@ -3,14 +3,18 @@
  * Página de subida de fotos históricas
  * El link compartido (`/subir?k=<token>`) es la única credencial: la página
  * decide el estado con `getUploadState` y solo en 'open' muestra el formulario.
- * Server-rendered por pedido (`prerender = false`), sin script propio todavía:
- * Task 6 agrega la subida en el cliente sobre este contrato de marcado.
+ * Server-rendered por pedido (`prerender = false`). El script del final sube
+ * las fotos: el navegador las manda directo a R2, porque el cuerpo de una
+ * función de Vercel no puede pasar de 4.5 MB y la foto nunca puede cruzar
+ * nuestra ruta. El formulario le presta la configuración por data attributes
+ * (endpoint y tope de bytes) para que ningún valor quede escrito dos veces.
  */
 
 import Layout from '../layouts/Layout.astro';
 import '../styles/global.css';
 import {
   ACCEPTED_TYPES,
+  MAX_FILE_BYTES,
   REASON_MESSAGE,
   STATUS_TEXT,
   getUploadState,
@@ -41,7 +45,7 @@ const accept = Object.keys(ACCEPTED_TYPES).join(',');
 
       {state === 'open' && (
         <div>
-          <form class="mt-8" data-endpoint="/api/upload-url">
+          <form class="mt-8" data-endpoint="/api/upload-url" data-max-bytes={MAX_FILE_BYTES}>
             <label class="block cursor-pointer border-2 border-dashed border-[#FFCC00] px-6 py-12 text-center text-white">
               <span class="font-heading text-lg text-[#FFCC00]">{STATUS_TEXT.dropzone}</span>
               <input
@@ -67,3 +71,266 @@ const accept = Object.keys(ACCEPTED_TYPES).join(',');
     </div>
   </main>
 </Layout>
+
+<script>
+  // Subida de fotos históricas, en el navegador.
+  //
+  // Por cada archivo, en orden (secuencial: en un teléfono con mala conexión,
+  // subir varias a la vez se pelearían el ancho de banda y el progreso no
+  // significaría nada): firmar → PUT directo a R2 → confirmar. La única señal
+  // de que una foto LLEGÓ es la confirmación (`{ ok: true }`): que el PUT
+  // devuelva 200 no alcanza, porque el byte puede haber sido rechazado por
+  // tamaño o puede faltar. Nada se reintenta solo; una fila fallada conserva
+  // un camino manual.
+
+  import { REASON_MESSAGE, STATUS_TEXT, type FailureReason } from '../lib/upload-config';
+
+  const form = document.querySelector<HTMLFormElement>('form[data-endpoint]');
+  const region = document.querySelector<HTMLElement>('[aria-live="polite"]');
+  const input = form?.querySelector<HTMLInputElement>('input[type="file"]');
+
+  if (form && region && input) {
+    const endpoint = form.dataset.endpoint ?? '';
+    const maxBytes = Number(form.dataset.maxBytes ?? '');
+    // Tipos aceptados: el `accept` del input es la única fuente, no se repite.
+    const aceptados = (input.getAttribute('accept') ?? '').split(',');
+
+    // Une cada fila con su archivo: los reintentos rehacen la secuencia con el
+    // mismo `File` (nunca se deduplica ni se pierde por el camino).
+    const archivoDe = new WeakMap<HTMLLIElement, File>();
+
+    // Una fila por archivo. `data-estado` es el resultado: 'subiendo' mientras
+    // trabaja, 'ok' solo con la confirmación, 'error' con el motivo visible.
+    const fila = (archivo: File): HTMLLIElement => {
+      const li = document.createElement('li');
+      li.dataset.fila = '';
+      li.dataset.estado = 'subiendo';
+      li.className =
+        'flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1 border border-white/15 px-4 py-3';
+
+      const nombre = document.createElement('span');
+      nombre.dataset.nombre = '';
+      // `textContent`: el nombre es texto de un tercero. Construir HTML con él
+      // dejaría que un archivo llamado `<img onerror=…>` rompa o ejecute.
+      nombre.textContent = archivo.name;
+      // `break-all`: un nombre de 300 caracteres no puede desbordar la fila.
+      nombre.className = 'min-w-0 flex-1 break-all text-sm text-white';
+
+      const marca = document.createElement('span');
+      marca.dataset.marca = '';
+      marca.setAttribute('aria-hidden', 'true');
+      marca.className = 'shrink-0 font-heading';
+      marca.textContent = '…';
+
+      li.append(nombre, marca);
+      archivoDe.set(li, archivo);
+      region.append(li);
+      return li;
+    };
+
+    // Motivo del fallo, dentro de la fila y como texto plano.
+    const motivo = (li: HTMLLIElement, texto: string) => {
+      li.dataset.estado = 'error';
+      li.querySelector('[data-marca]')!.textContent = '✕';
+
+      let p = li.querySelector<HTMLParagraphElement>('[data-motivo]');
+      if (!p) {
+        p = document.createElement('p');
+        p.dataset.motivo = '';
+        p.className = 'w-full text-sm text-[#FFCC00]';
+        li.append(p);
+      }
+      p.textContent = texto;
+
+      // Camino manual por fila: reintenta esta foto (firma nueva incluida).
+      if (!li.querySelector('[data-reintentar]')) {
+        const boton = document.createElement('button');
+        boton.type = 'button';
+        boton.dataset.reintentar = '';
+        boton.textContent = STATUS_TEXT.retryFailed;
+        boton.className = 'shrink-0 text-sm text-white underline hover:no-underline';
+        boton.addEventListener('click', () => {
+          const archivo = archivoDe.get(li);
+          if (archivo) void reintentar([{ archivo, li }]);
+        });
+        li.append(boton);
+      }
+    };
+
+    const llegada = (li: HTMLLIElement) => {
+      li.dataset.estado = 'ok';
+      li.querySelector('[data-marca]')!.textContent = '✓';
+      li.querySelector('[data-motivo]')?.remove();
+      li.querySelector('[data-reintentar]')?.remove();
+    };
+
+    // PUT a R2 con XMLHttpRequest: es la única API que reporta el avance de la
+    // subida. No hay barra: solo se espera a que termine.
+    const subirBytes = (url: string, contentType: string, archivo: File) =>
+      new Promise<void>((resolve, reject) => {
+        const xhr = new XMLHttpRequest();
+        xhr.open('PUT', url);
+        xhr.setRequestHeader('Content-Type', contentType);
+        xhr.onload = () =>
+          xhr.status >= 200 && xhr.status < 300 ? resolve() : reject(new Error(String(xhr.status)));
+        xhr.onerror = () => reject(new Error('network'));
+        xhr.onabort = () => reject(new Error('network'));
+        xhr.send(archivo);
+      });
+
+    // Secuencia completa de una foto. Escribe el resultado en su fila.
+    const subir = async (archivo: File, li: HTMLLIElement) => {
+      // Antes de molestar al servidor: tipo y tamaño ya se conocen acá. El
+      // servidor sigue siendo la autoridad —esto solo evita un viaje inútil—,
+      // así que ante la duda se deja pasar y decide el firmado.
+      const tipo = archivo.type;
+      // Un tipo vacío es un "no sé" del sistema operativo (pasa con HEIC en
+      // iOS): no se puede leer como rechazo, se delega al servidor.
+      const rechazoPorTipo = tipo !== '' && !aceptados.includes(tipo);
+      // Si la página no expone el tope, no se inventa uno: decide el servidor.
+      const rechazoPorTamano = Number.isFinite(maxBytes) && maxBytes > 0 && archivo.size > maxBytes;
+
+      if (rechazoPorTipo || rechazoPorTamano) {
+        const motivoRechazo: FailureReason = rechazoPorTipo ? 'type' : 'too-large';
+        return motivo(li, REASON_MESSAGE[motivoRechazo]);
+      }
+
+      try {
+        const firma = await fetch(endpoint, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            k: token(),
+            name: archivo.name,
+            type: tipo || 'application/octet-stream',
+            size: archivo.size,
+          }),
+        });
+
+        // Un rechazo del firmado se muestra en SU fila y salta esa foto: nunca
+        // es fatal para el resto del lote.
+        if (!firma.ok) {
+          const cuerpo = await firma.json().catch(() => null);
+          return motivo(li, mensaje(cuerpo?.reason));
+        }
+
+        const { url, key, contentType, receipt } = await firma.json();
+
+        try {
+          await subirBytes(url, contentType, archivo);
+        } catch {
+          // Se cortó el PUT: los bytes nunca llegaron a R2.
+          return motivo(li, REASON_MESSAGE.network);
+        }
+
+        const cierre = await fetch('/api/upload-complete', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ key, receipt }),
+        });
+
+        const veredicto = cierre.ok ? await cierre.json().catch(() => null) : null;
+
+        // Solo la confirmación positiva marca la fila como llegada.
+        if (veredicto?.ok === true) return llegada(li);
+        return motivo(li, mensaje(veredicto?.reason));
+      } catch {
+        // Cualquier fallo inesperado tampoco puede leerse como llegada.
+        return motivo(li, REASON_MESSAGE.network);
+      }
+    };
+
+    // El token es la credencial: viaja en la URL con la que el miembro abrió la
+    // página, nunca se guarda ni se escribe en el documento.
+    const token = () => new URLSearchParams(location.search).get('k') ?? '';
+
+    // Texto por motivo, siempre desde `upload-config`: nunca una copia literal.
+    const mensaje = (reason: unknown): string =>
+      typeof reason === 'string' && reason in REASON_MESSAGE
+        ? REASON_MESSAGE[reason as FailureReason]
+        : REASON_MESSAGE.network;
+
+    // El resumen solo se recalcula cuando la tanda terminó (y al reintentar).
+    const resumen = () => {
+      const filas = Array.from(region.querySelectorAll<HTMLLIElement>('[data-fila]'));
+      const total = filas.length;
+      const ok = filas.filter((f) => f.dataset.estado === 'ok').length;
+      const fallaron = total - ok;
+
+      region.querySelector('[data-resumen]')?.remove();
+
+      const texto = document.createElement('p');
+      texto.dataset.resumen = '';
+      texto.className = 'mt-4 text-sm text-white';
+
+      if (fallaron === 0) {
+        texto.textContent =
+          ok === 1 ? STATUS_TEXT.thanksOne : STATUS_TEXT.thanksMany.replace('{n}', String(ok));
+      } else {
+        // El detalle de cada motivo ya vive en su fila; acá va el balance.
+        texto.textContent = STATUS_TEXT.partial
+          .replace('{ok}', String(ok))
+          .replace('{total}', String(total));
+      }
+
+      // "Subir más fotos": el camino manual general. Si quedaron filas falladas,
+      // las reintenta en orden (cada una con su firma nueva); si no, queda como
+      // el recordatorio de que se puede elegir de nuevo en el mismo formulario.
+      const mas = document.createElement('button');
+      mas.type = 'button';
+      mas.dataset.mas = '';
+      mas.textContent = STATUS_TEXT.more;
+      mas.className =
+        'mt-2 block w-full border border-[#FFCC00] px-4 py-3 font-heading text-[#FFCC00] hover:bg-[#FFCC00]/10 focus:outline-none focus:ring-2 focus:ring-[#FFCC00]';
+      mas.addEventListener('click', () => {
+        const falladas = Array.from(
+          region.querySelectorAll<HTMLLIElement>('[data-fila][data-estado="error"]'),
+        ).map((li) => ({ archivo: archivoDe.get(li)!, li }));
+        void correr(falladas);
+      });
+
+      region.append(texto, mas);
+    };
+
+    // Prepara una fila fallada para un nuevo intento: saca el motivo y el botón
+    // propio, y la deja en 'subiendo' (nunca se muestra como llegada mientras
+    // no haya confirmación).
+    const preparar = (li: HTMLLIElement) => {
+      li.querySelector('[data-motivo]')?.remove();
+      li.querySelector('[data-reintentar]')?.remove();
+      li.querySelector('[data-marca]')!.textContent = '…';
+      li.dataset.estado = 'subiendo';
+    };
+
+    // Una sola tanda a la vez, siempre en orden. La usan la selección inicial y
+    // los reintentos: así un reintento nunca se solapa con otra subida.
+    let corriendo = false;
+    const correr = async (entradas: Array<{ archivo: File; li: HTMLLIElement }>) => {
+      if (corriendo) return;
+      corriendo = true;
+      for (const { archivo, li } of entradas) await subir(archivo, li);
+      corriendo = false;
+      resumen();
+    };
+
+    // La firma de un reintento: prepara la fila y rehace la secuencia completa
+    // (firma nueva incluida: la URL vieja puede haber vencido).
+    const reintentar = async (entradas: Array<{ archivo: File; li: HTMLLIElement }>) => {
+      entradas.forEach(({ li }) => preparar(li));
+      await correr(entradas);
+    };
+
+    input.addEventListener('change', () => {
+      if (!input.files?.length) return;
+      // Una tanda nueva reemplaza las filas viejas (salvo que haya una en curso,
+      // en cuyo caso se ignora: el miembro puede volver a elegir).
+      if (corriendo) return;
+      region.replaceChildren();
+      const nuevas = Array.from(input.files).map((archivo) => ({ archivo, li: fila(archivo) }));
+      // La selección se limpia: el mismo archivo elegido dos veces es, para el
+      // miembro, subirlo dos veces (nunca se deduplica por nombre).
+      input.value = '';
+      void correr(nuevas);
+    });
+  }
+</script>

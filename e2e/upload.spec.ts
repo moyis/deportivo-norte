@@ -90,6 +90,14 @@ type Opciones = {
   firma?: Record<string, string>;
   /** Rechazo del firmado: código HTTP y motivo (`FailureReason`). */
   firmaRechazo?: { status: number; reason: string };
+  /**
+   * Rechazo del firmado por nombre de archivo: devuelve el rechazo solo para el
+   * archivo que coincide, y `null` para el resto. Sirve para una tanda mixta
+   * (una foto que llega, otra rechazada) en la misma selección.
+   */
+  firmaRechazoDe?: (nombre: string) => { status: number; reason: string } | null;
+  /** Devuelve un cuerpo que no es JSON válido: fuerza el `catch` externo. */
+  firmaJsonRoto?: boolean;
   /** Respuesta de /api/upload-complete; por defecto `{ ok: true }`. */
   completar?: { status: number; body: unknown };
   /** Corta los primeros N PUT a R2; el resto sigue normal. */
@@ -109,14 +117,28 @@ async function abrir(page: Page, opciones: Opciones = {}): Promise<Espia> {
 
   await page.route('**/api/upload-url', (route) => {
     espia.firmas += 1;
-    if (opciones.firmaRechazo) {
-      const { status, reason } = opciones.firmaRechazo;
+
+    if (opciones.firmaJsonRoto) {
+      // 200 con Content-Type JSON pero cuerpo ilegible: el destructure tira.
+      return route.fulfill({ status: 200, contentType: 'application/json', body: '<html>boom' });
+    }
+
+    const cuerpo = route.request().postDataJSON() as { name?: string } | null;
+    const nombre = cuerpo?.name ?? '';
+    const rechazo = opciones.firmaRechazo ?? opciones.firmaRechazoDe?.(nombre) ?? null;
+
+    if (rechazo) {
+      const { status, reason } = rechazo;
       return route.fulfill({
         status,
         contentType: 'application/json',
-        body: JSON.stringify({ error: REASON_MESSAGE[reason as keyof typeof REASON_MESSAGE], reason }),
+        body: JSON.stringify({
+          error: REASON_MESSAGE[reason as keyof typeof REASON_MESSAGE],
+          reason,
+        }),
       });
     }
+
     return route.fulfill({
       status: 200,
       contentType: 'application/json',
@@ -153,6 +175,11 @@ const fila = (page: Page, i: number) => filas(page).nth(i);
 // Cadena de "gracias" con la cantidad ya resuelta, derivada de las constantes.
 const gracias = (n: number) =>
   n === 1 ? STATUS_TEXT.thanksOne : STATUS_TEXT.thanksMany.replace('{n}', String(n));
+
+// Cadena del resumen mixto, resuelta igual que en el cliente: no se escribe a
+// mano la oración, se parten los mismos marcadores de `STATUS_TEXT.partial`.
+const parcial = (ok: number, total: number) =>
+  STATUS_TEXT.partial.replace('{ok}', String(ok)).replace('{total}', String(total));
 
 async function elegir(page: Page, ...fotos: Array<typeof FOTO>) {
   await page.locator('input[type="file"][name="fotos"]').setInputFiles(fotos);
@@ -302,5 +329,79 @@ test.describe('Subida de fotos (cliente)', () => {
     // No se gastó una firma ni un PUT en algo que el servidor iba a rechazar.
     expect(espia.firmas).toBe(0);
     expect(espia.puts).toBe(0);
+  });
+
+  test('una confirmación negativa no se lee como llegada', async ({ page }) => {
+    // El PUT sí llegó a R2, pero la confirmación negó la foto (peso o faltante).
+    // Es el caso que el brief subraya: la fila NO puede decir "llegó".
+    const espia = await abrir(page, {
+      completar: { status: 200, body: { ok: false, reason: 'too-large' } },
+    });
+
+    await page.locator('input[type="file"][name="fotos"]').setInputFiles([FOTO]);
+
+    await expect(fila(page, 0)).toHaveAttribute('data-estado', 'error');
+    await expect(fila(page, 0).locator('[data-motivo]')).toHaveText(REASON_MESSAGE['too-large']);
+    // La confirmación sí se pidió; lo que se niega es la llegada.
+    expect(espia.puts).toBe(1);
+    expect(espia.completados).toBe(1);
+    // Ni una frase de gracias en la región viva.
+    await expect(region(page)).not.toContainText(STATUS_TEXT.thanksOne);
+    await expect(region(page)).not.toContainText(STATUS_TEXT.thanksMany.replace('{n}', '1'));
+  });
+
+  test('otra confirmación negativa (missing) tampoco llega', async ({ page }) => {
+    const espia = await abrir(page, {
+      completar: { status: 200, body: { ok: false, reason: 'missing' } },
+    });
+
+    await page.locator('input[type="file"][name="fotos"]').setInputFiles([FOTO]);
+
+    await expect(fila(page, 0)).toHaveAttribute('data-estado', 'error');
+    await expect(fila(page, 0).locator('[data-motivo]')).toHaveText(REASON_MESSAGE['missing']);
+    expect(espia.completados).toBe(1);
+    await expect(region(page)).not.toContainText(STATUS_TEXT.thanksOne);
+  });
+
+  test('una tanda mixta resume cuántas llegaron', async ({ page }) => {
+    // Una foto llega, la otra la rechaza el firmado: el resumen debe contar las
+    // dos, no celebrar la tanda entera.
+    const buena = { ...FOTO, name: 'buena.jpg' };
+    const mala = { ...FOTO, name: 'mala.jpg' };
+
+    await abrir(page, {
+      firmaRechazoDe: (nombre) => (nombre === mala.name ? { status: 403, reason: 'closed' } : null),
+    });
+    await page.locator('input[type="file"][name="fotos"]').setInputFiles([buena, mala]);
+
+    await expect(filas(page)).toHaveCount(2);
+    await expect(fila(page, 0)).toHaveAttribute('data-estado', 'ok');
+    await expect(fila(page, 1)).toHaveAttribute('data-estado', 'error');
+
+    const texto = parcial(1, 2);
+    await expect(region(page)).toContainText(texto);
+    // Y no es una de las frases de tanda completa, ni la de la foto sola.
+    await expect(region(page)).not.toContainText(STATUS_TEXT.thanksOne);
+    await expect(region(page)).not.toContainText(STATUS_TEXT.thanksMany.replace('{n}', '1'));
+    await expect(region(page)).not.toContainText(STATUS_TEXT.thanksMany.replace('{n}', '2'));
+  });
+
+  test('un firmado ilegible se reporta como fallo de red, no como llegada', async ({ page }) => {
+    // Un JSON roto en la firma hace saltar el `catch` externo: la fila no puede
+    // quedar en "llegó", y el bug debe quedar registrado en consola.
+    const errores: string[] = [];
+    page.on('console', (msg) => {
+      if (msg.type() === 'error') errores.push(msg.text());
+    });
+
+    const espia = await abrir(page, { firmaJsonRoto: true });
+    await page.locator('input[type="file"][name="fotos"]').setInputFiles([FOTO]);
+
+    await expect(fila(page, 0)).toHaveAttribute('data-estado', 'error');
+    await expect(fila(page, 0).locator('[data-motivo]')).toHaveText(REASON_MESSAGE.network);
+    await expect(region(page)).not.toContainText(STATUS_TEXT.thanksOne);
+    // El error de programación no queda invisible.
+    expect(espia.puts).toBe(0);
+    expect(errores.length).toBeGreaterThan(0);
   });
 });

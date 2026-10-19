@@ -234,8 +234,11 @@ const accept = Object.keys(ACCEPTED_TYPES).join(',');
         // Solo la confirmación positiva marca la fila como llegada.
         if (veredicto?.ok === true) return llegada(li);
         return motivo(li, mensaje(veredicto?.reason));
-      } catch {
-        // Cualquier fallo inesperado tampoco puede leerse como llegada.
+      } catch (error) {
+        // Cualquier fallo inesperado tampoco puede leerse como llegada. El
+        // miembro ve un mensaje de conexión, pero un bug real del cliente queda
+        // registrado: sin esto, un error de programación sería invisible.
+        console.error('subir: fallo inesperado al subir la foto', error);
         return motivo(li, REASON_MESSAGE.network);
       }
     };

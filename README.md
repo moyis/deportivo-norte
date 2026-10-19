@@ -150,7 +150,12 @@ origen queda escrito en la política de seguridad de contenido (`connect-src`) q
 viaja en cada página. Si el marcador queda sin reemplazar, el `connect-src` no
 coincide con el bucket real y **cada subida falla en un navegador de verdad**
 —aunque todas las pruebas automáticas pasen, porque las pruebas viven en otro
-host—. Es un cambio de una línea y se hace una sola vez.
+host—. Es un cambio de una línea y se hace una sola vez. Como red, el build de
+**producción** ahora aborta solo si detecta el marcador sin reemplazar (un guard
+en `astro.config.mjs` que dispara con `VERCEL_ENV=production`); ojo, un deploy de
+**preview** no lo dispara, así que en un preview el marcador sigue pasando: el
+recorrido de la compuerta de abajo es lo único que lo prueba de verdad antes de
+compartir.
 
 **5. Configurar CORS en el bucket.** El navegador sube la foto directo a R2, y R2
 vive en otro origen (`r2.cloudflarestorage.com`), así que el navegador primero
@@ -215,6 +220,16 @@ https://www.deportivonorte.com.ar/subir?k=<UPLOAD_TOKEN>
 mano. La página no está linkeada desde ningún lado del sitio y está marcada con
 `noindex, nofollow`, así que solo se llega por el link compartido.
 
+**7. Poner una política de ciclo de vida en el bucket.** Es la red de fondo del
+tope de 25 MB (ver *Límites que acotan el daño*, más abajo). El tope se aplica
+cuando el cliente confirma la subida; un cliente hostil puede subir un objeto
+grande y no confirmar nunca, y ese objeto queda. En el panel de Cloudflare, en el
+bucket, **Settings → Object lifecycle rules → Add rule**, crear una regla que
+borre los objetos del prefijo `R2_PREFIX` pasado un plazo (por ejemplo, 30 días
+después de crearlos), que es más que suficiente para una campaña de 14 días. Es
+una acción de configuración, no de código: el bucket es la única capa que puede
+acotar objetos que nunca pasaron por el servidor.
+
 ### Seguridad
 
 - **El link es la única credencial.** Quien lo tenga puede subir fotos hasta que
@@ -236,6 +251,17 @@ mano. La página no está linkeada desde ningún lado del sitio y está marcada 
   llegue se borra al confirmarse; y el bucket tiene un techo total de 8 GiB y
   5000 objetos, que se mide leyendo el bucket antes de firmar. Pasado el techo,
   el sistema deja de recibir y avisa.
+- **El tope de 25 MB se aplica cuando el cliente confirma, y eso tiene un borde.**
+  R2 no puede limitar el tamaño del cuerpo al firmar, y los bytes van del
+  navegador a R2 sin pasar por el servidor, así que el borrado de una foto
+  grande ocurre en `/api/upload-complete`, que dispara el cliente. Un cliente
+  hostil con el link puede firmar, subir un objeto enorme y **nunca confirmar**:
+  ese objeto queda en el bucket y ninguna comprobación lo ve. Por eso el techo
+  de 8 GiB se mide antes de firmar y no reserva: unas pocas subidas así pueden
+  llenar el bucket para los demás. La defensa correcta de este borde no es código
+  de aplicación sino el propio bucket: una **política de ciclo de vida /
+  retención en Cloudflare** (ver *Prerrequisitos*, paso 7) que borre objetos
+  viejos o sin confirmar. Es la red de fondo, no un reemplazo del tope.
 - **Todo falla cerrado.** Si falta configuración, si el token no coincide, si el
   plazo es ilegible o si R2 responde un error, la respuesta es un rechazo, nunca
   un falso "llegó".
@@ -271,6 +297,15 @@ ahí ocupa lugar de verdad. Si preferís no ensuciar el bucket, usá un prefijo
 `dev/` y borrá esa carpeta después.
 
 ### Checklist antes de compartir el link
+
+> **Compuerta: nada se comparte hasta que este recorrido pase.** Es la
+> **condición para mandar el link a un solo socio**, no un repaso de cortesía. Lo
+> cubren a mano: el **marcador del id de cuenta**, la **política de CORS del
+> bucket** y el **`connect-src` de la CSP** — son justo las tres cosas que
+> **ningún test cubre**. Las pruebas automáticas interceptan la ruta de firma, el
+> `PUT` a R2 y el origen, así que un `R2_HOST` mal armado, un CORS mal puesto o un
+> firmador equivocado **pasan en verde igual**. Sin este recorrido, el primer
+> error lo encontraría un socio.
 
 Esto lo corre una persona, con un celular, **antes** de mandar el link a nadie.
 Es el único paso que prueba de verdad la firma, el CORS y la CSP reales: las

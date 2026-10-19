@@ -1,4 +1,4 @@
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, vi } from 'vitest';
 import {
   MAX_FILE_BYTES,
   ACCEPTED_TYPES,
@@ -35,6 +35,36 @@ describe('getUploadState', () => {
   it('es inválido sin token ni plazo', () => {
     expect(getUploadState({ provided: 'x', token: undefined, until: undefined })).toBe('invalid');
   });
+
+  // El default no cambió: mismo `===` de siempre para quien no inyecta nada.
+  it('compara con === cuando no le pasan comparador', () => {
+    expect(getUploadState({ provided: 'x', token: 'x', until: '2026-11-01T00:00:00Z' })).toBe('open');
+    expect(getUploadState({ provided: 'x ', token: 'x', until: '2026-11-01T00:00:00Z' })).toBe('invalid');
+  });
+
+  it('usa el comparador inyectado para el token', () => {
+    const equals = vi.fn(() => true);
+
+    expect(getUploadState({ provided: 'cualquiera', token: 'x', until: '2026-11-01T00:00:00Z', equals })).toBe('open');
+    expect(equals).toHaveBeenCalledWith('x', 'cualquiera');
+  });
+
+  it('nunca le pasa null al comparador si falta el token', () => {
+    const equals = vi.fn(() => true);
+
+    expect(getUploadState({ provided: 'x', token: undefined, until: '2026-11-01T00:00:00Z', equals })).toBe('invalid');
+    expect(getUploadState({ provided: null, token: 'x', until: '2026-11-01T00:00:00Z', equals })).toBe('invalid');
+    expect(equals).not.toHaveBeenCalled();
+  });
+
+  it('cierra igual con un comparador que siempre dice que no', () => {
+    expect(getUploadState({
+      provided: 'x',
+      token: 'x',
+      until: '2026-11-01T00:00:00Z',
+      equals: () => false,
+    })).toBe('invalid');
+  });
 });
 
 // Review Focus 1: a valid HEIC is accepted, an unknown type is not, and the key ignores the filename
@@ -63,7 +93,8 @@ describe('buildObjectKey', () => {
 // the copy the e2e tests assert
 describe('pinned limits and copy', () => {
   it('fija el mensaje de tamaño y el límite de bytes', () => {
-    expect(REASON_MESSAGE['size']).toBe('Pesa más de 25 MB.');
+    expect(REASON_MESSAGE['size']).toBe('No pudimos leer el tamaño de esa foto.');
+    expect(REASON_MESSAGE['too-large']).toBe('Pesa más de 25 MB.');
     expect(MAX_FILE_BYTES).toBe(26214400);
   });
 

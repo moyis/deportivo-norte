@@ -32,7 +32,13 @@ describe('receipts', () => {
   it('rechaza una firma alterada', async () => {
     const receipt = await signReceipt({ key: 'photos/a.jpg', secret: 's', now: new Date('2026-10-19T12:00:00Z') });
 
-    expect(await verifyReceipt({ receipt: receipt.replace(/.$/, '0'), key: 'photos/a.jpg', secret: 's' })).toBe(false);
+    // Voltea el último dígito a uno garantizado distinto: con HMAC fijo, `>= '0'`
+    // a ciegas pasaría por casualidad cuando el último hex ya es '0'.
+    const last = receipt.slice(-1);
+    const tampered = receipt.slice(0, -1) + (last === '0' ? '1' : '0');
+
+    expect(tampered).not.toBe(receipt);
+    expect(await verifyReceipt({ receipt: tampered, key: 'photos/a.jpg', secret: 's' })).toBe(false);
   });
 
   it('rechaza un recibo firmado con otro secreto', async () => {

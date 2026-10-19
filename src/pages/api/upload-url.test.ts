@@ -76,6 +76,25 @@ describe('POST /api/upload-url', () => {
     expect(presignPutObject).not.toHaveBeenCalled();
   });
 
+  // La ruta no usa `!==`: le pasa a `getUploadState` el comparador de tiempo
+  // constante. Un token correcto con un comparador que miente debe cerrar.
+  it('compara el token con el comparador de tiempo constante', async () => {
+    const uploadServer = await import('../../lib/upload-server');
+    const spy = vi.spyOn(uploadServer, 'constantTimeEqual');
+
+    await call(body());
+
+    expect(spy).toHaveBeenCalled();
+    spy.mockRestore();
+  });
+
+  it('rechaza un token de igual largo cambiando un solo carácter (403 invalid)', async () => {
+    const response = await call(body({ k: 'nop' }));
+
+    expect(response.status).toBe(403);
+    expect((await response.json()).reason).toBe('invalid');
+  });
+
   it('rechaza un tipo no aceptado (415 type)', async () => {
     const response = await call(body({ type: 'video/mp4' }));
 

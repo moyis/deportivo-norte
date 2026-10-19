@@ -19,6 +19,7 @@ import {
 import {
   CEILING_BYTES,
   CEILING_OBJECTS,
+  constantTimeEqual,
   readR2Env,
   receiptSecret,
   signReceipt,
@@ -51,12 +52,15 @@ export const POST: APIRoute = async ({ request }) => {
   const type = typeof payload.type === 'string' ? payload.type : '';
   const size = typeof payload.size === 'number' ? payload.size : Number.NaN;
 
-  // 1) Token y plazo: de acá en adelante, la convocatoria está abierta.
+  // 1) Token y plazo: de acá en adelante, la convocatoria está abierta. El
+  // token se compara en tiempo constante (`getUploadState` no puede importar
+  // código de servidor, así que el comparador se lo pasa la ruta).
   const token = process.env.UPLOAD_TOKEN ?? null;
   const state = getUploadState({
     provided,
     token,
     until: process.env.UPLOAD_UNTIL ?? null,
+    equals: constantTimeEqual,
   });
 
   if (state === 'invalid') return fail(403, 'invalid');

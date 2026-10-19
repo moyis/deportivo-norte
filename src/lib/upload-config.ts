@@ -71,19 +71,28 @@ export function buildObjectKey({
 /**
  * Decide si la convocatoria sigue abierta. Falla cerrado: un token que falta o
  * no coincide, o un plazo ausente o ilegible, siempre dan 'invalid'.
+ *
+ * El comparador se inyecta desde el servidor para poder comparar el token en
+ * tiempo constante: este módulo también corre en el navegador y no puede
+ * importar `upload-server` (arrastraría código de servidor al bundle).
  */
 export function getUploadState({
   provided,
   token,
   until,
   now = new Date(),
+  equals = (a: string, b: string) => a === b,
 }: {
   provided: string | null | undefined;
   token: string | null | undefined;
   until: string | null | undefined;
   now?: Date;
+  equals?: (a: string, b: string) => boolean;
 }): UploadState {
-  if (!token || !until || provided !== token) return 'invalid';
+  // Sin token en la config, o sin nada con qué compararlo, no hay ventana.
+  if (!token || !until || typeof provided !== 'string') return 'invalid';
+  // El comparador solo ve strings: un token provisto que falta ya salió arriba.
+  if (!equals(token, provided)) return 'invalid';
 
   const deadline = new Date(until);
   if (Number.isNaN(deadline.getTime())) return 'invalid';
@@ -96,7 +105,7 @@ export const REASON_MESSAGE: Record<FailureReason, string> = {
   invalid: 'Ese link no es válido.',
   closed: 'La convocatoria ya cerró.',
   type: 'No es una foto que podamos recibir (JPEG, PNG, WebP o HEIC).',
-  size: 'Pesa más de 25 MB.',
+  size: 'No pudimos leer el tamaño de esa foto.',
   'too-large': 'Pesa más de 25 MB.',
   ceiling: 'Por ahora no podemos recibir más fotos.',
   missing: 'La foto no llegó completa.',

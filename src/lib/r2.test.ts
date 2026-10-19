@@ -110,6 +110,16 @@ const PAGE_TWO = `<?xml version="1.0" encoding="UTF-8"?>
   <Contents><Key>photos/c.jpg</Key><Size>500</Size></Contents>
 </ListBucketResult>`;
 
+// El token viene escapado por XML: hay que des-escaparlo antes de reenviarlo.
+const PAGE_ESCAPED = `<?xml version="1.0" encoding="UTF-8"?>
+<ListBucketResult>
+  <Name>deportivo-norte-photos</Name>
+  <Prefix>photos/</Prefix>
+  <IsTruncated>true</IsTruncated>
+  <NextContinuationToken>a&amp;b&lt;c</NextContinuationToken>
+  <Contents><Key>photos/a.jpg</Key><Size>10</Size></Contents>
+</ListBucketResult>`;
+
 describe('prefixUsage', () => {
   it('suma los bytes y cuenta los objetos siguiendo la paginación', async () => {
     const calls: string[] = [];
@@ -137,6 +147,27 @@ describe('prefixUsage', () => {
     expect(await prefixUsage(env, 2)).toEqual({ bytes: 3000000, objects: 2 });
     expect(served).toBe(1);
   });
+
+  it('des-escapar el continuation token antes de reenviarlo', async () => {
+    const calls: string[] = [];
+    vi.stubGlobal('fetch', vi.fn(async (input: RequestInfo | URL) => {
+      calls.push(String((input as Request).url ?? input));
+      // La primera página viene escapada y cortada; la segunda cierra.
+      return new Response(calls.length === 1 ? PAGE_ESCAPED : PAGE_TWO, { status: 200 });
+    }));
+
+    expect(await prefixUsage(env)).toEqual({ bytes: 510, objects: 2 });
+    expect(calls).toHaveLength(2);
+    // Reenviado des-escapado: `a&b<c` y no `a&amp;b&lt;c`.
+    expect(decodeURIComponent(calls[1])).toContain('continuation-token=a&b<c');
+  });
+
+  it('lanza si el listado responde un error en vez de informar 0 bytes', async () => {
+    vi.stubGlobal('fetch', vi.fn(async () => new Response('<Error><Code>AccessDenied</Code></Error>', { status: 403 })));
+
+    // Un 403 leído como { bytes: 0 } saltaría el techo entero.
+    await expect(prefixUsage(env)).rejects.toThrow(/R2 GET/);
+  });
 });
 
 describe('objectSize', () => {
@@ -150,6 +181,19 @@ describe('objectSize', () => {
     vi.stubGlobal('fetch', vi.fn(async () => new Response('', { status: 200, headers: { 'content-length': '2048' } })));
 
     expect(await objectSize(env, 'photos/x.jpg')).toBe(2048);
+  });
+
+  it('lanza si HEAD responde un error, en vez de devolver el content-length del cuerpo de error', async () => {
+    // Un 403 (credencial vencida) traería el largo del XML de error como si fuera la foto.
+    vi.stubGlobal('fetch', vi.fn(async () => new Response('<Error>...</Error>', { status: 403, headers: { 'content-length': '999' } })));
+
+    await expect(objectSize(env, 'photos/x.jpg')).rejects.toThrow(/R2 HEAD/);
+  });
+
+  it('lanza también con un 5xx', async () => {
+    vi.stubGlobal('fetch', vi.fn(async () => new Response('', { status: 500 })));
+
+    await expect(objectSize(env, 'photos/x.jpg')).rejects.toThrow(/R2 HEAD/);
   });
 });
 
@@ -167,6 +211,35 @@ describe('deleteObject', () => {
     expect(new URL(seen!.url).pathname).toBe('/photos/x.jpg');
     expect(result).toBeUndefined();
     expect(JSON.stringify(result)).toBeUndefined();
+  });
+
+  it('lanza si el DELETE falla, para que un borrado fallido no quede invisible', async () => {
+    vi.stubGlobal('fetch', vi.fn(async () => new Response('', { status: 403 })));
+
+    await expect(deleteObject(env, 'photos/x.jpg')).rejects.toThrow(/R2 DELETE/);
+  });
+});
+
+// Una clave con `#` o `?` rompería `new URL(key, endpoint)`: el path se codifica por segmento.
+describe('claves con caracteres reservados', () => {
+  it('no trunca una clave con # ni con ?', async () => {
+    const seen: Request[] = [];
+    vi.stubGlobal('fetch', vi.fn(async (request: Request) => {
+      seen.push(request);
+      return new Response(null, { status: 200, headers: { 'content-length': '7' } });
+    }));
+
+    await objectSize(env, 'photos/a#b.jpg');
+    await objectSize(env, 'photos/a?b.jpg');
+
+    expect(new URL(seen[0].url).pathname).toBe('/photos/a%23b.jpg');
+    expect(new URL(seen[1].url).pathname).toBe('/photos/a%3Fb.jpg');
+  });
+
+  it('presigna el PUT de una clave con # sin truncarla', async () => {
+    const url = await presignPutObject({ env, key: 'photos/a#b.jpg', contentType: 'image/jpeg', now: INSTANT });
+
+    expect(new URL(url).pathname).toBe('/photos/a%23b.jpg');
   });
 });
 

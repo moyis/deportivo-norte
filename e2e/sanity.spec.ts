@@ -325,12 +325,12 @@ test.describe("Font loading", () => {
     await page.goto("/");
     await page.waitForLoadState("domcontentloaded");
 
-    // Check heading font (Oswald) - applied via --font-heading CSS variable
+    // Check heading font (Eurostile, archivo local) - via --font-heading
     const heading = page.locator("h1").first();
     const headingFont = await heading.evaluate(
       (el) => getComputedStyle(el).fontFamily
     );
-    expect(headingFont.toLowerCase()).toContain("oswald");
+    expect(headingFont.toLowerCase()).toContain("eurostile");
 
     // Check body font (Inter) - applied via --font-body CSS variable on body
     // Select a paragraph in the Historia section that uses body font

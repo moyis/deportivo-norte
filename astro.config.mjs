@@ -128,13 +128,41 @@ export default defineConfig({
     plugins: [tailwindcss()]
   },
   fonts: [
+    // Eurostile es la tipografía de títulos. Es un archivo local, no viene de
+    // ningún servidor público: Eurostile es comercial (Linotype, Aldo Novarese
+    // 1962) y no está en Google Fonts ni en Fontsource.
+    //
+    // OJO con el `weight`: el archivo trae `Family: Eurostile-Bold` pero
+    // `Subfamily: Regular` en su tabla de nombres. Es un artefacto viejo de
+    // conversión, no un error nuestro. Si no se declara el peso acá, Astro
+    // infiere `Regular` y el navegador puede no matchear nunca el 700 que piden
+    // los `font-bold` de las páginas: cae a la fuente de fallback y nadie se
+    // entera, porque visualmente "casi" funciona. Se fija a mano.
+    {
+      provider: fontProviders.local(),
+      name: 'Eurostile',
+      cssVariable: '--font-heading',
+      options: {
+        variants: [
+          {
+            src: ['./src/assets/fonts/Eurostile-Bold.ttf'],
+            weight: '700',
+            style: 'normal'
+          }
+        ]
+      },
+      fallbacks: ['Oswald', 'sans-serif']
+    },
+    // Oswald queda cargada como respaldo de Eurostile (arriba), no como títulos.
+    // Astro exige `cssVariable`, pero acá se deja sin uso a propósito: no define
+    // ninguna que las páginas consuman, así que solo entra si el archivo local
+    // no carga. El nombre es interno y no colisiona con `--font-heading`.
     {
       provider: fontProviders.google(),
       name: 'Oswald',
-      cssVariable: '--font-heading',
+      cssVariable: '--font-fallback-heading',
       weights: [400, 500, 600, 700],
-      styles: ['normal'],
-      fallbacks: ['sans-serif']
+      styles: ['normal']
     },
     {
       provider: fontProviders.google(),

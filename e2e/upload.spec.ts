@@ -1,5 +1,6 @@
 import { test, expect, type Page } from '@playwright/test';
 import { ACCEPTED_TYPES, REASON_MESSAGE, STATUS_TEXT } from '../src/lib/upload-config';
+import { R2_HOST } from '../astro.config.mjs';
 
 // El link de subida es privado: sin el token no debe quedar ningún camino para
 // subir. Estas pruebas fijan el contrato de marcado que consumirá el script del
@@ -78,8 +79,16 @@ const FOTO = {
 };
 
 // Firma de mentira: el cliente no la verifica, solo la reenvía al PUT.
+//
+// El origen sale de `R2_HOST` y no de un literal. Contra el deploy de Vercel la
+// CSP es un header real y el navegador la aplica: un host inventado no está en
+// `connect-src` y el `PUT` muere por CSP *antes* de que Playwright pueda
+// interceptarlo, así que la fila queda en `error`. Localmente no se veía porque
+// el dev server no manda esa CSP, y por eso las pruebas pasaban de casualidad.
+// Usar el mismo host que nombra la CSP es lo único que hace que la intercepción
+// llegue a correr y que lo que se prueba sea la subida, no el bloqueo.
 const FIRMA = {
-  url: 'https://deportivo-norte-photos.acct123.r2.cloudflarestorage.com/photos/x.jpg?X-Amz-Signature=abc',
+  url: `${R2_HOST}/photos/x.jpg?X-Amz-Signature=abc`,
   key: 'photos/x.jpg',
   contentType: 'image/jpeg',
   receipt: '123.abc',

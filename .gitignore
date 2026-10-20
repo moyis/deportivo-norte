@@ -30,3 +30,7 @@ pnpm-debug.log*
 /blob-report/
 /playwright/.cache/
 .gstack/
+
+# local worktrees
+/.worktrees/
+.superpowers/

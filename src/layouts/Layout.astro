@@ -8,9 +8,15 @@ interface Props {
   includeFAQ?: boolean;
   includeVideos?: boolean;
   videos?: Array<{ id: string; title: string; publishedAt: string }>;
+  robots?: string;
 }
 
-const { title, description, includeFAQ = false, includeVideos = false, videos = [] } = Astro.props;
+const { title, description, includeFAQ = false, includeVideos = false, videos = [], robots = 'index, follow' } = Astro.props;
+
+// Canonical sin query string: la forma canónica de una página no incluye
+// parámetros. Importa sobre todo en /subir, donde el `?k=<token>` es la
+// credencial y no debe quedar escrita en el HTML de la página.
+const canonicalUrl = new URL(Astro.url.pathname, Astro.url.origin).href;
 ---
 
 <!doctype html>
@@ -21,7 +27,7 @@ const { title, description, includeFAQ = false, includeVideos = false, videos = 
     <meta name="description" content={description} />
     <meta name="keywords" content="Club Deportivo Norte, Deportivo Norte, fútbol Mar del Plata, club de fútbol argentino, Liga Marplatense, Estadio Carlos H. Miori, asociarse deportivo norte, fútbol argentino" />
     <meta name="author" content="Club Deportivo Norte" />
-    <meta name="robots" content="index, follow" />
+    <meta name="robots" content={robots} />
     <meta name="theme-color" content="#FFCC00" />
     
     <!-- Fonts with granular preload filtering (5.15) -->
@@ -30,7 +36,7 @@ const { title, description, includeFAQ = false, includeVideos = false, videos = 
     
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
-    <meta property="og:url" content={Astro.url.href} />
+    <meta property="og:url" content={canonicalUrl} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:locale" content="es_AR" />
@@ -55,7 +61,7 @@ const { title, description, includeFAQ = false, includeVideos = false, videos = 
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     
     <!-- Canonical -->
-    <link rel="canonical" href={Astro.url.href} />
+    <link rel="canonical" href={canonicalUrl} />
     
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>

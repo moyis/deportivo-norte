@@ -167,19 +167,31 @@ test.describe("Interactive components", () => {
     const prevButton = carousel.locator(".quote-prev");
     const dots = carousel.locator(".quote-dot");
 
+    // El track se mueve con una transición CSS de 700ms, así que
+    // `getComputedStyle().transform` devuelve un valor intermedio mientras
+    // anima (y en el primer frame puede ser idéntico al de reposo). Afirmamos
+    // el estilo inline, que el script setea de forma síncrona: es la intención
+    // del componente y no depende de dónde caiga el muestreo de la animación.
+    // Se usa `expect.poll` para reintentar: bajo carga paralela el click puede
+    // resolverse antes de que corra su handler y una lectura única falla.
+    const inlineTransform = () =>
+      track.evaluate((el) => (el as HTMLElement).style.transform);
+    const expectTransform = (value: string) =>
+      expect.poll(inlineTransform).toBe(value);
+
     // Initial state - first slide
-    await expect(track).toHaveCSS("transform", "matrix(1, 0, 0, 1, 0, 0)");
     await expect(dots.first()).toHaveClass(/bg-\[var\(--color-primary\)\]/);
+    await expectTransform("translateX(0%)");
 
     // Click next - should move to second slide
     await nextButton.click();
-    await expect(track).not.toHaveCSS("transform", "matrix(1, 0, 0, 1, 0, 0)");
     await expect(dots.nth(1)).toHaveClass(/bg-\[var\(--color-primary\)\]/);
+    await expectTransform("translateX(-100%)");
 
     // Click prev - should go back to first slide
     await prevButton.click();
-    await expect(track).toHaveCSS("transform", "matrix(1, 0, 0, 1, 0, 0)");
     await expect(dots.first()).toHaveClass(/bg-\[var\(--color-primary\)\]/);
+    await expectTransform("translateX(0%)");
   });
 
   test("historia carousel dot navigation works", async ({ page }) => {
@@ -189,16 +201,25 @@ test.describe("Interactive components", () => {
     const track = carousel.locator(".quotes-track");
     const dots = carousel.locator(".quote-dot");
 
+    // Igual que en el test de flechas: afirmamos el estilo inline, que el
+    // script setea de forma síncrona, en vez del valor computado que está
+    // animando. Con `expect.poll` para que reintente bajo carga paralela.
+    const inlineTransform = () =>
+      track.evaluate((el) => (el as HTMLElement).style.transform);
+    const expectTransform = (value: string) =>
+      expect.poll(inlineTransform).toBe(value);
+
+    // Esperar a que el script del carrusel hidrate y pinte el estado inicial.
+    await expect(dots.first()).toHaveClass(/bg-\[var\(--color-primary\)\]/);
+    await expectTransform("translateX(0%)");
+
     // Click third dot
     await dots.nth(2).click();
     await expect(dots.nth(2)).toHaveClass(/bg-\[var\(--color-primary\)\]/);
     await expect(dots.first()).not.toHaveClass(/bg-\[var\(--color-primary\)\]/);
 
-    // Verify track moved (translateX should be -200%)
-    const transform = await track.evaluate(
-      (el) => getComputedStyle(el).transform
-    );
-    expect(transform).not.toBe("matrix(1, 0, 0, 1, 0, 0)");
+    // El track se movió al tercer slide (-200%)
+    await expectTransform("translateX(-200%)");
   });
 });
 
@@ -256,11 +277,18 @@ test.describe("Image loading", () => {
     // Wait for image to be visible
     await expect(historiaImg).toBeVisible({ timeout: 10000 });
 
-    // Check image has loaded (naturalWidth > 0 means loaded)
-    const isLoaded = await historiaImg.evaluate((img: HTMLImageElement) => {
-      return img.complete && img.naturalWidth > 0;
-    });
-    expect(isLoaded).toBe(true);
+    // Check image has loaded (naturalWidth > 0 means loaded). The dev server
+    // optimizes images on demand, so the element can be visible before its
+    // bytes arrive; poll until the image has actually loaded.
+    await expect
+      .poll(
+        () =>
+          historiaImg.evaluate(
+            (img: HTMLImageElement) => img.complete && img.naturalWidth > 0
+          ),
+        { timeout: 10000 }
+      )
+      .toBe(true);
   });
 
   test("logo SVG renders correctly", async ({ page }) => {
@@ -403,12 +431,18 @@ test.describe("External links", () => {
   test("external links have security attributes", async ({ page }) => {
     await page.goto("/");
 
-    // Check that external links have rel="noopener noreferrer"
-    const externalLinks = page.locator('a[target="_blank"]');
-    const count = await externalLinks.count();
+    // Check that external links have rel="noopener noreferrer".
+    // Read them from the document's light DOM: Playwright locators pierce
+    // shadow DOM and would also match the Astro dev toolbar's own
+    // target="_blank" links, which are injected during development only.
+    const rels = await page.evaluate(() =>
+      Array.from(document.querySelectorAll('a[target="_blank"]')).map((link) =>
+        link.getAttribute("rel")
+      )
+    );
+    expect(rels.length).toBeGreaterThan(0);
 
-    for (let i = 0; i < count; i++) {
-      const rel = await externalLinks.nth(i).getAttribute("rel");
+    for (const rel of rels) {
       expect(rel).toContain("noopener");
       expect(rel).toContain("noreferrer");
     }

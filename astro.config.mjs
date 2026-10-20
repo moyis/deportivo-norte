@@ -32,7 +32,7 @@ function allowInlineStyleAttr() {
 // operador (Task 8) por su id real. No es un secreto — el id de cuenta y el
 // nombre del bucket aparecen en cada URL presignada. Se deja en un solo lugar
 // para que el reemplazo sea una única edición.
-export const R2_ACCOUNT_ID = 'REPLACE_WITH_ACCOUNT_ID';
+export const R2_ACCOUNT_ID = 'd84d65cb9cb132052e96acd7245e258e';
 
 // Marcador exacto que hay que reemplazar. Vive en una constante para que el
 // guardia de más abajo y los tests no lo repitan como literal suelto.

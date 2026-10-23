@@ -15,7 +15,7 @@
   },
   "dependencies": {
     "@astrojs/sitemap": "3.7.4",
-    "@astrojs/vercel": "11.0.15",
+    "@astrojs/vercel": "11.0.16",
     "@tailwindcss/vite": "4.3.3",
     "astro": "7.4.0",
     "astro-embed": "0.14.0",
